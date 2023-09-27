@@ -1,6 +1,6 @@
 {
   "name": "portkey-ai",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "Blazing fast ai gateway sdk",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
@@ -10,6 +10,7 @@
   "files": [
     "./dist"
   ],
+  "keywords": [],
   "author": "portkey-ai",
   "license": "MIT",
   "devDependencies": {
