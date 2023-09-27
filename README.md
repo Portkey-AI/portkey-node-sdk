@@ -3,9 +3,6 @@
 
 ## Build reliable, secure, and production-ready AI apps easily.
 
-```bash
-npm install portkey-ai
-```
 </div>
 
 ## **💡 Features**
@@ -35,7 +32,7 @@ Let's dive in! If you are an advanced user and want to directly jump to various 
 
 ---
 
-### **Step 1️⃣ : Get your Portkey API Key and your Virtual Keys for AI providers**
+### **Step 1️ : Get your Portkey API Key and your Virtual Keys for AI providers**
 
 **Portkey API Key:** Log into [Portkey here](https://app.portkey.ai/), then click on the profile icon on top left and “Copy API Key”.
 ```bash
@@ -43,7 +40,7 @@ export PORTKEY_API_KEY="PORTKEY_API_KEY"
 ```
 **Virtual Keys:** Navigate to the "Virtual Keys" page on [Portkey](https://app.portkey.ai/) and hit the "Add Key" button. Choose your AI provider and assign a unique name to your key. Your virtual key is ready!
 
-### **Step 2️⃣ : Construct your LLM, add Portkey features, provider features, and prompt**
+### **Step 2️ : Construct your LLM, add Portkey features, provider features, and prompt**
 
 **Portkey Features**:
 You can find a comprehensive [list of Portkey features here](#📔-list-of-portkey-features). This includes settings for caching, retries, metadata, and more.
@@ -74,7 +71,7 @@ const portkey = new Portkey({
 
 ```
 
-### **Steo 3️⃣ : Construct the Portkey Client**
+### **Steo 3️ : Construct the Portkey Client**
 
 Portkey client's config takes 3 params: `api_key`, `mode`, `llms`.
 
@@ -85,7 +82,7 @@ Portkey client's config takes 3 params: `api_key`, `mode`, `llms`.
   * **Loadbalance** - Set this mode if you want to enable the Loadbalance feature. 
 * `llms`: This is an array where we pass our LLMs constructed using the LLMOptions interface.
 
-### **Step 4️⃣ : Let's Call the Portkey Client!**
+### **Step 4️ : Let's Call the Portkey Client!**
 
 The Portkey client can do `ChatCompletions` and `Completions`.
 
