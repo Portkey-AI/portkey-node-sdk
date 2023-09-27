@@ -65,7 +65,7 @@ const portkey = new Portkey({
     llms: [{
         provider: "openai",
         virtual_key: "<>",
-        model: "text-davinci-003",
+        model: "gpt-3.5-turbo",
         max_tokens: 2000,
         temperature: 0,
         // ** more params can be added here.
@@ -92,13 +92,20 @@ The Portkey client can do `ChatCompletions` and `Completions`.
 Since our LLM is GPT4, we will use ChatCompletions:
 
 ```javascript
-const response = portkey.ChatCompletions.create(
-    messages=[{
-      "role": "user",
-      "content": "Who are you ?"
-    }]
-)
-console.log(response.choices[0].message)
+async function main() {
+    const response = await portkey.chatCompletions.create({
+        messages: [{
+            "role": "user",
+            "content": "Who are you ?"
+        }]
+    })
+    console.log(response.choices[0].message)
+}
+
+main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+});
 ```
 
 You have integrated Portkey's Node SDK in just 4 steps!
