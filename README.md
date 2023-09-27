@@ -92,13 +92,13 @@ The Portkey client can do `ChatCompletions` and `Completions`.
 Since our LLM is GPT4, we will use ChatCompletions:
 
 ```py
-response = portkey.ChatCompletions.create(
+const response = portkey.ChatCompletions.create(
     messages=[{
       "role": "user",
       "content": "Who are you ?"
     }]
 )
-print(response.choices[0].message)
+console.log(response.choices[0].message)
 ```
 
 You have integrated Portkey's Node SDK in just 4 steps!
