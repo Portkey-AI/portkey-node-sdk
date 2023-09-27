@@ -1,4 +1,4 @@
-import { Portkey } from "../src";
+import { Portkey } from "portkey-ai";
 
 const client = new Portkey({
     apiKey: "<>",
@@ -6,7 +6,7 @@ const client = new Portkey({
     mode: "single",
     llms: [{
         provider: "openai",
-        virtual_key: "open-ai-key-1234",
+        virtual_key: "<>",
         model: "text-davinci-003",
         max_tokens: 2000
     }]

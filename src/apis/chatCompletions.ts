@@ -1,5 +1,5 @@
-import { ModelParams } from "portkey/_types/portkeyConstructs";
-import { Stream } from "portkey/streaming";
+import { ModelParams } from "../_types/portkeyConstructs";
+import { Stream } from "../streaming";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 
