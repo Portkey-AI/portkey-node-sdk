@@ -1,4 +1,4 @@
-import { LLMOptions } from "./_types/portkeyConstructs";
+import { ModelParamsList, type LLMOptions } from "./_types/portkeyConstructs";
 import * as API from "./apis";
 import { ApiClient } from "./baseClient";
 import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
@@ -10,7 +10,6 @@ interface ApiClientInterface {
     mode?: string | null;
     llms?: [LLMOptions] | null;
 }
-
 
 export class Portkey extends ApiClient {
     override apiKey: string | null;
@@ -35,7 +34,26 @@ export class Portkey extends ApiClient {
         }
         this.baseURL = baseURL || PORTKEY_BASE_URL;
         this.mode = mode || null;
-        this.llms = llms || null;
+        this.llms = this.constructLlms(llms || null);
+    }
+
+    protected constructLlms(llms?: [LLMOptions] | null): [LLMOptions] | null {
+        if (!llms) {
+            return llms || null
+        }
+        llms.forEach(llm => {
+            for (const key in llm) {
+                if (ModelParamsList.includes(key)) {
+                    if (!llm.override_params) {
+                        llm.override_params = {}
+                    }
+                    llm.override_params[key] = llm[key as keyof LLMOptions]
+                    delete llm[key as keyof LLMOptions];
+                }
+
+            }
+        })
+        return llms;
     }
 
     completions: API.Completions = new API.Completions(this);
