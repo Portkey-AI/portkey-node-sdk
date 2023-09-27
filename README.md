@@ -91,7 +91,7 @@ The Portkey client can do `ChatCompletions` and `Completions`.
 
 Since our LLM is GPT4, we will use ChatCompletions:
 
-```py
+```javascript
 const response = portkey.ChatCompletions.create(
     messages=[{
       "role": "user",
