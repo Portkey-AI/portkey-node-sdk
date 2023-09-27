@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "lib": [
+            "es2020",
+            "dom"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "baseUrl": "./",
+        "paths": {
+            "portkey": [
+                "src/index.ts"
+            ],
+            "portkey/*": [
+                "src/*"
+            ]
+        },
+        "noEmit": true,
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "skipLibCheck": true,
+        "outDir": "dist"
+    }
+}

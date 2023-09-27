@@ -1,0 +1,22 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["dist/src"],
+    "compilerOptions": {
+      "rootDir": "./dist/src",
+      "paths": {
+        "portkey/*": ["dist/src/*"]
+      },
+      "noEmit": false,
+      "declaration": true,
+      "declarationMap": true,
+      "outDir": "dist",
+      "pretty": true,
+      "sourceMap": true
+    },
+    "tsc-alias": {
+      "fileExtensions": {
+        "inputGlob": "{mjs,cjs,js,jsx,mts,cts,ts,tsx}"
+      }
+    }
+  }
+  
