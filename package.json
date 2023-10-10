@@ -1,9 +1,10 @@
 {
   "name": "portkey-ai",
-  "version": "0.1.8",
-  "description": "Blazing fast ai gateway sdk",
+  "version": "0.1.12",
+  "description": "Node client library for the Portkey API",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
+  "repository": "github:Portkey-AI/portkey-node-sdk",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +12,7 @@
     "./dist"
   ],
   "keywords": [],
-  "author": "portkey-ai",
+  "author": "portkey-ai <support@portkey.ai>",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.7.0",

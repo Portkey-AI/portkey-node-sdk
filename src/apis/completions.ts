@@ -22,7 +22,7 @@ export class Completions extends ApiResource {
         _body: CompletionCreateParams,
         opts?: RequestOptions
     ): APIPromise<TextCompletion> | APIPromise<Stream<TextCompletion>> {
-        const config = {
+        const config = this.client.configSlug || {
             mode: this.client.mode,
             options: this.client.llms
         }
