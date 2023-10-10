@@ -1,4 +1,4 @@
-import { ModelParamsList, type LLMOptions } from "./_types/portkeyConstructs";
+import * as Types from "./_types/portkeyConstructs";
 import * as API from "./apis";
 import { ApiClient } from "./baseClient";
 import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
@@ -8,20 +8,23 @@ interface ApiClientInterface {
     apiKey?: string | null;
     baseURL?: string | null;
     mode?: string | null;
-    llms?: [LLMOptions] | null;
+    llms?: [Types.LLMOptions] | null;
+    configSlug?: string | null;
 }
 
 export class Portkey extends ApiClient {
     override apiKey: string | null;
     override baseURL: string;
     mode: string | null;
-    llms: [LLMOptions] | null;
+    llms: [Types.LLMOptions] | null;
+    configSlug: string | null;
 
     constructor({
         apiKey = readEnv('PORTKEY_API_KEY') ?? null,
         baseURL = readEnv('PORTKEY_BASE_URL') ?? null,
         mode,
-        llms
+        llms,
+        configSlug
     }: ApiClientInterface) {
 
         super({
@@ -35,20 +38,21 @@ export class Portkey extends ApiClient {
         this.baseURL = baseURL || PORTKEY_BASE_URL;
         this.mode = mode || null;
         this.llms = this.constructLlms(llms || null);
+        this.configSlug = configSlug || null;
     }
 
-    protected constructLlms(llms?: [LLMOptions] | null): [LLMOptions] | null {
+    protected constructLlms(llms?: [Types.LLMOptions] | null): [Types.LLMOptions] | null {
         if (!llms) {
             return llms || null
         }
         llms.forEach(llm => {
             for (const key in llm) {
-                if (ModelParamsList.includes(key)) {
+                if (Types.ModelParamsList.includes(key)) {
                     if (!llm.override_params) {
                         llm.override_params = {}
                     }
-                    llm.override_params[key] = llm[key as keyof LLMOptions]
-                    delete llm[key as keyof LLMOptions];
+                    llm.override_params[key] = llm[key as keyof Types.LLMOptions]
+                    delete llm[key as keyof Types.LLMOptions];
                 }
 
             }
@@ -60,3 +64,5 @@ export class Portkey extends ApiClient {
     chatCompletions = new API.ChatCompletions(this);
     // generations =  new API.Generations();
 }
+
+export import LLMOptions = Types.LLMOptions;
