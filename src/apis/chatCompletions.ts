@@ -1,7 +1,7 @@
 import { ModelParams } from "../_types/portkeyConstructs";
-import { Stream } from "../streaming";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
+import { Stream } from "../streaming";
 
 export class ChatCompletions extends ApiResource {
     create(
@@ -20,7 +20,7 @@ export class ChatCompletions extends ApiResource {
         _body: ChatCompletionCreateParams,
         opts?: RequestOptions
     ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
-        const config = {
+        const config = this.client.configSlug || {
             mode: this.client.mode,
             options: this.client.llms
         }
