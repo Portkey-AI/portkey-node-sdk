@@ -105,7 +105,7 @@ const model = "gpt-4";
 const temperature = 1;
 
 // Prompt
-messages = [{"role": "user", "content": "Who are you?"}];
+const messages = [{"role": "user", "content": "Who are you?"}];
 
 const llm_a: LLMOptions = {
     provider: provider,
