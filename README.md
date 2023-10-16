@@ -111,7 +111,7 @@ const llm_a: LLMOptions = {
     provider: provider,
     virtual_key: virtual_key,
     cache_status: cache_status,
-    trace_id: trace_id
+    trace_id: trace_id,
     model: model,
     temperature: temperature,
     messages: messages
