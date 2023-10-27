@@ -184,6 +184,7 @@ You can set all of these features while constructing your LLMOptions object.
 | <img src="docs/images/openai.png" width=18 />| OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
 | <img src="docs/images/azure.png" width=18>| Azure OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
 | <img src="docs/images/anthropic.png" width=18>| Anthropic  | ✅ Supported  | `/complete` |
+| <img src="docs/images/anyscale.png" width=18>| Anyscale  | ✅ Supported  | `/chat/completions` |
 | <img src="docs/images/cohere.png" width=18>| Cohere  | ✅ Supported  | `generate` |
 
 
