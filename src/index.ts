@@ -61,7 +61,7 @@ export class Portkey extends ApiClient {
 
     completions: API.Completions = new API.Completions(this);
     chatCompletions = new API.ChatCompletions(this);
-    // generations =  new API.Generations();
+    generations =  new API.Generations(this);
 }
 
 export import LLMOptions = Types.LLMOptions;
