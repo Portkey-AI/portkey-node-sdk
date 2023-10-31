@@ -20,7 +20,11 @@ export class ChatCompletions extends ApiResource {
         _body: ChatCompletionCreateParams,
         opts?: RequestOptions
     ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
+<<<<<<< Updated upstream
         const config = {
+=======
+        const config = this.client.config || {
+>>>>>>> Stashed changes
             mode: this.client.mode,
             options: this.client.llms
         }

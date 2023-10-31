@@ -8,20 +8,35 @@ interface ApiClientInterface {
     apiKey?: string | null;
     baseURL?: string | null;
     mode?: string | null;
+<<<<<<< Updated upstream
     llms?: [LLMOptions] | null;
+=======
+    llms?: Array<Types.LLMOptions> | null;
+    config?: string | null;
+>>>>>>> Stashed changes
 }
 
 export class Portkey extends ApiClient {
     override apiKey: string | null;
     override baseURL: string;
     mode: string | null;
+<<<<<<< Updated upstream
     llms: [LLMOptions] | null;
+=======
+    llms: Array<Types.LLMOptions> | null;
+    config: string | null;
+>>>>>>> Stashed changes
 
     constructor({
         apiKey = readEnv('PORTKEY_API_KEY') ?? null,
         baseURL = readEnv('PORTKEY_BASE_URL') ?? null,
         mode,
+<<<<<<< Updated upstream
         llms
+=======
+        llms,
+        config
+>>>>>>> Stashed changes
     }: ApiClientInterface) {
 
         super({
@@ -35,9 +50,16 @@ export class Portkey extends ApiClient {
         this.baseURL = baseURL || PORTKEY_BASE_URL;
         this.mode = mode || null;
         this.llms = this.constructLlms(llms || null);
+<<<<<<< Updated upstream
     }
 
     protected constructLlms(llms?: [LLMOptions] | null): [LLMOptions] | null {
+=======
+        this.config = config || null;
+    }
+
+    protected constructLlms(llms?: Array<Types.LLMOptions> | null): Array<Types.LLMOptions> | null {
+>>>>>>> Stashed changes
         if (!llms) {
             return llms || null
         }
