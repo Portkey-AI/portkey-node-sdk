@@ -8,23 +8,22 @@ interface ApiClientInterface {
     apiKey?: string | null;
     baseURL?: string | null;
     mode?: string | null;
-    llms?: [Types.LLMOptions] | null;
-    configSlug?: string | null;
+    llms?: Array<Types.LLMOptions> | null;
+    config?: string | null;
 }
 
 export class Portkey extends ApiClient {
     override apiKey: string | null;
     override baseURL: string;
     mode: string | null;
-    llms: [Types.LLMOptions] | null;
-    configSlug: string | null;
-
+    llms: Array<Types.LLMOptions> | null;
+    config: string | null;
     constructor({
         apiKey = readEnv('PORTKEY_API_KEY') ?? null,
         baseURL = readEnv('PORTKEY_BASE_URL') ?? null,
         mode,
         llms,
-        configSlug
+        config
     }: ApiClientInterface) {
 
         super({
@@ -35,13 +34,13 @@ export class Portkey extends ApiClient {
         if (!this.apiKey) {
             throw castToError(MISSING_API_KEY_ERROR_MESSAGE)
         }
+        this.config = config || null
         this.baseURL = baseURL || PORTKEY_BASE_URL;
         this.mode = mode || null;
         this.llms = this.constructLlms(llms || null);
-        this.configSlug = configSlug || null;
     }
 
-    protected constructLlms(llms?: [Types.LLMOptions] | null): [Types.LLMOptions] | null {
+    protected constructLlms(llms?: Array<Types.LLMOptions> | null): Array<Types.LLMOptions> | null {
         if (!llms) {
             return llms || null
         }

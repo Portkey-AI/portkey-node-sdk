@@ -20,7 +20,7 @@ export class ChatCompletions extends ApiResource {
         _body: ChatCompletionCreateParams,
         opts?: RequestOptions
     ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
-        const config = this.client.configSlug || {
+        const config = this.client.config || {
             mode: this.client.mode,
             options: this.client.llms
         }

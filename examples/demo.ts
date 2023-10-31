@@ -1,28 +1,31 @@
-import { Portkey } from "portkey-ai";
+import { Portkey } from "../src";
 
 const client = new Portkey({
-    apiKey: "<>",
-    baseURL: "https://api.portkey.ai",
-    mode: "single",
+    mode: "fallback",
     llms: [{
         provider: "openai",
-        virtual_key: "<>",
-        model: "text-davinci-003",
-        max_tokens: 2000
+        virtual_key: "openai-v"
     }]
-})
+});
 
-const messages = [{
-    "role": "user",
-    "content": "write a story"
-}]
+const messages = [
+    { content: "You want to talk in rhymes.", role: "system" },
+    { content: "Hello, world!", role: "user" },
+    { content: "Hello!", role: "assistant" },
+    {
+        content:
+            "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
+        role: "user",
+    },
+]
 
 const prompt = "write a story about a king"
 
 async function main() {
-    const res = await client.completions.create({ prompt, stream: true })
+    const params = {}
+    const res = await client.chatCompletions.create({ messages, ...params, stream: true })
     for await (const completion of res) {
-        process.stdout.write(completion.choices[0]?.text || "");
+        process.stdout.write(completion.choices[0]?.delta?.content || "");
     }
 }
 

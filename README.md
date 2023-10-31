@@ -1,5 +1,5 @@
 <div align="center">
-<img src="docs/images/header.png" height=150><br />
+<img src="https://assets.portkey.ai/header.png" height=150><br />
 
 ## Ship Ambitious Gen AI Apps with Portkey's full-stack LLMOps Platform
 
@@ -181,10 +181,10 @@ You can set all of these features while constructing your LLMOptions object.
 
 || Provider  | Support Status  | Supported Endpoints |
 |---|---|---|---|
-| <img src="docs/images/openai.png" width=18 />| OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
-| <img src="docs/images/azure.png" width=18>| Azure OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
-| <img src="docs/images/anthropic.png" width=18>| Anthropic  | ✅ Supported  | `/complete` |
-| <img src="docs/images/cohere.png" width=18>| Cohere  | ✅ Supported  | `generate` |
+| <img src="https://assets.portkey.ai/openai.png" width=18 />| OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
+| <img src="https://assets.portkey.ai/azure.png" width=18>| Azure OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
+| <img src="https://assets.portkey.ai/anthropic.png" width=18>| Anthropic  | ✅ Supported  | `/complete` |
+| <img src="https://assets.portkey.ai/cohere.png" width=18>| Cohere  | ✅ Supported  | `generate` |
 
 
 ---
