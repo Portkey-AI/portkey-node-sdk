@@ -44,7 +44,7 @@ const portkey = new Portkey({
 });
 
 async function main() {
-    const chatCompletion = await portkey.chat.completions.create({
+    const chatCompletion = await portkey.chatCompletions.create({
         messages: [{ role: 'user', content: 'Say this is a test' }],
         model: 'gpt-4'
     });
