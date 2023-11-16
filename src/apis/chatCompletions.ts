@@ -1,9 +1,15 @@
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
+import { CHAT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
 
-export class ChatCompletions extends ApiResource {
+
+export class Chat extends ApiResource {
+    completions: ChatCompletions = new ChatCompletions(this.client);
+}
+
+class ChatCompletions extends ApiResource {
     create(
         _body: ChatCompletionsBodyNonStreaming,
         opts?: RequestOptions
@@ -20,15 +26,9 @@ export class ChatCompletions extends ApiResource {
         _body: ChatCompletionCreateParams,
         opts?: RequestOptions
     ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
-        const config = this.client.config || {
-            mode: this.client.mode,
-            options: this.client.llms
-        }
-        const body = {
-            config,
-            params: { ..._body }
-        }
-        return this.post<ChatCompletion>("/v1/chatComplete", { body, ...opts, stream: _body.stream ?? false }) as
+        const body = _body
+        const stream = _body.stream ?? false
+        return this.post<ChatCompletion>(CHAT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<ChatCompletion>
             | APIPromise<Stream<ChatCompletion>>
     }

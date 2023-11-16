@@ -1,6 +1,7 @@
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
+import { TEXT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
 
 
@@ -22,15 +23,9 @@ export class Completions extends ApiResource {
         _body: CompletionCreateParams,
         opts?: RequestOptions
     ): APIPromise<TextCompletion> | APIPromise<Stream<TextCompletion>> {
-        const config = this.client.config || {
-            mode: this.client.mode,
-            options: this.client.llms
-        }
-        const body = {
-            config,
-            params: { ..._body }
-        }
-        return this.post("/v1/complete", { body, ...opts, stream: _body.stream ?? false }) as
+        const body = _body
+        const stream = _body.stream ?? false
+        return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<TextCompletion>
             | APIPromise<Stream<TextCompletion>>
     }

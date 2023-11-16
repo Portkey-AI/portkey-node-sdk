@@ -1,6 +1,7 @@
 import KeepAliveAgent from 'agentkeepalive';
 import type { Agent } from 'node:http';
 import { ApiClientInterface, Headers } from './_types/generalTypes';
+import { createHeaders } from './apis';
 import { PORTKEY_HEADER_PREFIX } from './constants';
 import { APIConnectionError, APIConnectionTimeoutError, APIError } from './error';
 import { Stream, createResponseHeaders, safeJSON } from './streaming';
@@ -93,14 +94,15 @@ export class APIPromise<T> extends Promise<T> {
 }
 
 export abstract class ApiClient {
-    // client: Agent
     apiKey: string | null;
     baseURL: string;
+    customHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL }: ApiClientInterface) {
+    constructor({ apiKey, baseURL, config, virtualKey }: ApiClientInterface) {
         this.apiKey = apiKey;
         this.baseURL = baseURL || "";
+        this.customHeaders = createHeaders({ mode: "proxy openai", config, virtualKey })
         this.fetch = fetch;
     }
 
@@ -158,8 +160,10 @@ export abstract class ApiClient {
         const url = new URL(this.baseURL + opts.path!)
         const { method, path, query, headers: headers = {}, body } = opts;
         const reqHeaders: Record<string, string> = {
-            ...this.defaultHeaders(),
+            ...this.defaultHeaders(), ...this.customHeaders,
         };
+
+        console.log(reqHeaders)
 
         const httpAgent: Agent | undefined = defaultHttpAgent
         const req: RequestInit = {

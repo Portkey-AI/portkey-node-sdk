@@ -1,5 +1,3 @@
-// File generated from our OpenAPI spec by Stainless.
-
 import { Headers } from "./_types/generalTypes";
 import { castToError } from "./utils";
 

@@ -29,3 +29,10 @@ export const PORTKEY_BASE_URL = "https://api.portkey.ai"
 
 export const PORTKEY_API_KEY_ENV = "PORTKEY_API_KEY"
 export const PORTKEY_PROXY_ENV = "PORTKEY_PROXY"
+
+// API routes
+export const CHAT_COMPLETE_API = "/v1/proxy/chat/completions"
+export const TEXT_COMPLETE_API = "/v1/proxy/complete"
+export const PROMPT_API = "/v1/prompt/complete"
+export const FEEDBACK_API = "/v1/feedback"
+export const PORTKEY_GATEWAY_URL = `${PORTKEY_BASE_URL}/v1/proxy`
