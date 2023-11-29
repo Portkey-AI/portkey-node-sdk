@@ -5,4 +5,7 @@ export interface ApiClientInterface {
     baseURL: string | null;
     virtualKey: string | null | undefined;
     config: string | null | undefined;
+    provider?: string | null | undefined;
+    traceId?: string | null | undefined;
+    metadata?: string | null | undefined;
 }

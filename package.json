@@ -4,27 +4,43 @@
   "description": "Node client library for the Portkey API",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
+  "type": "commonjs",
   "repository": "github:Portkey-AI/portkey-node-sdk",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "build": "bash ./build",
+    "lint": "eslint --ext ts,js .",
+    "fix": "eslint --fix --ext ts,js ."
   },
-  "files": [
-    "./dist"
-  ],
+  "imports": {
+    "portkey-ai": ".",
+    "portkey-ai/*": "./src/*"
+  },
   "keywords": [],
   "author": "portkey-ai <support@portkey.ai>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.10",
     "@types/node": "^20.7.0",
-    "@typescript-eslint/eslint-plugin": "^5.33.0",
-    "@typescript-eslint/parser": "^5.33.0",
-    "eslint": "^8.22.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "dependencies": {
-    "agentkeepalive": "^4.5.0"
+    "agentkeepalive": "^4.5.0",
+    "dotenv": "^16.3.1"
   }
 }

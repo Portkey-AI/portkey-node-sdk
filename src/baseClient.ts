@@ -1,15 +1,15 @@
-import KeepAliveAgent from 'agentkeepalive';
-import type { Agent } from 'node:http';
-import { ApiClientInterface, Headers } from './_types/generalTypes';
-import { createHeaders } from './apis';
-import { PORTKEY_HEADER_PREFIX } from './constants';
-import { APIConnectionError, APIConnectionTimeoutError, APIError } from './error';
-import { Stream, createResponseHeaders, safeJSON } from './streaming';
-import { castToError, getPlatformProperties } from './utils';
-import { VERSION } from './version';
-
+import KeepAliveAgent from "agentkeepalive";
+import type { Agent } from "node:http";
+import { ApiClientInterface, Headers } from "./_types/generalTypes";
+import { createHeaders } from "./apis";
+import { PORTKEY_HEADER_PREFIX } from "./constants";
+import { APIConnectionError, APIConnectionTimeoutError, APIError } from "./error";
+import { Stream, createResponseHeaders, safeJSON } from "./streaming";
+import { castToError, getPlatformProperties } from "./utils";
+import { VERSION } from "./version";
+fetch
 const defaultHttpAgent: Agent = new KeepAliveAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
-export type Fetch = (url: RequestInfo, init?: RequestInit) => Promise<Response>;
+export type Fetch = (url: NodeJS.fetch.RequestInfo, init?: RequestInit) => Promise<Response>;
 
 export type HTTPMethod = "post" | "get" | "put" | "delete"
 
@@ -42,8 +42,8 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
         return new Stream(response) as any;
     }
 
-    const contentType = response.headers.get('content-type');
-    if (contentType?.includes('application/json')) {
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
         const json = await response.json();
 
         return json as T;
@@ -79,17 +79,20 @@ export class APIPromise<T> extends Promise<T> {
         onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
         onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
     ): Promise<TResult1 | TResult2> {
-        return this.parse().then(onfulfilled, onrejected);
+        return this.parse()
+            .then(onfulfilled, onrejected);
     }
 
     override catch<TResult = never>(
         onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null,
     ): Promise<T | TResult> {
-        return this.parse().catch(onrejected);
+        return this.parse()
+            .catch(onrejected);
     }
 
     override finally(onfinally?: (() => void) | undefined | null): Promise<T> {
-        return this.parse().finally(onfinally);
+        return this.parse()
+            .finally(onfinally);
     }
 }
 
@@ -99,10 +102,10 @@ export abstract class ApiClient {
     customHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL, config, virtualKey }: ApiClientInterface) {
+    constructor({ apiKey, baseURL, config, virtualKey, traceId, metadata, provider }: ApiClientInterface) {
         this.apiKey = apiKey;
         this.baseURL = baseURL || "";
-        this.customHeaders = createHeaders({ mode: "proxy openai", config, virtualKey })
+        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceId, metadata, provider })
         this.fetch = fetch;
     }
 
@@ -137,16 +140,18 @@ export abstract class ApiClient {
         // Build the request.
         const { req, url } = this.buildRequest(opts);
         // Make the call to rubeus.
-        const response = await this.fetch(url, req).catch(castToError)
+        const response = await this.fetch(url, req)
+            .catch(castToError)
         // Parse the response and check for errors.
         if (response instanceof Error) {
-            if (response.name === 'AbortError') {
+            if (response.name === "AbortError") {
                 throw new APIConnectionTimeoutError();
             }
             throw new APIConnectionError({ cause: response });
         }
         if (!response.ok) {
-            const errText = await response.text().catch(() => 'Unknown');
+            const errText = await response.text()
+                .catch(() => "Unknown");
             const errJSON = safeJSON(errText);
             const errMessage = errJSON ? undefined : errText;
             throw this.generateError(response.status, errJSON, errMessage, createResponseHeaders(response.headers))
@@ -162,8 +167,6 @@ export abstract class ApiClient {
         const reqHeaders: Record<string, string> = {
             ...this.defaultHeaders(), ...this.customHeaders,
         };
-
-        console.log(reqHeaders)
 
         const httpAgent: Agent | undefined = defaultHttpAgent
         const req: RequestInit = {

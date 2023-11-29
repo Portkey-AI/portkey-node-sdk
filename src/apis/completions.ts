@@ -7,28 +7,28 @@ import { Stream } from "../streaming";
 
 
 export class Completions extends ApiResource {
-    create(
+	create(
         _body: CompletionsBodyNonStreaming,
         opts?: RequestOptions
     ): APIPromise<TextCompletion>;
-    create(
+	create(
         _body: CompletionsBodyStreaming,
         opts?: RequestOptions
     ): APIPromise<Stream<TextCompletion>>
-    create(
+	create(
         _body: CompletionsBodyBase,
         opts?: RequestOptions,
     ): APIPromise<Stream<TextCompletion> | TextCompletion>;
-    create(
-        _body: CompletionCreateParams,
-        opts?: RequestOptions
-    ): APIPromise<TextCompletion> | APIPromise<Stream<TextCompletion>> {
-        const body = _body
-        const stream = _body.stream ?? false
-        return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
+	create (
+		_body: CompletionCreateParams,
+		opts?: RequestOptions
+	): APIPromise<TextCompletion> | APIPromise<Stream<TextCompletion>> {
+		const body = _body
+		const stream = _body.stream ?? false
+		return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<TextCompletion>
             | APIPromise<Stream<TextCompletion>>
-    }
+	}
 }
 
 

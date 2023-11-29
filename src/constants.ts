@@ -13,9 +13,9 @@ export const MISSING_BASE_URL = `No Base url provided. Please provide a valid ba
 For example: https://api.portkey.ai
 `
 
-export const MISSING_CONFIG_MESSAGE = `The 'config' parameter is not set. Please provide a valid Config object`
+export const MISSING_CONFIG_MESSAGE = "The 'config' parameter is not set. Please provide a valid Config object"
 
-export const MISSING_MODE_MESSAGE = `The 'mode' parameter is not set. Please provide a valid mode literal.`
+export const MISSING_MODE_MESSAGE = "The 'mode' parameter is not set. Please provide a valid mode literal."
 
 
 export const INVALID_PORTKEY_MODE = `Argument of type '{}' cannot be assigned to parameter "mode" of \
@@ -31,8 +31,8 @@ export const PORTKEY_API_KEY_ENV = "PORTKEY_API_KEY"
 export const PORTKEY_PROXY_ENV = "PORTKEY_PROXY"
 
 // API routes
-export const CHAT_COMPLETE_API = "/v1/proxy/chat/completions"
-export const TEXT_COMPLETE_API = "/v1/proxy/complete"
+export const CHAT_COMPLETE_API = "/v1/chat/completions"
+export const TEXT_COMPLETE_API = "/v1/completions"
 export const PROMPT_API = "/v1/prompt/complete"
 export const FEEDBACK_API = "/v1/feedback"
 export const PORTKEY_GATEWAY_URL = `${PORTKEY_BASE_URL}/v1/proxy`
