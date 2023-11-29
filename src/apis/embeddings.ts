@@ -1,4 +1,4 @@
-import { ModelParams } from "src/_types/portkeyConstructs";
+import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { PROMPT_API } from "../constants";
