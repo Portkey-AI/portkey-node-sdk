@@ -1,35 +1,23 @@
-import { Portkey } from "../src";
+import { config } from 'dotenv';
+import { Portkey } from '../src';
 
-const client = new Portkey({
-    mode: "fallback",
-    llms: [{
-        provider: "openai",
-        virtual_key: "openai-v"
-    }]
+config({ override: true })
+
+// Initialize the Portkey client
+const portkey = new Portkey({
+    apiKey: process.env["PORTKEY_API_KEY"] ?? "",
+    baseURL: "https://api.portkeydev.com",
+    provider: "openai",
+    virtualKey: process.env["OPENAI_VIRTUAL_KEY"] ?? ""
 });
 
-const messages = [
-    { content: "You want to talk in rhymes.", role: "system" },
-    { content: "Hello, world!", role: "user" },
-    { content: "Hello!", role: "assistant" },
-    {
-        content:
-            "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
-        role: "user",
-    },
-]
+// Generate a text completion
+async function getTextCompletion() {
+    const completion = await portkey.completions.create({
+        prompt: "Say this is a test",
+        model: "gpt-3.5-turbo-instruct",
+    });
 
-const prompt = "write a story about a king"
-
-async function main() {
-    const params = {}
-    const res = await client.chatCompletions.create({ messages, ...params, stream: true })
-    for await (const completion of res) {
-        process.stdout.write(completion.choices[0]?.delta?.content || "");
-    }
+    console.log(completion.choices[0]?.text);
 }
-
-main().catch((err) => {
-    console.error(err);
-    process.exit(1);
-});
+getTextCompletion();

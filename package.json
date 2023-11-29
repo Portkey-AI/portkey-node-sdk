@@ -2,8 +2,8 @@
   "name": "portkey-ai",
   "version": "0.1.15",
   "description": "Node client library for the Portkey API",
-  "types": "dist/index.d.ts",
-  "main": "dist/index.js",
+  "types": "dist/src/index.d.ts",
+  "main": "dist/src/index.js",
   "type": "commonjs",
   "repository": "github:Portkey-AI/portkey-node-sdk",
   "scripts": {
