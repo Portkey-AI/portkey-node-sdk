@@ -25,15 +25,15 @@ type "ModesLiteral | Modes | None"
 export const DEFAULT_MAX_RETRIES = 2
 export const DEFAULT_TIMEOUT = 60
 export const PORTKEY_HEADER_PREFIX = "x-portkey-"
-export const PORTKEY_BASE_URL = "https://api.portkey.ai"
+export const PORTKEY_BASE_URL = "https://api.portkey.ai/v1"
+export const PORTKEY_GATEWAY_URL = PORTKEY_BASE_URL
 
 export const PORTKEY_API_KEY_ENV = "PORTKEY_API_KEY"
 export const PORTKEY_PROXY_ENV = "PORTKEY_PROXY"
 
 // API routes
-export const CHAT_COMPLETE_API = "/v1/chat/completions"
-export const TEXT_COMPLETE_API = "/v1/completions"
-export const PROMPT_API = "/v1/prompt/complete"
-export const FEEDBACK_API = "/v1/feedback"
-export const PORTKEY_GATEWAY_URL = `${PORTKEY_BASE_URL}/v1/proxy`
-export const EMBEDDINGS_API = "/v1/embeddings"
+export const CHAT_COMPLETE_API = "/chat/completions"
+export const TEXT_COMPLETE_API = "/completions"
+export const PROMPT_API = "/prompt/complete"
+export const FEEDBACK_API = "/feedback"
+export const EMBEDDINGS_API = "/embeddings"
