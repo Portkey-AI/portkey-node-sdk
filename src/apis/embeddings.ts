@@ -1,7 +1,7 @@
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
-import { PROMPT_API } from "../constants";
+import { EMBEDDINGS_API } from "../constants";
 
 
 export interface EmbeddingsBody extends ModelParams {
@@ -17,7 +17,7 @@ export class Prompt extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<Embeddings> {
         const body = _body
-        const response = this.post<Embeddings>(PROMPT_API, { body, ...opts })
+        const response = this.post<Embeddings>(EMBEDDINGS_API, { body, ...opts })
         return response
     }
 }
