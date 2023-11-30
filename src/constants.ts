@@ -36,3 +36,4 @@ export const TEXT_COMPLETE_API = "/v1/completions"
 export const PROMPT_API = "/v1/prompt/complete"
 export const FEEDBACK_API = "/v1/feedback"
 export const PORTKEY_GATEWAY_URL = `${PORTKEY_BASE_URL}/v1/proxy`
+export const EMBEDDINGS_API = "/v1/embeddings"
