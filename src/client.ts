@@ -69,4 +69,5 @@ export class Portkey extends ApiClient {
 	completions: API.Completions = new API.Completions(this);
 	chat = new API.Chat(this);
 	generations = new API.Generations(this);
+	prompts = new API.Prompt(this)
 }
