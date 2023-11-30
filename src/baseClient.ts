@@ -118,7 +118,7 @@ export abstract class ApiClient {
         }
     }
 
-    post<Rsp>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
+    _post<Rsp>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
         return this.methodRequest("post", path, opts);
     }
 
