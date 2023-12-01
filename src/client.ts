@@ -8,7 +8,7 @@ interface ApiClientInterface {
 	apiKey?: string | null;
 	baseURL?: string | null;
 	virtualKey?: string | null;
-	config?: string | null;
+	config?: Record<string, any> | string | null;
 	provider?: string | null;
 	traceId?: string | null;
 	metadata?: string | null;
@@ -18,7 +18,7 @@ export class Portkey extends ApiClient {
 	override apiKey: string | null;
 	override baseURL: string;
 	virtualKey: string | null;
-	config: string | null;
+	config: Record<string, any> | string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -71,4 +71,5 @@ export class Portkey extends ApiClient {
 	generations = new API.Generations(this);
 	prompts = new API.Prompt(this);
 	post = new API.Post(this);
+	feedback = new API.Feedback(this);
 }

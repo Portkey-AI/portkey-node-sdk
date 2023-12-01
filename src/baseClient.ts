@@ -27,6 +27,7 @@ export type RequestOptions = {
     headers?: Headers | undefined;
     httpAgent?: Agent;
     stream?: boolean | undefined;
+    config?: Record<string, any>
 }
 
 type APIResponseProps = {

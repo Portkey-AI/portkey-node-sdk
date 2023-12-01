@@ -1,8 +1,8 @@
 import { PORTKEY_HEADER_PREFIX } from "./constants";
 
 type PlatformProperties = {
-    "x-portkey-runtime"?: string,
-    "x-portkey-runtime-version"?: string,
+	"x-portkey-runtime"?: string,
+	"x-portkey-runtime-version"?: string,
 }
 export const getPlatformProperties = (): PlatformProperties => {
 	if (Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) === "[object process]") {
@@ -30,4 +30,17 @@ export const castToError = (err: any): Error => {
 
 export const getPortkeyHeader = (key: string): string => {
 	return `${PORTKEY_HEADER_PREFIX}${key}`
+}
+
+type Config = Record<string, any> | string | null | undefined
+
+export const overrideConfig = (initialConfig?: Config, updatedConfig?: Config): Config => {
+	if (typeof updatedConfig === "string" || typeof initialConfig === "string") {
+		return updatedConfig
+	}
+
+	if (typeof initialConfig === "object" && typeof updatedConfig === "object") {
+		return { ...initialConfig, ...updatedConfig }
+	}
+
 }

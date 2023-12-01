@@ -3,35 +3,39 @@ import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { CHAT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
+import { overrideConfig } from "../utils";
 
 
 export class Chat extends ApiResource {
-	completions: ChatCompletions = new ChatCompletions(this.client);
+    completions: ChatCompletions = new ChatCompletions(this.client);
 }
 
 class ChatCompletions extends ApiResource {
-	create(
+    create(
         _body: ChatCompletionsBodyNonStreaming,
         opts?: RequestOptions
     ): APIPromise<ChatCompletion>;
-	create(
+    create(
         _body: ChatCompletionsBodyStreaming,
         opts?: RequestOptions
     ): APIPromise<Stream<ChatCompletion>>;
-	create(
+    create(
         _body: ChatCompletionsBodyBase,
         opts?: RequestOptions,
     ): APIPromise<Stream<ChatCompletion> | ChatCompletion>;
-	create (
-		_body: ChatCompletionCreateParams,
-		opts?: RequestOptions
-	): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
-		const body = _body
-		const stream = _body.stream ?? false
-		return this.post<ChatCompletion>(CHAT_COMPLETE_API, { body, ...opts, stream }) as
+    create(
+        _body: ChatCompletionCreateParams,
+        opts?: RequestOptions
+    ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
+        const body = _body
+        // If config is present then override it.
+        this.client.config = overrideConfig(this.client.config, opts?.config)
+        delete opts?.config
+        const stream = _body.stream ?? false
+        return this.post<ChatCompletion>(CHAT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<ChatCompletion>
             | APIPromise<Stream<ChatCompletion>>
-	}
+    }
 }
 
 export interface ChatCompletionsBodyBase extends ModelParams {
