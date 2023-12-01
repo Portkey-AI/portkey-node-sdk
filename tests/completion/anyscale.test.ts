@@ -4,7 +4,7 @@ import { Portkey } from 'portkey-ai';
 config({ override: true })
 const client = new Portkey({
     apiKey: process.env["PORTKEY_API_KEY"] ?? "",
-    baseURL: "https://api.portkeydev.com",
+    baseURL: "https://api.portkeydev.com/v1",
     provider: "openai",
     virtualKey: process.env["ANYSCALE_VIRTUAL_KEY"] ?? ""
 });
