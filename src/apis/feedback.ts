@@ -2,12 +2,14 @@ import { FEEDBACK_API } from "portkey-ai/constants";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 
-interface FeedbackBody {
+interface FeedbackBodyBase {
     trace_id?: string;
     value?: string;
     weight?: string;
     metadata?: Record<string, any>
 }
+
+type FeedbackBody = FeedbackBodyBase | Array<FeedbackBodyBase>
 
 export interface FeedbackResponse {
     status: string;
