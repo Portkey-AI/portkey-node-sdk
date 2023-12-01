@@ -7,3 +7,5 @@ export import Portkey = client.Portkey;
 export import LLMOptions = Types.LLMOptions;
 export import PORTKEY_GATEWAY_URL = consts.PORTKEY_GATEWAY_URL
 export import createHeaders = apis.createHeaders
+
+export default Portkey;
