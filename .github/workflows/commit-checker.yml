@@ -1,0 +1,21 @@
+name: ConventionalCommitChecker
+
+on: [pull_request, push]
+
+jobs:
+  conventional-commits-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: cd .github/conventionalcommits && npm install
+      - run: cd .github/conventionalcommits && npm run build --if-present
+
+      - name: conventional-commits-checker
+        id: hello
+        uses: ./.github/conventionalcommits/
