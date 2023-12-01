@@ -112,7 +112,6 @@ export abstract class ApiClient {
     protected defaultHeaders(): Record<string, string> {
         return {
             "Content-Type": "application/json",
-            [`${PORTKEY_HEADER_PREFIX}api-key`]: this.apiKey || "",
             [`${PORTKEY_HEADER_PREFIX}package-version`]: `portkey-${VERSION}`,
             ...getPlatformProperties()
         }
@@ -167,6 +166,7 @@ export abstract class ApiClient {
         const reqHeaders: Record<string, string> = {
             ...this.defaultHeaders(), ...this.customHeaders,
         };
+
         const httpAgent: Agent | undefined = defaultHttpAgent
         const req: RequestInit = {
             method,

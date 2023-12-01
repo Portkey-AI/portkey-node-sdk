@@ -4,8 +4,8 @@ import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { TEXT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
-import { overrideParams } from "../utils";
-
+import { overrideConfig } from "../utils";
+import { createHeaders } from "./createHeaders";
 
 
 export class Completions extends ApiResource {
@@ -32,7 +32,8 @@ export class Completions extends ApiResource {
         const body = _body
         // If config is present then override it.
         if (params) {
-            this.client = overrideParams(this.client, params)
+            const config = overrideConfig(this.client.config, params.config)
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
         const stream = _body.stream ?? false
         return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as

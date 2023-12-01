@@ -1,5 +1,3 @@
-import { ApiClientInterface } from "./_types/generalTypes";
-import { Portkey } from "./client";
 import { PORTKEY_HEADER_PREFIX } from "./constants";
 
 type PlatformProperties = {
@@ -44,16 +42,4 @@ export const overrideConfig = (initialConfig?: Config, updatedConfig?: Config): 
 	if (typeof initialConfig === "object" && typeof updatedConfig === "object") {
 		return { ...initialConfig, ...updatedConfig }
 	}
-}
-
-
-export const overrideParams = (client: Portkey, params: ApiClientInterface): Portkey => {
-	client.config = overrideConfig(client.config, params.config)
-	client.apiKey = params.apiKey ?? client.apiKey
-	client.baseURL = params.baseURL ?? client.baseURL
-	client.virtualKey = params.virtualKey ?? client.virtualKey
-	client.provider = params.provider ?? client.provider
-	client.traceId = params.apiKey ?? client.apiKey
-	client.apiKey = params.apiKey ?? client.apiKey
-	return client
 }

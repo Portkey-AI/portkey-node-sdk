@@ -1,7 +1,10 @@
+import { ApiClientInterface } from "portkey-ai/_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { Stream } from "../streaming";
+import { overrideConfig } from "../utils";
+import { createHeaders } from "./createHeaders";
 
 export class Generations extends ApiResource {
 	create(
@@ -44,20 +47,28 @@ type PromptsResponse = Record<string, any>;
 export class Prompt extends ApiResource {
 	create(
 		_body: PromptsCreateNonStreaming,
+		params?: ApiClientInterface,
 		opts?: RequestOptions
 	): APIPromise<PromptsCreateNonStreaming>;
 	create(
 		_body: PromptsCreateStreaming,
+		params?: ApiClientInterface,
 		opts?: RequestOptions
 	): APIPromise<Stream<PromptsCreateStreaming>>;
 	create(
 		_body: PromptsCreateParams,
+		params?: ApiClientInterface,
 		opts?: RequestOptions,
 	): APIPromise<Stream<PromptsCreateStreaming> | PromptsCreateNonStreaming>;
 	create(
 		_body: PromptsCreateParams,
+		params?: ApiClientInterface,
 		opts?: RequestOptions
 	): APIPromise<PromptsResponse> | APIPromise<Stream<PromptsResponse>> {
+		if (params) {
+			const config = overrideConfig(this.client.config, params.config)
+			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
+		}
 		const promptId = _body.promptId
 		const body = _body
 		const stream = _body.stream ?? false
