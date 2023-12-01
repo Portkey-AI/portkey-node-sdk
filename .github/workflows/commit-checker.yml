@@ -1,21 +1,3 @@
-name: ConventionalCommitChecker
-
-on: [pull_request, push]
-
-- uses: taskmedia/action-conventional-commits@v1.1.8
-  with:
-    # token to access GitHub API to receive PR commits
-    # Default: ${{ github.token }}
-    token: ""
-
-    # skip merge commits
-    # Default: true
-    skip_merge: ""
-
-    # skip revert commits
-    # Default: true
-    skip_revert: ""
-
-    # allow different types in commit message
-    # Default: fix|feat|revert
-    types: ""
+- name: verify conventional commits
+  uses: taskmedia/action-conventional-commits@v1.1.8
+            
