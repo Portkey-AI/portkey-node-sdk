@@ -1,4 +1,4 @@
-name: ConventionalCommitChecker
+name: verify-conventional-commits
 
 on: [pull_request]
 

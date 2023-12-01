@@ -167,7 +167,6 @@ export abstract class ApiClient {
         const reqHeaders: Record<string, string> = {
             ...this.defaultHeaders(), ...this.customHeaders,
         };
-
         const httpAgent: Agent | undefined = defaultHttpAgent
         const req: RequestInit = {
             method,
