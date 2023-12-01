@@ -1,12 +1,12 @@
 import { config } from 'dotenv';
-import { Portkey } from '../src';
+import Portkey from '../src';
 
 config({ override: true })
 
 // Initialize the Portkey client
 const portkey = new Portkey({
     apiKey: process.env["PORTKEY_API_KEY"] ?? "",
-    baseURL: "https://api.portkeydev.com",
+    baseURL: "https://api.portkeydev.com/v1",
     provider: "openai",
     virtualKey: process.env["OPENAI_VIRTUAL_KEY"] ?? ""
 });
