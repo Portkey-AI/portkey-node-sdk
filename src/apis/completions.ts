@@ -1,33 +1,39 @@
+import { ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { TEXT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
-import { overrideConfig } from "../utils";
+import { overrideParams } from "../utils";
 
 
 
 export class Completions extends ApiResource {
     create(
         _body: CompletionsBodyNonStreaming,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<TextCompletion>;
     create(
         _body: CompletionsBodyStreaming,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<Stream<TextCompletion>>
     create(
         _body: CompletionsBodyBase,
+        params?: ApiClientInterface,
         opts?: RequestOptions,
     ): APIPromise<Stream<TextCompletion> | TextCompletion>;
     create(
         _body: CompletionCreateParams,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<TextCompletion> | APIPromise<Stream<TextCompletion>> {
         const body = _body
         // If config is present then override it.
-        this.client.config = overrideConfig(this.client.config, opts?.config)
-        delete opts?.config
+        if (params) {
+            this.client = overrideParams(this.client, params)
+        }
         const stream = _body.stream ?? false
         return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<TextCompletion>

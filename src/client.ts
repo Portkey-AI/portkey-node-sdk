@@ -1,24 +1,18 @@
+import { ApiClientInterface } from "./_types/generalTypes";
 import * as Types from "./_types/portkeyConstructs";
 import * as API from "./apis";
 import { ApiClient } from "./baseClient";
 import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
 import { castToError, readEnv } from "./utils";
 
-interface ApiClientInterface {
-	apiKey?: string | null;
-	baseURL?: string | null;
-	virtualKey?: string | null;
-	config?: Record<string, any> | string | null;
-	provider?: string | null;
-	traceId?: string | null;
-	metadata?: string | null;
-}
-
 export class Portkey extends ApiClient {
 	override apiKey: string | null;
 	override baseURL: string;
 	virtualKey: string | null;
 	config: Record<string, any> | string | null | undefined;
+	provider: string | null | undefined;
+	traceId: string | null | undefined;
+	metadata: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -45,6 +39,9 @@ export class Portkey extends ApiClient {
 		this.virtualKey = virtualKey || null
 		this.config = config || null
 		this.baseURL = baseURL || PORTKEY_BASE_URL;
+		this.provider = provider
+		this.traceId = traceId
+		this.metadata = metadata
 	}
 
 	protected constructLlms(llms?: Array<Types.LLMOptions> | null): Array<Types.LLMOptions> | null {

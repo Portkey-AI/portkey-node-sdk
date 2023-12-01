@@ -27,7 +27,6 @@ export type RequestOptions = {
     headers?: Headers | undefined;
     httpAgent?: Agent;
     stream?: boolean | undefined;
-    config?: Record<string, any>
 }
 
 type APIResponseProps = {
@@ -104,8 +103,8 @@ export abstract class ApiClient {
 
     private fetch: Fetch;
     constructor({ apiKey, baseURL, config, virtualKey, traceId, metadata, provider }: ApiClientInterface) {
-        this.apiKey = apiKey;
-        this.baseURL = baseURL || "";
+        this.apiKey = apiKey ?? "";
+        this.baseURL = baseURL ?? "";
         this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceId, metadata, provider })
         this.fetch = fetch;
     }
