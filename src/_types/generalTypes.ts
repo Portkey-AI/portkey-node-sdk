@@ -6,6 +6,6 @@ export interface ApiClientInterface {
     virtualKey?: string | null | undefined;
     config?: Record<string, any> | string | null | undefined;
     provider?: string | null | undefined;
-    traceId?: string | null | undefined;
+    traceID?: string | null | undefined;
     metadata?: string | null | undefined;
 }

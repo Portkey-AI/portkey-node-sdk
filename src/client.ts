@@ -19,7 +19,7 @@ export class Portkey extends ApiClient {
 		config,
 		virtualKey,
 		provider,
-		traceId,
+		traceID,
 		metadata
 	}: ApiClientInterface) {
 
@@ -29,7 +29,7 @@ export class Portkey extends ApiClient {
 			config,
 			virtualKey,
 			provider,
-			traceId,
+			traceID,
 			metadata
 		});
 		this.apiKey = apiKey;
@@ -40,7 +40,7 @@ export class Portkey extends ApiClient {
 		this.config = config || null
 		this.baseURL = baseURL || PORTKEY_BASE_URL;
 		this.provider = provider
-		this.traceId = traceId
+		this.traceID = traceID
 		this.metadata = metadata
 	}
 
