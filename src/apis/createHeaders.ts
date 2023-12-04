@@ -6,8 +6,8 @@ export const createHeaders = (config: Record<string, any>): Record<string, strin
 	for (let k in config) {
 		let v = config[k]
 		// convert to snakecase
-		k.replace('ID', 'Id')
-		k = k.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
+		k = k.replace('ID', 'Id')
+			.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
 			.split("_")
 			.join("-")
 		if (typeof v == "object") {
