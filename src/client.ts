@@ -44,29 +44,11 @@ export class Portkey extends ApiClient {
 		this.metadata = metadata
 	}
 
-	protected constructLlms(llms?: Array<Types.LLMOptions> | null): Array<Types.LLMOptions> | null {
-		if (!llms) {
-			return llms || null
-		}
-		llms.forEach(llm => {
-			for (const key in llm) {
-				if (Types.ModelParamsList.includes(key)) {
-					if (!llm.override_params) {
-						llm.override_params = {}
-					}
-					llm.override_params[key] = llm[key as keyof Types.LLMOptions]
-					delete llm[key as keyof Types.LLMOptions];
-				}
-
-			}
-		})
-		return llms;
-	}
-
 	completions: API.Completions = new API.Completions(this);
 	chat = new API.Chat(this);
 	generations = new API.Generations(this);
 	prompts = new API.Prompt(this);
 	post = new API.Post(this);
 	feedback = new API.Feedback(this);
+	embeddings = new API.Embeddings(this);
 }

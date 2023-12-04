@@ -11,20 +11,20 @@ export interface EmbeddingsBody extends ModelParams {
     model?: string;
 }
 
-export type Embeddings = Record<string, any>
+export type EmbeddingsResponse = Record<string, any>
 
-export class Prompt extends ApiResource {
+export class Embeddings extends ApiResource {
     create(
         _body: EmbeddingsBody,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): APIPromise<Embeddings> {
+    ): APIPromise<EmbeddingsResponse> {
         const body = _body
         if (params) {
             const config = overrideConfig(this.client.config, params.config)
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
-        const response = this.post<Embeddings>(EMBEDDINGS_API, { body, ...opts })
+        const response = this.post<EmbeddingsResponse>(EMBEDDINGS_API, { body, ...opts })
         return response
     }
 }
