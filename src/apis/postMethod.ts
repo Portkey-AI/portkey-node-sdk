@@ -1,4 +1,4 @@
-import { ApiClientInterface } from "portkey-ai/_types/generalTypes";
+import { APIResponseType, ApiClientInterface } from "portkey-ai/_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { Stream } from "../streaming";
@@ -42,7 +42,7 @@ export class Post extends ApiResource {
     }
 }
 
-export type PostResponse = Record<string, any>
+export type PostResponse = Record<string, any> & APIResponseType;
 
 export interface PostBodyStreaming extends Record<string, any> {
     stream?: true;

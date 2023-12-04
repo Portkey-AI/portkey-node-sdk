@@ -1,4 +1,4 @@
-import { ApiClientInterface } from "../_types/generalTypes";
+import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
@@ -77,7 +77,7 @@ interface Choices {
     finish_reason?: string;
 }
 
-interface ChatCompletion {
+interface ChatCompletion extends APIResponseType {
     id: string;
     object: string;
     created: number;

@@ -9,3 +9,7 @@ export interface ApiClientInterface {
     traceID?: string | null | undefined;
     metadata?: string | null | undefined;
 }
+
+export interface APIResponseType {
+    getHeaders: () => Record<string, string> | null | undefined
+}

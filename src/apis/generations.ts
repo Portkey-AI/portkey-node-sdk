@@ -1,4 +1,4 @@
-import { ApiClientInterface } from "portkey-ai/_types/generalTypes";
+import { APIResponseType, ApiClientInterface } from "portkey-ai/_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
@@ -23,7 +23,7 @@ export interface GenerationsBody extends ModelParams {
 	variables?: Record<string, any>;
 }
 
-export interface Generation {
+export interface Generation extends APIResponseType {
 	success: boolean;
 	data: Record<string, any>;
 }
@@ -43,23 +43,23 @@ export interface PromptsCreateNonStreaming extends PromptBodyBase {
 
 export type PromptsCreateParams = PromptsCreateNonStreaming | PromptsCreateStreaming
 
-type PromptsResponse = Record<string, any>;
+type PromptsResponse = Record<string, any> & APIResponseType;
 export class Prompt extends ApiResource {
 	create(
 		_body: PromptsCreateNonStreaming,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<PromptsCreateNonStreaming>;
+	): APIPromise<PromptsResponse>;
 	create(
 		_body: PromptsCreateStreaming,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<Stream<PromptsCreateStreaming>>;
+	): APIPromise<Stream<PromptsResponse>>;
 	create(
 		_body: PromptsCreateParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions,
-	): APIPromise<Stream<PromptsCreateStreaming> | PromptsCreateNonStreaming>;
+	): APIPromise<Stream<PromptsResponse> | PromptsResponse>;
 	create(
 		_body: PromptsCreateParams,
 		params?: ApiClientInterface,

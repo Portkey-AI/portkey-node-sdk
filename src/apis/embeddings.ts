@@ -1,4 +1,4 @@
-import { ApiClientInterface } from "portkey-ai/_types/generalTypes";
+import { APIResponseType, ApiClientInterface } from "portkey-ai/_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
@@ -11,7 +11,7 @@ export interface EmbeddingsBody extends ModelParams {
     model?: string;
 }
 
-export type EmbeddingsResponse = Record<string, any>
+export type EmbeddingsResponse = Record<string, any> & APIResponseType
 
 export class Embeddings extends ApiResource {
     create(

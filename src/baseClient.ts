@@ -1,6 +1,6 @@
 import KeepAliveAgent from "agentkeepalive";
 import type { Agent } from "node:http";
-import { ApiClientInterface, Headers } from "./_types/generalTypes";
+import { APIResponseType, ApiClientInterface, Headers } from "./_types/generalTypes";
 import { createHeaders } from "./apis";
 import { PORTKEY_HEADER_PREFIX } from "./constants";
 import { APIConnectionError, APIConnectionTimeoutError, APIError } from "./error";
@@ -32,6 +32,7 @@ export type RequestOptions = {
 type APIResponseProps = {
     response: Response;
     options: FinalRequestOptions;
+    responseHeaders: globalThis.Headers
 };
 
 type PromiseOrValue<T> = T | Promise<T>;
@@ -44,7 +45,11 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
 
     const contentType = response.headers.get("content-type");
     if (contentType?.includes("application/json")) {
-        const json = await response.json();
+        const headers = defaultParseHeaders(props)
+        const json = {
+            ...await response.json(),
+            getHeaders: () => headers
+        };
 
         return json as T;
     }
@@ -52,6 +57,17 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
     const text = await response.text();
     return text as any as T;
 }
+
+function defaultParseHeaders(props: APIResponseProps): Record<string, string> {
+    const { responseHeaders } = props;
+    const parsedHeaders = createResponseHeaders(responseHeaders)
+    const prefix = PORTKEY_HEADER_PREFIX
+    const filteredHeaders = Object.entries(parsedHeaders)
+        .filter(([key, _]) => key.startsWith(prefix))
+        .map(([key, value]) => [key.replace(prefix, ''), value])
+    return Object.fromEntries(filteredHeaders)
+}
+
 
 export class APIPromise<T> extends Promise<T> {
     private parsedPromise: Promise<T> | undefined;
@@ -100,6 +116,7 @@ export abstract class ApiClient {
     apiKey: string | null;
     baseURL: string;
     customHeaders: Record<string, string>
+    responseHeaders: Record<string, string>
 
     private fetch: Fetch;
     constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider }: ApiClientInterface) {
@@ -107,6 +124,7 @@ export abstract class ApiClient {
         this.baseURL = baseURL ?? "";
         this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider })
         this.fetch = fetch;
+        this.responseHeaders = {}
     }
 
     protected defaultHeaders(): Record<string, string> {
@@ -117,7 +135,7 @@ export abstract class ApiClient {
         }
     }
 
-    _post<Rsp>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
+    _post<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
         return this.methodRequest("post", path, opts);
     }
 
@@ -148,16 +166,17 @@ export abstract class ApiClient {
             }
             throw new APIConnectionError({ cause: response });
         }
+        this.responseHeaders = createResponseHeaders(response.headers)
         if (!response.ok) {
             const errText = await response.text()
                 .catch(() => "Unknown");
             const errJSON = safeJSON(errText);
             const errMessage = errJSON ? undefined : errText;
-            throw this.generateError(response.status, errJSON, errMessage, createResponseHeaders(response.headers))
+            throw this.generateError(response.status, errJSON, errMessage, this.responseHeaders)
 
         }
         // Receive and format the response.
-        return { response, options: opts }
+        return { response, options: opts, responseHeaders: response.headers }
     }
 
     buildRequest(opts: FinalRequestOptions): { req: RequestInit, url: string } {

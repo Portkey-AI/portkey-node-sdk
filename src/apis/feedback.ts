@@ -1,4 +1,4 @@
-import { ApiClientInterface } from "../_types/generalTypes";
+import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { FEEDBACK_API } from "../constants";
@@ -14,7 +14,7 @@ interface FeedbackBodyBase {
 
 type FeedbackBody = FeedbackBodyBase | Array<FeedbackBodyBase>
 
-export interface FeedbackResponse {
+export interface FeedbackResponse extends APIResponseType {
     status: string;
     message: string;
 }

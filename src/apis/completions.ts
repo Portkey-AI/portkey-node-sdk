@@ -1,4 +1,4 @@
-import { ApiClientInterface } from "../_types/generalTypes";
+import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
@@ -36,6 +36,7 @@ export class Completions extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
         const stream = _body.stream ?? false
+        this.client.responseHeaders
         return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<TextCompletion>
             | APIPromise<Stream<TextCompletion>>
@@ -70,7 +71,7 @@ interface Choices {
     finish_reason?: string;
 }
 
-interface TextCompletion {
+interface TextCompletion extends APIResponseType {
     id: string;
     object: string;
     created: number;
