@@ -123,7 +123,7 @@ export abstract class ApiClient {
 
     protected generateError(
         status: number | undefined,
-        errorResponse: Object | undefined,
+        errorResponse: object | undefined,
         message: string | undefined,
         headers: Headers | undefined,
     ): APIError {

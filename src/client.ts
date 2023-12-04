@@ -11,7 +11,7 @@ export class Portkey extends ApiClient {
 	virtualKey: string | null;
 	config: Record<string, any> | string | null | undefined;
 	provider: string | null | undefined;
-	traceId: string | null | undefined;
+	traceID: string | null | undefined;
 	metadata: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
