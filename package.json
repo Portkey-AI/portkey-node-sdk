@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "agentkeepalive": "^4.5.0",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "llamaindex": "0.0.37"
   }
 }
