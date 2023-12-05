@@ -27,6 +27,30 @@ export const castToError = (err: any): Error => {
 	return new Error(err);
 };
 
+const isEmpty = (value: unknown) => {
+	// Check if the value is null or undefined
+	if (value == null) {
+		return true;
+	}
+
+	// Check if the value is a string and has zero length
+	if (typeof value === 'string' && value.trim().length === 0) {
+		return true;
+	}
+
+	// Check if the value is an array and has zero elements
+	if (Array.isArray(value) && value.length === 0) {
+		return true;
+	}
+
+	// Check if the value is an object and has zero keys
+	if (typeof value === 'object' && Object.keys(value).length === 0) {
+		return true;
+	}
+
+	// If none of the above conditions are met, the value is not empty
+	return false;
+}
 
 export const getPortkeyHeader = (key: string): string => {
 	return `${PORTKEY_HEADER_PREFIX}${key}`
@@ -35,6 +59,10 @@ export const getPortkeyHeader = (key: string): string => {
 type Config = Record<string, any> | string | null | undefined
 
 export const overrideConfig = (initialConfig?: Config, updatedConfig?: Config): Config => {
+	if (isEmpty(updatedConfig)) {
+		return initialConfig
+	}
+
 	if (typeof updatedConfig === "string" || typeof initialConfig === "string") {
 		return updatedConfig
 	}
