@@ -84,10 +84,10 @@ export class PortkeyLlama implements LLM {
   apiKey: string | null | undefined;
   baseURL: string | undefined;
   virtualKey: string | null | undefined;
-  config: Record<string, any> | string | null | undefined;
+  config: Record<string, unknown> | string | null | undefined;
   provider: string | null | undefined;
   traceID: string | null | undefined;
-  metadata: string | null | undefined;
+  metadata: Record<string, unknown> | null | undefined;
   client: any;
   callbackManager?: CallbackManager | undefined;
 
