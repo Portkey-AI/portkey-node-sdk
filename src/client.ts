@@ -9,10 +9,10 @@ export class Portkey extends ApiClient {
 	override apiKey: string | null;
 	override baseURL: string;
 	virtualKey: string | null;
-	config: Record<string, any> | string | null | undefined;
+	config: Record<string, unknown> | string | null | undefined;
 	provider: string | null | undefined;
 	traceID: string | null | undefined;
-	metadata: string | null | undefined;
+	metadata: Record<string, unknown> | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,

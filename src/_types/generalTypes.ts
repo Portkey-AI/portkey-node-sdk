@@ -4,10 +4,10 @@ export interface ApiClientInterface {
     apiKey?: string | null;
     baseURL?: string | null;
     virtualKey?: string | null | undefined;
-    config?: Record<string, any> | string | null | undefined;
+    config?: Record<string, unknown> | string | null | undefined;
     provider?: string | null | undefined;
     traceID?: string | null | undefined;
-    metadata?: string | null | undefined;
+    metadata?: Record<string, unknown> | null | undefined;
 }
 
 export interface APIResponseType {
