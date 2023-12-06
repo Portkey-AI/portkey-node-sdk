@@ -62,12 +62,5 @@ export const overrideConfig = (initialConfig?: Config, updatedConfig?: Config): 
 	if (isEmpty(updatedConfig)) {
 		return initialConfig
 	}
-
-	if (typeof updatedConfig === "string" || typeof initialConfig === "string") {
-		return updatedConfig
-	}
-
-	if (typeof initialConfig === "object" && typeof updatedConfig === "object") {
-		return { ...initialConfig, ...updatedConfig }
-	}
+	return updatedConfig
 }
