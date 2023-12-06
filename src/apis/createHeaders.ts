@@ -1,4 +1,4 @@
-import { getPortkeyHeader } from "../utils"
+import { getPortkeyHeader, isEmpty } from "../utils"
 
 export const createHeaders = (config: Record<string, any>): Record<string, string> => {
 	const headers: Record<string, string> = {}
@@ -10,7 +10,7 @@ export const createHeaders = (config: Record<string, any>): Record<string, strin
 			.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
 			.split("_")
 			.join("-")
-		if (typeof v == "object") {
+		if (!isEmpty(v) && typeof v == "object") {
 			v = JSON.stringify(v)
 		}
 		headers[getPortkeyHeader(k)] = v || ""

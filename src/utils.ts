@@ -27,7 +27,7 @@ export const castToError = (err: any): Error => {
 	return new Error(err);
 };
 
-const isEmpty = (value: unknown) => {
+export const isEmpty = (value: unknown) => {
 	// Check if the value is null or undefined
 	if (value == null) {
 		return true;
