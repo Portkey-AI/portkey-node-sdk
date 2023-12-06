@@ -14,10 +14,6 @@ export interface EmbeddingsBody extends ModelParams {
 export type EmbeddingsResponse = Record<string, any> & APIResponseType
 
 export class Embeddings extends ApiResource {
-    completions: EmbeddingsCompletions = new EmbeddingsCompletions(this.client);
-}
-
-export class EmbeddingsCompletions extends ApiResource {
     create(
         _body: EmbeddingsBody,
         params?: ApiClientInterface,

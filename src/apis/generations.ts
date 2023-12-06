@@ -44,7 +44,13 @@ export interface PromptsCreateNonStreaming extends PromptBodyBase {
 export type PromptsCreateParams = PromptsCreateNonStreaming | PromptsCreateStreaming
 
 type PromptsResponse = Record<string, any> & APIResponseType;
+
 export class Prompt extends ApiResource {
+    completions: PromptCompletions = new PromptCompletions(this.client);
+}
+
+
+export class PromptCompletions extends ApiResource {
 	create(
 		_body: PromptsCreateNonStreaming,
 		params?: ApiClientInterface,
