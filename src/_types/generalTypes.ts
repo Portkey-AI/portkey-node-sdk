@@ -8,6 +8,7 @@ export interface ApiClientInterface {
     provider?: string | null | undefined;
     traceID?: string | null | undefined;
     metadata?: Record<string, unknown> | null | undefined;
+    Authorization?: string | null | undefined;
 }
 
 export interface APIResponseType {

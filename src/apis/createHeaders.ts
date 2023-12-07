@@ -6,6 +6,10 @@ export const createHeaders = (config: Record<string, any>): Record<string, strin
 	for (let k in config) {
 		let v = config[k]
 		// convert to snakecase
+		if (k.toLocaleLowerCase() === "authorization") {
+			headers[k.toLowerCase()] = v || ""
+			continue
+		}
 		k = k.replace('ID', 'Id')
 			.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
 			.split("_")

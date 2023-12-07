@@ -13,6 +13,7 @@ export class Portkey extends ApiClient {
 	provider: string | null | undefined;
 	traceID: string | null | undefined;
 	metadata: Record<string, unknown> | null | undefined;
+	Authorization?: string;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -20,7 +21,9 @@ export class Portkey extends ApiClient {
 		virtualKey,
 		provider,
 		traceID,
-		metadata
+		metadata,
+		Authorization
+
 	}: ApiClientInterface) {
 
 		super({
@@ -30,7 +33,8 @@ export class Portkey extends ApiClient {
 			virtualKey,
 			provider,
 			traceID,
-			metadata
+			metadata,
+			Authorization
 		});
 		this.apiKey = apiKey;
 		if (!this.apiKey) {
