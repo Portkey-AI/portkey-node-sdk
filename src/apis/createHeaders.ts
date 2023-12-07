@@ -11,9 +11,7 @@ export const createHeaders = (config: Record<string, any>): Record<string, strin
 			continue
 		}
 		k = k.replace('ID', 'Id')
-			.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
-			.split("_")
-			.join("-")
+			.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
 		if (!isEmpty(v) && typeof v == "object") {
 			v = JSON.stringify(v)
 		}

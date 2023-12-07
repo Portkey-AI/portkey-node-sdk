@@ -64,3 +64,21 @@ export const overrideConfig = (initialConfig?: Config, updatedConfig?: Config): 
 	}
 	return updatedConfig
 }
+
+
+export const parseBody = (data: Record<string, unknown> | undefined | null): Record<string, unknown> => {
+	// Making sure that every key in the body is in snake case
+	if (isEmpty(data)) {
+		return {}
+	}
+	const parsedData: Record<string, unknown> = {}
+	for (let k in data) {
+		const v = data[k]
+		// convert to snakecase
+		k = k.replace('ID', 'Id')
+			.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
+
+		parsedData[k] = v
+	}
+	return parsedData
+}

@@ -5,7 +5,7 @@ import { createHeaders } from "./apis";
 import { PORTKEY_HEADER_PREFIX } from "./constants";
 import { APIConnectionError, APIConnectionTimeoutError, APIError } from "./error";
 import { Stream, createResponseHeaders, safeJSON } from "./streaming";
-import { castToError, getPlatformProperties } from "./utils";
+import { castToError, getPlatformProperties, parseBody } from "./utils";
 import { VERSION } from "./version";
 fetch
 const defaultHttpAgent: Agent = new KeepAliveAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
@@ -188,7 +188,7 @@ export abstract class ApiClient {
         const httpAgent: Agent | undefined = defaultHttpAgent
         const req: RequestInit = {
             method,
-            body: JSON.stringify(body),
+            body: JSON.stringify(parseBody(body)),
             headers: reqHeaders,
             ...(httpAgent && { agent: httpAgent })
         }
