@@ -79,7 +79,7 @@ export class PromptCompletions extends ApiResource {
 		const body = _body
 		const stream = _body.stream ?? false
 		delete body.promptId
-		const response = this.post<PromptsResponse>(`/v1/prompts/${promptId}/completions`, { body, ...opts, stream }) as
+		const response = this.post<PromptsResponse>(`/prompts/${promptId}/completions`, { body, ...opts, stream }) as
 			| APIPromise<PromptsResponse>
 			| APIPromise<Stream<PromptsResponse>>
 		return response
