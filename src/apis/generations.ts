@@ -14,12 +14,12 @@ export class Generations extends ApiResource {
 		const warning = "This API has been deprecated. Please use the Prompt API for the saved prompt."
 		console.warn(warning)
 		const body = { "variables": _body.variables }
-		return this.post<Generation>(`/v1/prompts/${_body.promptId}/generate`, { body, ...opts })
+		return this.post<Generation>(`/v1/prompts/${_body.promptID}/generate`, { body, ...opts })
 	}
 }
 
 export interface GenerationsBody extends ModelParams {
-	promptId: string;
+	promptID: string;
 	variables?: Record<string, any>;
 }
 
@@ -29,7 +29,7 @@ export interface Generation extends APIResponseType {
 }
 
 export interface PromptBodyBase extends ModelParams {
-	promptId?: string;
+	promptID?: string;
 	variables?: Record<string, any>;
 }
 
@@ -75,10 +75,10 @@ export class PromptCompletions extends ApiResource {
 			const config = overrideConfig(this.client.config, params.config)
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
 		}
-		const promptId = _body.promptId
+		const promptId = _body.promptID
 		const body = _body
 		const stream = _body.stream ?? false
-		delete body.promptId
+		delete body.promptID
 		body.stream = stream
 		const response = this.post<PromptsResponse>(`/prompts/${promptId}/completions`, { body, ...opts, stream }) as
 			| APIPromise<PromptsResponse>
