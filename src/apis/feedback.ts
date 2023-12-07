@@ -6,7 +6,7 @@ import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 
 interface FeedbackBodyBase {
-    trace_id?: string;
+    traceID?: string;
     value?: number;
     weight?: number;
     metadata?: Record<string, any>
