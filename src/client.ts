@@ -1,7 +1,8 @@
 import { ApiClientInterface } from "./_types/generalTypes";
 import * as Types from "./_types/portkeyConstructs";
 import * as API from "./apis";
-import { ApiClient } from "./baseClient";
+import { PostBodyParams } from "./apis/postMethod";
+import { ApiClient, RequestOptions } from "./baseClient";
 import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
 import { castToError, readEnv } from "./utils";
 
@@ -52,7 +53,14 @@ export class Portkey extends ApiClient {
 	chat = new API.Chat(this);
 	generations = new API.Generations(this);
 	prompts = new API.Prompt(this);
-	post = new API.Post(this);
+	post = (
+		url: string,
+		_body: PostBodyParams,
+		params?: ApiClientInterface,
+		opts?: RequestOptions
+	) => {
+		return new API.postMethod(this).create(url, _body, params, opts)
+	};
 	feedback = new API.Feedback(this);
 	embeddings = new API.Embeddings(this);
 }

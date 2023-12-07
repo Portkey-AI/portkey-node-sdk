@@ -5,7 +5,7 @@ import { Stream } from "../streaming";
 import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 
-export class Post extends ApiResource {
+export class postMethod extends ApiResource {
     create(
         url: string,
         _body: PostBodyNonStreaming,
@@ -20,7 +20,7 @@ export class Post extends ApiResource {
     ): APIPromise<Stream<PostResponse>>
     create(
         url: string,
-        _body: Record<string, any>,
+        _body: PostBodyParams,
         params?: ApiClientInterface,
         opts?: RequestOptions,
     ): APIPromise<Stream<PostResponse>> | APIPromise<PostResponse>
