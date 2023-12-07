@@ -46,7 +46,7 @@ export type PromptsCreateParams = PromptsCreateNonStreaming | PromptsCreateStrea
 type PromptsResponse = Record<string, any> & APIResponseType;
 
 export class Prompt extends ApiResource {
-    completions: PromptCompletions = new PromptCompletions(this.client);
+	completions: PromptCompletions = new PromptCompletions(this.client);
 }
 
 
@@ -79,6 +79,7 @@ export class PromptCompletions extends ApiResource {
 		const body = _body
 		const stream = _body.stream ?? false
 		delete body.promptId
+		body.stream = stream
 		const response = this.post<PromptsResponse>(`/prompts/${promptId}/completions`, { body, ...opts, stream }) as
 			| APIPromise<PromptsResponse>
 			| APIPromise<Stream<PromptsResponse>>
