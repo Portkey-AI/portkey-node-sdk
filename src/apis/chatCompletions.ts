@@ -1,34 +1,45 @@
+import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
+import { CHAT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
+import { overrideConfig } from "../utils";
+import { createHeaders } from "./createHeaders";
 
-export class ChatCompletions extends ApiResource {
+export class Chat extends ApiResource {
+    completions: ChatCompletions = new ChatCompletions(this.client);
+}
+
+class ChatCompletions extends ApiResource {
     create(
         _body: ChatCompletionsBodyNonStreaming,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<ChatCompletion>;
     create(
         _body: ChatCompletionsBodyStreaming,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<Stream<ChatCompletion>>;
     create(
         _body: ChatCompletionsBodyBase,
+        params?: ApiClientInterface,
         opts?: RequestOptions,
     ): APIPromise<Stream<ChatCompletion> | ChatCompletion>;
     create(
         _body: ChatCompletionCreateParams,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>> {
-        const config = this.client.config || {
-            mode: this.client.mode,
-            options: this.client.llms
+        const body = _body
+        // If config is present then override it.
+        if (params) {
+            const config = overrideConfig(this.client.config, params.config)
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
-        const body = {
-            config,
-            params: { ..._body }
-        }
-        return this.post<ChatCompletion>("/v1/chatComplete", { body, ...opts, stream: _body.stream ?? false }) as
+        const stream = _body.stream ?? false
+        return this.post<ChatCompletion>(CHAT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<ChatCompletion>
             | APIPromise<Stream<ChatCompletion>>
     }
@@ -66,7 +77,7 @@ interface Choices {
     finish_reason?: string;
 }
 
-interface ChatCompletion {
+interface ChatCompletion extends APIResponseType {
     id: string;
     object: string;
     created: number;

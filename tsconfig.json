@@ -1,4 +1,9 @@
 {
+    "include": [
+        "src",
+        "tests",
+        "examples",
+    ],
     "compilerOptions": {
         "sourceMap": true,
         "declaration": true,
@@ -9,7 +14,15 @@
         ],
         "module": "CommonJS",
         "esModuleInterop": true,
-        "baseUrl": "./",
+        "baseUrl": ".",
+        "paths": {
+            "portkey-ai/*": [
+                "src/*"
+            ],
+            "portkey-ai": [
+                "src/index.ts"
+            ],
+        },
         "resolveJsonModule": true,
         "strict": true,
         "noImplicitAny": true,
@@ -26,10 +39,10 @@
         "skipLibCheck": true,
         "outDir": "./dist",
     },
-    "include": [
-        "./src/**/*.ts" // Files to include in compilation
-    ],
     "exclude": [
         "./node_modules" // Files/folders to exclude from compilation
-    ]
+    ],
+    "jest": {
+        "preset": "ts-jest"
+    }
 }

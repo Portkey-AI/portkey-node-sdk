@@ -1,0 +1,27 @@
+
+#!/usr/bin/env bash
+set -exuo pipefail
+
+node scripts/check-version.cjs
+
+# Build into dist and will publish the package from there,
+# so that src/resources/foo.ts becomes <package root>/resources/foo.js
+# This way importing from `"portkey-ai/apis/foo"` works
+# even with `"moduleResolution": "node"`
+
+rm -rf dist; mkdir dist
+
+# Copy src to dist/src and build from dist/src into dist, so that
+# the source map for index.js.map will refer to ./src/index.ts etc
+cp -rp src README.md dist
+# Copy the changelog and license files tp dist
+for file in LICENSE CHANGELOG.md; do
+  if [ -e "${file}" ]; then cp "${file}" dist; fi
+done
+
+# this converts the export map paths for the dist directory
+# and does a few other minor things
+node scripts/make-dist-package-json.cjs > dist/package.json
+
+# build to .js/.mjs/.d.ts files
+npm exec tsc-multi

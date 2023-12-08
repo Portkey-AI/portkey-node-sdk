@@ -1,14 +1,15 @@
-import KeepAliveAgent from 'agentkeepalive';
-import type { Agent } from 'node:http';
-import { ApiClientInterface, Headers } from './_types/generalTypes';
-import { PORTKEY_HEADER_PREFIX } from './constants';
-import { APIConnectionError, APIConnectionTimeoutError, APIError } from './error';
-import { Stream, createResponseHeaders, safeJSON } from './streaming';
-import { castToError, getPlatformProperties } from './utils';
-import { VERSION } from './version';
-
+import KeepAliveAgent from "agentkeepalive";
+import type { Agent } from "node:http";
+import { APIResponseType, ApiClientInterface, Headers } from "./_types/generalTypes";
+import { createHeaders } from "./apis";
+import { PORTKEY_HEADER_PREFIX } from "./constants";
+import { APIConnectionError, APIConnectionTimeoutError, APIError } from "./error";
+import { Stream, createResponseHeaders, safeJSON } from "./streaming";
+import { castToError, getPlatformProperties, parseBody } from "./utils";
+import { VERSION } from "./version";
+fetch
 const defaultHttpAgent: Agent = new KeepAliveAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
-export type Fetch = (url: RequestInfo, init?: RequestInit) => Promise<Response>;
+export type Fetch = (url: NodeJS.fetch.RequestInfo, init?: RequestInit) => Promise<Response>;
 
 export type HTTPMethod = "post" | "get" | "put" | "delete"
 
@@ -31,6 +32,7 @@ export type RequestOptions = {
 type APIResponseProps = {
     response: Response;
     options: FinalRequestOptions;
+    responseHeaders: globalThis.Headers
 };
 
 type PromiseOrValue<T> = T | Promise<T>;
@@ -41,9 +43,13 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
         return new Stream(response) as any;
     }
 
-    const contentType = response.headers.get('content-type');
-    if (contentType?.includes('application/json')) {
-        const json = await response.json();
+    const contentType = response.headers.get("content-type");
+    if (contentType?.includes("application/json")) {
+        const headers = defaultParseHeaders(props)
+        const json = {
+            ...await response.json(),
+            getHeaders: () => headers
+        };
 
         return json as T;
     }
@@ -51,6 +57,17 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
     const text = await response.text();
     return text as any as T;
 }
+
+function defaultParseHeaders(props: APIResponseProps): Record<string, string> {
+    const { responseHeaders } = props;
+    const parsedHeaders = createResponseHeaders(responseHeaders)
+    const prefix = PORTKEY_HEADER_PREFIX
+    const filteredHeaders = Object.entries(parsedHeaders)
+        .filter(([key, _]) => key.startsWith(prefix))
+        .map(([key, value]) => [key.replace(prefix, ''), value])
+    return Object.fromEntries(filteredHeaders)
+}
+
 
 export class APIPromise<T> extends Promise<T> {
     private parsedPromise: Promise<T> | undefined;
@@ -78,48 +95,53 @@ export class APIPromise<T> extends Promise<T> {
         onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null,
         onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
     ): Promise<TResult1 | TResult2> {
-        return this.parse().then(onfulfilled, onrejected);
+        return this.parse()
+            .then(onfulfilled, onrejected);
     }
 
     override catch<TResult = never>(
         onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null,
     ): Promise<T | TResult> {
-        return this.parse().catch(onrejected);
+        return this.parse()
+            .catch(onrejected);
     }
 
     override finally(onfinally?: (() => void) | undefined | null): Promise<T> {
-        return this.parse().finally(onfinally);
+        return this.parse()
+            .finally(onfinally);
     }
 }
 
 export abstract class ApiClient {
-    // client: Agent
     apiKey: string | null;
     baseURL: string;
+    customHeaders: Record<string, string>
+    responseHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL }: ApiClientInterface) {
-        this.apiKey = apiKey;
-        this.baseURL = baseURL || "";
+    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization }: ApiClientInterface) {
+        this.apiKey = apiKey ?? "";
+        this.baseURL = baseURL ?? "";
+        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization })
         this.fetch = fetch;
+        this.responseHeaders = {}
     }
 
     protected defaultHeaders(): Record<string, string> {
         return {
             "Content-Type": "application/json",
-            [`${PORTKEY_HEADER_PREFIX}api-key`]: this.apiKey || "",
             [`${PORTKEY_HEADER_PREFIX}package-version`]: `portkey-${VERSION}`,
             ...getPlatformProperties()
         }
     }
 
-    post<Rsp>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
+    _post<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
         return this.methodRequest("post", path, opts);
     }
 
     protected generateError(
         status: number | undefined,
-        errorResponse: Object | undefined,
+        errorResponse: object | undefined,
         message: string | undefined,
         headers: Headers | undefined,
     ): APIError {
@@ -135,36 +157,38 @@ export abstract class ApiClient {
         // Build the request.
         const { req, url } = this.buildRequest(opts);
         // Make the call to rubeus.
-        const response = await this.fetch(url, req).catch(castToError)
+        const response = await this.fetch(url, req)
+            .catch(castToError)
         // Parse the response and check for errors.
         if (response instanceof Error) {
-            if (response.name === 'AbortError') {
+            if (response.name === "AbortError") {
                 throw new APIConnectionTimeoutError();
             }
             throw new APIConnectionError({ cause: response });
         }
+        this.responseHeaders = createResponseHeaders(response.headers)
         if (!response.ok) {
-            const errText = await response.text().catch(() => 'Unknown');
+            const errText = await response.text()
+                .catch(() => "Unknown");
             const errJSON = safeJSON(errText);
             const errMessage = errJSON ? undefined : errText;
-            throw this.generateError(response.status, errJSON, errMessage, createResponseHeaders(response.headers))
+            throw this.generateError(response.status, errJSON, errMessage, this.responseHeaders)
 
         }
         // Receive and format the response.
-        return { response, options: opts }
+        return { response, options: opts, responseHeaders: response.headers }
     }
 
     buildRequest(opts: FinalRequestOptions): { req: RequestInit, url: string } {
         const url = new URL(this.baseURL + opts.path!)
         const { method, path, query, headers: headers = {}, body } = opts;
         const reqHeaders: Record<string, string> = {
-            ...this.defaultHeaders(),
+            ...this.defaultHeaders(), ...this.customHeaders,
         };
-
         const httpAgent: Agent | undefined = defaultHttpAgent
         const req: RequestInit = {
             method,
-            body: JSON.stringify(body),
+            body: JSON.stringify(parseBody(body)),
             headers: reqHeaders,
             ...(httpAgent && { agent: httpAgent })
         }

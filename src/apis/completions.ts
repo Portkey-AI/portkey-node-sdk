@@ -1,36 +1,43 @@
+import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
+import { TEXT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
-
+import { overrideConfig } from "../utils";
+import { createHeaders } from "./createHeaders";
 
 
 export class Completions extends ApiResource {
     create(
         _body: CompletionsBodyNonStreaming,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<TextCompletion>;
     create(
         _body: CompletionsBodyStreaming,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<Stream<TextCompletion>>
     create(
         _body: CompletionsBodyBase,
+        params?: ApiClientInterface,
         opts?: RequestOptions,
     ): APIPromise<Stream<TextCompletion> | TextCompletion>;
     create(
         _body: CompletionCreateParams,
+        params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<TextCompletion> | APIPromise<Stream<TextCompletion>> {
-        const config = this.client.config || {
-            mode: this.client.mode,
-            options: this.client.llms
+        const body = _body
+        // If config is present then override it.
+        if (params) {
+            const config = overrideConfig(this.client.config, params.config)
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
-        const body = {
-            config,
-            params: { ..._body }
-        }
-        return this.post("/v1/complete", { body, ...opts, stream: _body.stream ?? false }) as
+        const stream = _body.stream ?? false
+        this.client.responseHeaders
+        return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<TextCompletion>
             | APIPromise<Stream<TextCompletion>>
     }
@@ -64,7 +71,7 @@ interface Choices {
     finish_reason?: string;
 }
 
-interface TextCompletion {
+interface TextCompletion extends APIResponseType {
     id: string;
     object: string;
     created: number;
