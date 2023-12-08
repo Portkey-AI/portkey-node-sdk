@@ -92,7 +92,10 @@ You can set all of these features while constructing your LLMOptions object.
 
 ---
 
-#### [📝 Full Documentation](https://docs.portkey.ai/) | [🛠️ Integration Requests](https://github.com/Portkey-AI/portkey-node-sdk/issues) | 
+#### [📝 Full Documentation](https://docs.portkey.ai/docs) | [🛠️ Integration Requests](https://github.com/Portkey-AI/portkey-node-sdk/issues) | 
 
 <a href="https://twitter.com/intent/follow?screen_name=portkeyai"><img src="https://img.shields.io/twitter/follow/portkeyai?style=social&logo=twitter" alt="follow on Twitter"></a>
 <a href="https://discord.gg/sDk9JaNfK8" target="_blank"><img src="https://img.shields.io/discord/1143393887742861333?logo=discord" alt="Discord"></a>
+
+## **🛠️ Contributing**
+Get started by checking out Github issues. Feel free to open an issue, or reach out if you would like to add to the project!
