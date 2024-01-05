@@ -38,15 +38,15 @@ export class Portkey extends ApiClient {
 			Authorization
 		});
 		this.apiKey = apiKey;
-		if (!this.apiKey) {
-			throw castToError(MISSING_API_KEY_ERROR_MESSAGE)
-		}
 		this.virtualKey = virtualKey || null
 		this.config = config || null
 		this.baseURL = baseURL || PORTKEY_BASE_URL;
 		this.provider = provider
 		this.traceID = traceID
 		this.metadata = metadata
+        if (this.baseURL === PORTKEY_BASE_URL && !this.apiKey) {
+			throw castToError(MISSING_API_KEY_ERROR_MESSAGE)
+		}
 	}
 
 	completions: API.Completions = new API.Completions(this);
