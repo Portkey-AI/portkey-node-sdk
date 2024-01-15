@@ -1,4 +1,4 @@
-import { APIResponseType, ApiClientInterface } from "portkey-ai/_types/generalTypes";
+import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
