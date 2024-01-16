@@ -8,8 +8,9 @@ import { Stream, createResponseHeaders, safeJSON } from "./streaming";
 import { castToError, getPlatformProperties, parseBody } from "./utils";
 import { VERSION } from "./version";
 
+fetch
 const defaultHttpAgent: Agent = new KeepAliveAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
-export type Fetch = (url: RequestInfo, init?: RequestInit) => Promise<Response>;
+export type Fetch = (url: NodeJS.fetch.RequestInfo, init?: RequestInit) => Promise<Response>;
 
 export type HTTPMethod = "post" | "get" | "put" | "delete"
 
@@ -46,7 +47,7 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
     const contentType = response.headers.get("content-type");
     if (contentType?.includes("application/json")) {
         const headers = defaultParseHeaders(props)
-        const json = {
+                const json = {
             ...await response.json(),
             getHeaders: () => headers
         };
