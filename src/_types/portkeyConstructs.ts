@@ -36,7 +36,3 @@ export interface Message {
     role: string
     content: string
 }
-
-export const ModelParamsList = [
-	"model", "suffix", "max_tokens", "temperature", "top_k", "top_p", "n", "stop_sequences", "timeout", "functions", "function_call", "logprobs", "echo", "stop", "presence_penalty", "frequency_penalty", "best_of", "logit_bias", "user", "organization"
-]
