@@ -11,7 +11,6 @@ export interface EmbeddingsBody extends ModelParams {
     model?: string;
     dimensions?: number;
     encoding_format?: string;
-    user?: string;
 }
 
 export type EmbeddingsResponse = Record<string, any> & APIResponseType
