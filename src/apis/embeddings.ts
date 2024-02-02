@@ -9,6 +9,8 @@ import { createHeaders } from "./createHeaders";
 export interface EmbeddingsBody extends ModelParams {
     input: string;
     model?: string;
+    dimensions?: number;
+    encoding_format?: string;
 }
 
 export type EmbeddingsResponse = Record<string, any> & APIResponseType
