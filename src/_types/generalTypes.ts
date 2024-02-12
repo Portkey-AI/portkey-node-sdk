@@ -9,6 +9,7 @@ export interface ApiClientInterface {
     traceID?: string | null | undefined;
     metadata?: Record<string, unknown> | null | undefined;
     Authorization?: string | null | undefined;
+    cacheForceRefresh?: boolean | null | undefined;
 }
 
 export interface APIResponseType {
