@@ -119,10 +119,10 @@ export abstract class ApiClient {
     responseHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization }: ApiClientInterface) {
+    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh }: ApiClientInterface) {
         this.apiKey = apiKey ?? "";
         this.baseURL = baseURL ?? "";
-        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization })
+        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh })
         this.fetch = fetch;
         this.responseHeaders = {}
     }

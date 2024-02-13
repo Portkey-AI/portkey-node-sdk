@@ -4,7 +4,10 @@ export const createHeaders = (config: Record<string, any>): Record<string, strin
 	const headers: Record<string, string> = {}
 
 	for (let k in config) {
-		let v = config[k]
+		let v = config[k];
+
+		if (isEmpty(v)) continue;
+
 		// convert to snakecase
 		if (k.toLocaleLowerCase() === "authorization") {
 			headers[k.toLowerCase()] = v || ""
