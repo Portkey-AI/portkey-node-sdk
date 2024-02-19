@@ -1,53 +1,74 @@
 <div align="center">
-<img src="https://assets.portkey.ai/header.png" height=150><br />
+<img src="https://github.com/Portkey-AI/portkey-node-sdk/assets/134934501/f55da786-f482-4bbd-b2be-0bc432eee5b9" height=150><br />
 
-## Ship Ambitious Gen AI Apps with Portkey's full-stack LLMOps Platform
-
+## Control Panel for AI Apps
 ```bash
 npm install portkey-ai
 ```
-
 </div>
 
-## **💡 Features**
+## Features
 
-**🚪 AI Gateway:**
-*  **Unified API Signature**: If you've used OpenAI, you already know how to use Portkey with any other provider.
-*  **Interoperability**: Write once, run with any provider. Switch between _any model_ from _any provider_ seamlessly. 
-*  **Automated Fallbacks & Retries**: Ensure your application remains functional even if a primary service fails.
-*  **Load Balancing & A/B Testing**: Efficiently distribute incoming requests among multiple models and run A/B tests at scale.
-*  **Semantic Caching**: Reduce costs and latency by intelligently caching results.
+### AI Gateway
+<table>
+    <tr>
+        <td width=50%><b>Unified API Signature</b><br />If you've used OpenAI, you already know how to use Portkey with any other provider.</td>
+        <td><b>Interoperability</b><br />Write once, run with any provider. Switch between any model from_any provider seamlessly. </td>
+    </tr>
+    <tr>
+        <td width=50%><b>Automated Fallbacks & Retries</b><br />Ensure your application remains functional even if a primary service fails.</td>
+        <td><b>Load Balancing</b><br />Efficiently distribute incoming requests among multiple models.</td>
+    </tr>
+    <tr>
+        <td width=50%><b>Semantic Caching</b><br />Reduce costs and latency by intelligently caching results.</td>
+        <td><b>Virtual Keys</b><br />Secure your LLM API keys by storing them in Portkey vault and using disposable virtual keys.</td>
+    </tr>
+    <tr>
+        <td width=50%><b>Request Timeouts</b><br />Manage unpredictable LLM latencies effectively by setting custom request timeouts on requests.</td>
+    </tr>
+</table>
 
-**🔬 Observability:**
-*  **Logging**: Keep track of all requests for monitoring and debugging.
-*  **Requests Tracing**: Understand the journey of each request for optimization.
-*  **Custom Tags**: Segment and categorize requests for better insights.
+### Observability
+<table width=100%>
+    <tr>
+        <td width=50%><b>Logging</b><br />Keep track of all requests for monitoring and debugging.</td>
+        <td width=50%><b>Requests Tracing</b><br />Understand the journey of each request for optimization.</td>
+    </tr>
+    <tr>
+        <td width=50%><b>Custom Metadata</b><br />Segment and categorize requests for better insights.</td>
+        <td width=50%><b>Feedbacks</b><br />Collect and analyse weighted feedback on requests from users.</td>
+    </tr>
+    <tr>
+        <td width=50%><b>Analytics</b><br />Track your app & LLM's performance with 40+ production-critical metrics in a single place.</td>
+    </tr>
+</table> 
 
+## **Usage**
+#### Prerequisites
+1. [Sign up on Portkey](https://app.portkey.ai/) and grab your Portkey API Key
+2. Add your [OpenAI key](https://platform.openai.com/api-keys) to Portkey's Virtual Keys page and keep it handy
 
-## **🚀 Quick Start**
-
-#### First, install the SDK & export Portkey API Key
-[Get Portkey API key here.](https://app.portkey.ai/signup)
 ```bash
+# Installing the SDK
+
 $ npm install portkey-ai
 $ export PORTKEY_API_KEY="PORTKEY_API_KEY"
 ```
 
-#### Now, let's make a request with GPT-4
-
+#### Making a Request to OpenAI
+* Portkey fully adheres to the OpenAI SDK signature. You can instantly switch to Portkey and start using our production features right out of the box. <br />
+* Just replace `import OpenAI from 'openai'` with `import Portkey from 'portkey-ai'`:
 ```js
 import Portkey from 'portkey-ai';
 
-// Construct a client with a virtual key
 const portkey = new Portkey({
-    apiKey: "PORTKEY_API_KEY",
     virtualKey: "VIRTUAL_KEY"
 })
 
 async function main() {
     const chatCompletion = await portkey.chat.completions.create({
         messages: [{ role: 'user', content: 'Say this is a test' }],
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4',
     });
 
     console.log(chatCompletion.choices);
@@ -56,46 +77,10 @@ async function main() {
 main();
 ```
 
-Portkey fully adheres to the OpenAI SDK signature. This means that you can instantly switch to Portkey and start using Portkey's advanced production features right out of the box.
-
-
-
-
-## **📔 List of Portkey Features**
-
-You can set all of these features while constructing your LLMOptions object.
-
-
-| Feature | Config Key | Value(Type) | Required |
-|--|--|--|--|
-| API Key OR Virtual Key | `api_key` OR `virtual_key` | `string` | ✅ Required |
-| Provider Name       | `provider`        | `openai`, `cohere`, `anthropic`, `azure-openai` | ✅ Required  |
-| Model Name        | `model`        | The relevant model name from the provider. For example, `gpt-3.5-turbo` OR `claude-2` | ❔ Optional |
-| Weight (For Loadbalance) | `weight` | `integer` | ❔ Optional |
-| Cache Type          | `cache_status`          | `simple`, `semantic`                             | ❔ Optional |
-| Force Cache Refresh | `cache_force_refresh`   | `True`, `False` (Boolean)                                 | ❔ Optional |
-| Cache Age           | `cache_age`             | `integer` (in seconds)                           | ❔ Optional |
-| Trace ID            | `trace_id`              | `string`                                         | ❔ Optional |
-| Retries         | `retry`           | `integer` [0,5]                                  | ❔ Optional |
-| Metadata            | `metadata`              | `json object` [More info](https://docs.portkey.ai/key-features/custom-metadata)          | ❔ Optional |
-| All Model Params | As per the model/provider | This is params like `top_p`, `temperature`, etc | ❔ Optional |
-
-## **🤝 Supported Providers**
-
-|| Provider  | Support Status  | Supported Endpoints |
-|---|---|---|---|
-| <img src="https://assets.portkey.ai/openai.png" width=18 />| OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
-| <img src="https://assets.portkey.ai/azure.png" width=18>| Azure OpenAI | ✅ Supported  | `/completion`, `/chatcompletion` |
-| <img src="https://assets.portkey.ai/anthropic.png" width=18>| Anthropic  | ✅ Supported  | `/complete` |
-| <img src="https://assets.portkey.ai/cohere.png" width=18>| Cohere  | ✅ Supported  | `generate` |
-
-
----
-
-#### [📝 Full Documentation](https://docs.portkey.ai/docs) | [🛠️ Integration Requests](https://github.com/Portkey-AI/portkey-node-sdk/issues) | 
+#### [Check out Portkey docs for the full list of supported providers](https://portkey.ai/docs/welcome/what-is-portkey#ai-providers-supported)
 
 <a href="https://twitter.com/intent/follow?screen_name=portkeyai"><img src="https://img.shields.io/twitter/follow/portkeyai?style=social&logo=twitter" alt="follow on Twitter"></a>
 <a href="https://discord.gg/sDk9JaNfK8" target="_blank"><img src="https://img.shields.io/discord/1143393887742861333?logo=discord" alt="Discord"></a>
 
-## **🛠️ Contributing**
-Get started by checking out Github issues. Feel free to open an issue, or reach out if you would like to add to the project!
+#### Contributing
+Get started by checking out Github issues. Email us at support@portkey.ai or just ping on Discord to chat.
