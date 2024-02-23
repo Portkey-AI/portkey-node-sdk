@@ -8,5 +8,5 @@ export { Embeddings } from "./embeddings";
 export { Images } from "./images";
 export { Assistants } from "./assistants";
 export { Threads } from "./threads";
-// export { Files } from "./files";
+export { MainFiles } from "./files";
 

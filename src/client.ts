@@ -63,6 +63,7 @@ export class Portkey extends ApiClient {
 	feedback = new API.Feedback(this);
 	embeddings = new API.Embeddings(this);
 	images = new API.Images(this);
+	files = new API.MainFiles(this);
 	beta = {
 		assistants: new API.Assistants(this),
 		threads: new API.Threads(this)
