@@ -9,27 +9,28 @@ import { createHeaders } from "./createHeaders";
 import OpenAI from 'openai';
 
 export class Completions extends ApiResource {
-    async create(
+    create(
         _body: CompletionsBodyNonStreaming,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): Promise<TextCompletion>;
-    async create(
+    ): APIPromise<TextCompletion>;
+    create(
         _body: CompletionsBodyStreaming,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): Promise<Stream<TextCompletion>>
-    async create(
+    ): APIPromise<Stream<TextCompletion>>
+    create(
         _body: CompletionsBodyBase,
         params?: ApiClientInterface,
         opts?: RequestOptions,
-    ): Promise<Stream<TextCompletion> | TextCompletion>;
-    async create(
+    ): APIPromise<Stream<TextCompletion> | TextCompletion>;
+    create(
         _body: CompletionCreateParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): Promise<any>  {
-        const body: CompletionCreateParams | CompletionsBodyBase | CompletionsBodyStreaming | CompletionsBodyNonStreaming  = _body
+    ): APIPromise<TextCompletion> | APIPromise<Stream<TextCompletion>> {
+        // const body: CompletionCreateParams | CompletionsBodyBase | CompletionsBodyStreaming | CompletionsBodyNonStreaming  = _body
+        const body = _body
         // If config is present then override it.
         if (params) {
             const config = overrideConfig(this.client.config, params.config)
@@ -38,14 +39,14 @@ export class Completions extends ApiResource {
         const stream = _body.stream ?? false
 
 
-        const OAIclient = new OpenAI({
-			apiKey: OPEN_AI_API_KEY,
-			baseURL: PORTKEY_DEV_BASE_URL,
-			defaultHeaders: this.client.customHeaders
+        // const OAIclient = new OpenAI({
+		// 	apiKey: OPEN_AI_API_KEY,
+		// 	baseURL: PORTKEY_DEV_BASE_URL,
+		// 	defaultHeaders: this.client.customHeaders
 
-		})
-        const result =  await OAIclient.completions.create(body, opts)        
-        return result;
+		// })
+        // const result =  await OAIclient.completions.create(body, opts)        
+        // return result;
 
         //  if(!stream){
         //      const result =  await OAIclient.completions.create(body, opts)
@@ -66,10 +67,10 @@ export class Completions extends ApiResource {
         //      return final_response;
         //  }
 
-        // this.client.responseHeaders
-        // return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
-        //     | APIPromise<TextCompletion>
-        //     | APIPromise<Stream<TextCompletion>>
+        this.client.responseHeaders
+        return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
+            | APIPromise<TextCompletion>
+            | APIPromise<Stream<TextCompletion>>
     }
 }
 
