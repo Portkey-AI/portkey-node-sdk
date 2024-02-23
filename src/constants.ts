@@ -26,10 +26,13 @@ export const DEFAULT_MAX_RETRIES = 2
 export const DEFAULT_TIMEOUT = 60
 export const PORTKEY_HEADER_PREFIX = "x-portkey-"
 export const PORTKEY_BASE_URL = "https://api.portkey.ai/v1"
-export const PORTKEY_GATEWAY_URL = PORTKEY_BASE_URL
+export const PORTKEY_DEV_BASE_URL = "https://api.portkeydev.com/v1"
+export const PORTKEY_GATEWAY_URL = PORTKEY_DEV_BASE_URL
 
 export const PORTKEY_API_KEY_ENV = "PORTKEY_API_KEY"
 export const PORTKEY_PROXY_ENV = "PORTKEY_PROXY"
+
+export const OPEN_AI_API_KEY = "DUMMY-KEY"
 
 // API routes
 export const CHAT_COMPLETE_API = "/chat/completions"

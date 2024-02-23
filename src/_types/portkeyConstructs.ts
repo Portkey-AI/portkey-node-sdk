@@ -10,7 +10,7 @@ export interface Function {
 }
 
 export interface ModelParams {
-    model?: string;
+    model: string;
     suffix?: string;
     max_tokens?: number;
     temperature?: number;
