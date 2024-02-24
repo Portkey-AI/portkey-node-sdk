@@ -8,7 +8,7 @@ import OpenAI from "openai";
 
 export interface ImagesBody {
   prompt: string;
-  model: (string & {}) | "dall-e-2" | "dall-e-3";
+  model?: (string & {}) | "dall-e-2" | "dall-e-3";
   n?: number | null;
   quality?: "standard" | "hd";
   response_format?: "url" | "b64_json" | null;
