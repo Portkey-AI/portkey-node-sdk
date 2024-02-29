@@ -39,9 +39,6 @@ export class Portkey extends ApiClient {
 			Authorization,
 			cacheForceRefresh,
 		});
-		
-		// console.log("Portkey Class: OpenAI client: ", this.openai_client);
-		
 
 		this.apiKey = apiKey;
 		if (!this.apiKey) {
