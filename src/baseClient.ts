@@ -7,7 +7,6 @@ import { APIConnectionError, APIConnectionTimeoutError, APIError } from "./error
 import { Stream, createResponseHeaders, safeJSON } from "./streaming";
 import { castToError, getPlatformProperties, parseBody } from "./utils";
 import { VERSION } from "./version";
-fetch
 const defaultHttpAgent: Agent = new KeepAliveAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
 export type Fetch = (url: string, init?: RequestInit) => Promise<Response>;
 
@@ -181,7 +180,8 @@ export abstract class ApiClient {
 
     buildRequest(opts: FinalRequestOptions): { req: RequestInit, url: string } {
         const url = new URL(this.baseURL + opts.path!)
-        const { method, path, query, headers: headers = {}, body } = opts;
+        // const { method, path, query, headers: headers = {}, body } = opts;
+        const { method, body } = opts;
         const reqHeaders: Record<string, string> = {
             ...this.defaultHeaders(), ...this.customHeaders,
         };

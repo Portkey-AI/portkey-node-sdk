@@ -37,6 +37,12 @@
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,
         "skipLibCheck": true,
+        "noImplicitReturns": true,
+        "forceConsistentCasingInFileNames": true,
+        "noUnusedLocals": true,
+        "isolatedModules": true,
+        "noUnusedParameters": true,
+        "allowUnreachableCode": false,
         "outDir": "./dist",
     },
     "exclude": [
