@@ -1,5 +1,4 @@
 import { ApiClientInterface } from "./_types/generalTypes";
-import * as Types from "./_types/portkeyConstructs";
 import * as API from "./apis";
 import { PostBodyParams } from "./apis/postMethod";
 import { ApiClient, RequestOptions } from "./baseClient";
