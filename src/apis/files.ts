@@ -1,7 +1,7 @@
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY, PORTKEY_DEV_BASE_URL } from "../constants";
+import { OPEN_AI_API_KEY, PORTKEY_BASE_URL } from "../constants";
 import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
@@ -24,7 +24,7 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_DEV_BASE_URL,
+      baseURL: PORTKEY_BASE_URL,
       defaultHeaders: this.client.customHeaders,
     });
 
@@ -48,7 +48,7 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_DEV_BASE_URL,
+      baseURL: PORTKEY_BASE_URL,
       defaultHeaders: this.client.customHeaders,
     });
 
@@ -71,7 +71,7 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_DEV_BASE_URL,
+      baseURL: PORTKEY_BASE_URL,
       defaultHeaders: this.client.customHeaders,
     });
 
@@ -94,7 +94,7 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_DEV_BASE_URL,
+      baseURL: PORTKEY_BASE_URL,
       defaultHeaders: this.client.customHeaders,
     });
 
@@ -117,7 +117,7 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_DEV_BASE_URL,
+      baseURL: PORTKEY_BASE_URL,
       defaultHeaders: this.client.customHeaders,
     });
 

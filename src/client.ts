@@ -1,9 +1,8 @@
 import { ApiClientInterface } from "./_types/generalTypes";
-import * as Types from "./_types/portkeyConstructs";
 import * as API from "./apis";
 import { PostBodyParams } from "./apis/postMethod";
 import { ApiClient, RequestOptions } from "./baseClient";
-import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL, OPEN_AI_API_KEY, PORTKEY_DEV_BASE_URL } from "./constants";
+import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
 import { castToError, readEnv } from "./utils";
 
 export class Portkey extends ApiClient {
@@ -61,6 +60,7 @@ export class Portkey extends ApiClient {
 	embeddings = new API.Embeddings(this);
 	images = new API.Images(this);
 	files = new API.MainFiles(this);
+	models = new API.Models(this);
 	beta = {
 		assistants: new API.Assistants(this),
 		threads: new API.Threads(this)

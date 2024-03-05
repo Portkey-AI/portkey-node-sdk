@@ -1,13 +1,10 @@
-import { log } from "console";
-import Portkey from "..";
 import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
-import { EMBEDDINGS_API, OPEN_AI_API_KEY, PORTKEY_DEV_BASE_URL } from "../constants";
+import { EMBEDDINGS_API } from "../constants";
 import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from 'openai';
 
 export interface EmbeddingsBody extends ModelParams {
     input: string | Array<string> | Array<number> | Array<Array<number>>;
