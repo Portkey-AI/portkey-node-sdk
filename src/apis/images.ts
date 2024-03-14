@@ -66,7 +66,7 @@ export class Images extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.images.generate(body, opts);
@@ -90,7 +90,7 @@ export class Images extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.images.edit(body, opts);
@@ -114,7 +114,7 @@ export class Images extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.images.createVariation(body, opts);

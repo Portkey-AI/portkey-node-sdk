@@ -36,7 +36,7 @@ export class Threads extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.create(body, opts);
@@ -59,7 +59,7 @@ export class Threads extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.retrieve(threadId, opts);
@@ -84,7 +84,7 @@ export class Threads extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.update(threadId, body, opts);
@@ -107,7 +107,7 @@ export class Threads extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.del(threadId, opts);
@@ -131,7 +131,7 @@ export class Threads extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.createAndRun(body, opts);
@@ -168,7 +168,7 @@ export class Messages extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.messages.create(threadId, body, opts);
@@ -193,7 +193,7 @@ export class Messages extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.messages.list(threadId, query, opts);
@@ -217,7 +217,7 @@ export class Messages extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.messages.retrieve(threadId, messageId, opts);
@@ -244,7 +244,7 @@ export class Messages extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.messages.update(threadId, messageId, body, opts);
@@ -275,7 +275,7 @@ export class Files extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.messages.files.list(threadId, messageId, query, opts);
@@ -300,7 +300,7 @@ export class Files extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.messages.files.retrieve(threadId, messageId, fileId, opts);
@@ -337,7 +337,7 @@ export class Runs extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.create(threadId, body, opts);
@@ -362,7 +362,7 @@ export class Runs extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.list(threadId, query, opts);
@@ -386,7 +386,7 @@ export class Runs extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.retrieve(threadId, runId, opts);
@@ -412,7 +412,7 @@ export class Runs extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.update(threadId, runId, body, opts);
@@ -438,7 +438,7 @@ export class Runs extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.submitToolOutputs(threadId, runId, body, opts);
@@ -462,7 +462,7 @@ export class Runs extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, opts);
@@ -492,7 +492,7 @@ export class Steps extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.steps.list(threadId, runId, query, opts);
@@ -517,7 +517,7 @@ export class Steps extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.threads.runs.steps.retrieve(threadId, runId, stepId, opts);

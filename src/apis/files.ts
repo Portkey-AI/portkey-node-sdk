@@ -25,7 +25,7 @@ export class MainFiles extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.files.create(body, opts);
@@ -49,7 +49,7 @@ export class MainFiles extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.files.list(query, opts);
@@ -72,7 +72,7 @@ export class MainFiles extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.files.retrieve(fileId, opts);
@@ -95,7 +95,7 @@ export class MainFiles extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.files.del(fileId, opts);
@@ -118,7 +118,7 @@ export class MainFiles extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: this.client.customHeaders,
+      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
     const result = await OAIclient.files.content(fileId, opts);

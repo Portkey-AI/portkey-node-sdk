@@ -27,6 +27,7 @@ export class Embeddings extends ApiResource {
             const config = overrideConfig(this.client.config, params.config)
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
+        console.log(this.client.customHeaders);
         const response = this.post<EmbeddingsResponse>(EMBEDDINGS_API, { body, ...opts })
         return response
     }

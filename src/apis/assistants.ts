@@ -72,7 +72,7 @@ export class Assistants extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.create(body, opts);
@@ -96,7 +96,7 @@ export class Assistants extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.list(query, opts);
@@ -119,7 +119,7 @@ export class Assistants extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.retrieve(assistantId, opts);
@@ -144,7 +144,7 @@ export class Assistants extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.update(assistantId, body, opts);
@@ -167,7 +167,7 @@ export class Assistants extends ApiResource {
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.del(assistantId, opts);
@@ -197,7 +197,7 @@ export class Files extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.files.create(assistantId, body, opts);
@@ -222,7 +222,7 @@ export class Files extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.files.list(assistantId, query, opts);
@@ -246,7 +246,7 @@ export class Files extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.files.retrieve(assistantId, fileId, opts);
@@ -270,7 +270,7 @@ export class Files extends ApiResource{
         const OAIclient = new OpenAI({
           apiKey: OPEN_AI_API_KEY,
           baseURL: PORTKEY_BASE_URL,
-          defaultHeaders: this.client.customHeaders,
+          defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
         const result = await OAIclient.beta.assistants.files.del(assistantId, fileId, opts);
