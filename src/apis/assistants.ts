@@ -2,7 +2,7 @@ import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
 import { OPEN_AI_API_KEY, PORTKEY_BASE_URL } from "../constants";
-import { overrideConfig } from "../utils";
+import { finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
 
@@ -75,8 +75,9 @@ export class Assistants extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.create(body, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.create(body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async list(
@@ -99,8 +100,9 @@ export class Assistants extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.list(query, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.list(query, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async retrieve(
@@ -122,8 +124,9 @@ export class Assistants extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.retrieve(assistantId, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.retrieve(assistantId, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async update(
@@ -147,8 +150,9 @@ export class Assistants extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.update(assistantId, body, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.update(assistantId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async del(
@@ -170,8 +174,9 @@ export class Assistants extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.del(assistantId, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.del(assistantId, opts).withResponse();
+
+        return finalResponse(result);
     }
     
 }
@@ -200,8 +205,9 @@ export class Files extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.files.create(assistantId, body, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.files.create(assistantId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async list(
@@ -225,8 +231,9 @@ export class Files extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.files.list(assistantId, query, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.files.list(assistantId, query, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async retrieve(
@@ -249,8 +256,9 @@ export class Files extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.files.retrieve(assistantId, fileId, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.files.retrieve(assistantId, fileId, opts).withResponse();
+
+        return finalResponse(result);
     } 
     
     async del(
@@ -273,8 +281,9 @@ export class Files extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.assistants.files.del(assistantId, fileId, opts);
-        return result;
+        const result = await OAIclient.beta.assistants.files.del(assistantId, fileId, opts).withResponse();
+
+        return finalResponse(result);
     } 
 
 }

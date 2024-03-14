@@ -2,7 +2,7 @@ import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
 import { OPEN_AI_API_KEY, PORTKEY_BASE_URL } from "../constants";
-import { overrideConfig } from "../utils";
+import { finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
 
@@ -22,8 +22,9 @@ export class Models extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.models.list(opts);
-    return result;
+    const result = await OAIclient.models.list(opts).withResponse();
+    
+    return finalResponse(result);
   }
 
   async retrieve(
@@ -45,8 +46,9 @@ export class Models extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.models.retrieve(model, opts);
-    return result;
+    const result = await OAIclient.models.retrieve(model, opts).withResponse();
+
+    return finalResponse(result);
   }
 
   async del(
@@ -68,7 +70,8 @@ export class Models extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.models.del(model, opts);
-    return result;
+    const result = await OAIclient.models.del(model, opts).withResponse();
+
+    return finalResponse(result);
   }
 }

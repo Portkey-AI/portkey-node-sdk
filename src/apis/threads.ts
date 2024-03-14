@@ -3,7 +3,7 @@ import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
 import { OPEN_AI_API_KEY, PORTKEY_BASE_URL } from "../constants";
-import { overrideConfig } from "../utils";
+import { finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
 
@@ -39,8 +39,9 @@ export class Threads extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.create(body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.create(body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async retrieve(
@@ -62,8 +63,9 @@ export class Threads extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.retrieve(threadId, opts);
-        return result;
+        const result = await OAIclient.beta.threads.retrieve(threadId, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async update(
@@ -87,8 +89,9 @@ export class Threads extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.update(threadId, body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.update(threadId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
     
     async del(
@@ -110,8 +113,9 @@ export class Threads extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.del(threadId, opts);
-        return result;
+        const result = await OAIclient.beta.threads.del(threadId, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async createAndRun(
@@ -134,8 +138,9 @@ export class Threads extends ApiResource {
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.createAndRun(body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.createAndRun(body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
 }
@@ -171,8 +176,9 @@ export class Messages extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.messages.create(threadId, body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.messages.create(threadId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async list(
@@ -196,8 +202,9 @@ export class Messages extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.messages.list(threadId, query, opts);
-        return result;
+        const result = await OAIclient.beta.threads.messages.list(threadId, query, opts).withResponse();
+        
+        return finalResponse(result);
     }
 
     async retrieve(
@@ -220,8 +227,9 @@ export class Messages extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.messages.retrieve(threadId, messageId, opts);
-        return result;
+        const result = await OAIclient.beta.threads.messages.retrieve(threadId, messageId, opts).withResponse();
+
+        return finalResponse(result);
 
     }
 
@@ -247,8 +255,9 @@ export class Messages extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.messages.update(threadId, messageId, body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.messages.update(threadId, messageId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
 
@@ -278,8 +287,9 @@ export class Files extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.messages.files.list(threadId, messageId, query, opts);
-        return result;
+        const result = await OAIclient.beta.threads.messages.files.list(threadId, messageId, query, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async retrieve(
@@ -303,8 +313,9 @@ export class Files extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.messages.files.retrieve(threadId, messageId, fileId, opts);
-        return result;
+        const result = await OAIclient.beta.threads.messages.files.retrieve(threadId, messageId, fileId, opts).withResponse();
+
+        return finalResponse(result);
     }
 
 }
@@ -340,8 +351,9 @@ export class Runs extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.create(threadId, body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.create(threadId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async list(
@@ -365,8 +377,9 @@ export class Runs extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.list(threadId, query, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.list(threadId, query, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async retrieve(
@@ -389,8 +402,9 @@ export class Runs extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.retrieve(threadId, runId, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.retrieve(threadId, runId, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async update(
@@ -415,8 +429,9 @@ export class Runs extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.update(threadId, runId, body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.update(threadId, runId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async submitToolOutputs(
@@ -441,8 +456,9 @@ export class Runs extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.submitToolOutputs(threadId, runId, body, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.submitToolOutputs(threadId, runId, body, opts).withResponse();
+
+        return finalResponse(result);
     }
 
     async cancel(
@@ -465,8 +481,9 @@ export class Runs extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, opts).withResponse();
+
+        return finalResponse(result);
     }
 
 }
@@ -495,8 +512,9 @@ export class Steps extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.steps.list(threadId, runId, query, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.steps.list(threadId, runId, query, opts).withResponse();
+
+        return finalResponse(result);
     } 
     
     async retrieve(
@@ -520,14 +538,12 @@ export class Steps extends ApiResource{
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
     
-        const result = await OAIclient.beta.threads.runs.steps.retrieve(threadId, runId, stepId, opts);
-        return result;
+        const result = await OAIclient.beta.threads.runs.steps.retrieve(threadId, runId, stepId, opts).withResponse();
+
+        return finalResponse(result);
     }
 
 }
-
-
-
 
 
 

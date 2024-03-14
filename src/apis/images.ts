@@ -2,7 +2,7 @@ import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
 import { OPEN_AI_API_KEY, PORTKEY_BASE_URL } from "../constants";
-import { overrideConfig } from "../utils";
+import { finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
 
@@ -69,8 +69,9 @@ export class Images extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.images.generate(body, opts);
-    return result;
+    const result = await OAIclient.images.generate(body, opts).withResponse();
+    
+    return finalResponse(result);
   }
 
   async edit(
@@ -93,8 +94,9 @@ export class Images extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.images.edit(body, opts);
-    return result;
+    const result = await OAIclient.images.edit(body, opts).withResponse();
+
+    return finalResponse(result);
   }
 
   async createVariation(
@@ -117,7 +119,8 @@ export class Images extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.images.createVariation(body, opts);
-    return result;
+    const result = await OAIclient.images.createVariation(body, opts).withResponse();
+
+    return finalResponse(result);
   }
 }

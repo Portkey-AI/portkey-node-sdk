@@ -2,7 +2,7 @@ import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
 import { OPEN_AI_API_KEY, PORTKEY_BASE_URL } from "../constants";
-import { overrideConfig } from "../utils";
+import { finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
 
@@ -28,8 +28,9 @@ export class MainFiles extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.files.create(body, opts);
-    return result;
+    const result = await OAIclient.files.create(body, opts).withResponse();
+
+    return finalResponse(result);
   }
 
   async list(
@@ -52,8 +53,9 @@ export class MainFiles extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.files.list(query, opts);
-    return result;
+    const result = await OAIclient.files.list(query, opts).withResponse();
+
+    return finalResponse(result);
   }
 
   async retrieve(
@@ -75,8 +77,9 @@ export class MainFiles extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.files.retrieve(fileId, opts);
-    return result;
+    const result = await OAIclient.files.retrieve(fileId, opts).withResponse();
+
+    return finalResponse(result);
   }
 
   async del(
@@ -98,8 +101,9 @@ export class MainFiles extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.files.del(fileId, opts);
-    return result;
+    const result = await OAIclient.files.del(fileId, opts).withResponse();
+
+    return finalResponse(result);
   }
 
   async retrieveContent(
@@ -121,8 +125,9 @@ export class MainFiles extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
-    const result = await OAIclient.files.content(fileId, opts);
-    return result;
+    const result = await OAIclient.files.content(fileId, opts).withResponse();
+
+    return finalResponse(result);
   }
 
 }

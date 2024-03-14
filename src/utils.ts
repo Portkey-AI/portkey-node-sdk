@@ -1,4 +1,5 @@
 import { PORTKEY_HEADER_PREFIX } from "./constants";
+import { createResponseHeaders } from "./streaming";
 
 type PlatformProperties = {
 	"x-portkey-runtime"?: string,
@@ -81,4 +82,25 @@ export const parseBody = (data: Record<string, unknown> | undefined | null): Rec
 		parsedData[k] = v
 	}
 	return parsedData
+}
+
+export function finalResponse(response:any) {
+
+    const headers = portkeyHeaders(response.response.headers);
+    const json = {
+        ...response.data?.body || response.data,
+        getHeaders: () => headers
+    }
+    return json
+}
+
+export function portkeyHeaders(headers:any) {
+
+    const parsedHeaders = createResponseHeaders(headers);
+    const prefix = PORTKEY_HEADER_PREFIX
+    const filteredHeaders = Object.entries(parsedHeaders)
+        .filter(([key, _]) => key.startsWith(prefix))
+        .map(([key, value]) => [key.replace(prefix, ''), value])
+    
+    return Object.fromEntries(filteredHeaders)
 }
