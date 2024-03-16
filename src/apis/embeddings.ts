@@ -7,11 +7,10 @@ import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 
 export interface EmbeddingsBody extends ModelParams {
-    input: string | Array<string> | Array<number> | Array<Array<number>>;
-    model: (string & {}) | 'text-embedding-ada-002' | 'text-embedding-3-small' | 'text-embedding-3-large';
+    input: string;
+    model?: string;
     dimensions?: number;
-    encoding_format?: 'float' | 'base64';
-    user?: string;
+    encoding_format?: string;
 }
 
 export type EmbeddingsResponse = Record<string, any> & APIResponseType

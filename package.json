@@ -10,8 +10,7 @@
     "test": "jest",
     "build": "bash ./build",
     "lint": "eslint --ext ts,js .",
-    "fix": "eslint --fix --ext ts,js .",
-    "start": "npm run build && npm pack && cd /Users/chandeep/Documents/Workspace/Portkey/Hands-On/revamp-Node && npm i  /Users/chandeep/Documents/Workspace/Portkey/SDK/portkey-node-sdk/dist"
+    "fix": "eslint --fix --ext ts,js ."
   },
   "imports": {
     "portkey-ai": ".",
