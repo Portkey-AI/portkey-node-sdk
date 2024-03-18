@@ -6,8 +6,6 @@ import path from "path";
 config({ override: true });
 const client = new Portkey({
     apiKey: process.env["PORTKEY_API_KEY"] ?? "",
-    baseURL: "https://api.portkey.ai/v1",
-    provider: "openai",
     virtualKey: process.env["OPENAI_VIRTUAL_KEY"] ?? ""
 });
 
