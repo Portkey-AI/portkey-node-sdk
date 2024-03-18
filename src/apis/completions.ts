@@ -2,7 +2,7 @@ import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
 import { APIPromise, RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY, PORTKEY_BASE_URL, TEXT_COMPLETE_API } from "../constants";
+import { TEXT_COMPLETE_API } from "../constants";
 import { Stream } from "../streaming";
 import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";

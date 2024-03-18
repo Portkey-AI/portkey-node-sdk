@@ -1,4 +1,3 @@
-import { threadId } from "worker_threads";
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
