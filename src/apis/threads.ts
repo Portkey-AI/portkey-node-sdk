@@ -38,7 +38,7 @@ export class Threads extends ApiResource {
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+        // @ts-ignore
         const result = await OAIclient.beta.threads.create(body, opts).withResponse();
 
         return finalResponse(result);
@@ -175,7 +175,7 @@ export class Messages extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+        // @ts-ignore
         const result = await OAIclient.beta.threads.messages.create(threadId, body, opts).withResponse();
 
         return finalResponse(result);
@@ -201,7 +201,7 @@ export class Messages extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+        // @ts-ignore
         const result = await OAIclient.beta.threads.messages.list(threadId, query, opts).withResponse();
         
         return finalResponse(result);
@@ -286,7 +286,7 @@ export class Files extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+        // @ts-ignore
         const result = await OAIclient.beta.threads.messages.files.list(threadId, messageId, query, opts).withResponse();
 
         return finalResponse(result);
@@ -376,7 +376,7 @@ export class Runs extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+        // @ts-ignore
         const result = await OAIclient.beta.threads.runs.list(threadId, query, opts).withResponse();
 
         return finalResponse(result);
@@ -511,7 +511,7 @@ export class Steps extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+        // @ts-ignore
         const result = await OAIclient.beta.threads.runs.steps.list(threadId, runId, query, opts).withResponse();
 
         return finalResponse(result);
@@ -555,7 +555,7 @@ export interface ThreadCreateParams {
 export namespace ThreadCreateParams {
     export interface Message {
       content: string;
-      role: 'user';
+      role: string;
       file_ids?: Array<string>;
       metadata?: unknown | null;
     }
@@ -567,13 +567,13 @@ export interface ThreadUpdateParams {
 
 export interface MessageCreateParams {
     content: string;
-    role: 'user';
+    role: string;
     file_ids?: Array<string>;
     metadata?: unknown | null;
 }
 
 export interface MessageListParams extends CursorPageParams {
-    order?: 'asc' | 'desc';
+    order?: string;
 }
 
 export interface CursorPageParams {
@@ -584,7 +584,7 @@ export interface CursorPageParams {
 
 export interface FileListParams extends CursorPageParams {
     before?: string;
-    order?: 'asc' | 'desc';
+    order?: string;
 }
 
 export interface MessageUpdateParams {
@@ -612,12 +612,12 @@ export interface ThreadCreateAndRunParams {
 
 export interface RunListParams extends CursorPageParams {
     before?: string;
-    order?: 'asc' | 'desc';
+    order?: string;
 }
 
 export interface StepListParams extends CursorPageParams {
     before?: string;
-    order?: 'asc' | 'desc';
+    order?: string;
 }
 
 export interface RunUpdateParams {

@@ -8,12 +8,12 @@ import OpenAI from "openai";
 
 export interface ImagesBody {
   prompt: string;
-  model?: (string & {}) | "dall-e-2" | "dall-e-3";
+  model?: (string & {});
   n?: number | null;
-  quality?: "standard" | "hd";
-  response_format?: "url" | "b64_json" | null;
-  size?: "256x256" | "512x512" | "1024x1024" | "1792x1024" | "1024x1792" | null;
-  style?: "vivid" | "natural" | null;
+  quality?: string;
+  response_format?: string | null;
+  size?: string | null;
+  style?: string | null;
   user?: string;
 }
 
@@ -21,19 +21,19 @@ export interface ImageEditParams {
     image: any;
     prompt: string;
     mask?: any;
-    model?: (string & {}) | 'dall-e-2' | null;
+    model?: (string & {}) | null;
     n?: number | null;
-    response_format?: 'url' | 'b64_json' | null;
-    size?: '256x256' | '512x512' | '1024x1024' | null;
+    response_format?: string | null;
+    size?: string | null;
     user?: string;
 }
 
 export interface ImageCreateVariationParams {
     image: any;
-    model?: (string & {}) | 'dall-e-2' | null;
+    model?: (string & {}) | null;
     n?: number | null;
-    response_format?: 'url' | 'b64_json' | null;
-    size?: '256x256' | '512x512' | '1024x1024' | null;
+    response_format?: string | null;
+    size?: string | null;
     user?: string;
 }
 
@@ -68,7 +68,7 @@ export class Images extends ApiResource {
       baseURL: this.client.baseURL,
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
-
+    // @ts-ignore
     const result = await OAIclient.images.generate(body, opts).withResponse();
     
     return finalResponse(result);
@@ -94,6 +94,7 @@ export class Images extends ApiResource {
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
 
+    // @ts-ignore
     const result = await OAIclient.images.edit(body, opts).withResponse();
 
     return finalResponse(result);
@@ -118,7 +119,7 @@ export class Images extends ApiResource {
       baseURL: this.client.baseURL,
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
-
+    // @ts-ignore
     const result = await OAIclient.images.createVariation(body, opts).withResponse();
 
     return finalResponse(result);

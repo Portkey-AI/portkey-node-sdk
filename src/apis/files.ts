@@ -27,7 +27,8 @@ export class MainFiles extends ApiResource {
       baseURL: this.client.baseURL,
       defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
     });
-
+    
+    // @ts-ignore
     const result = await OAIclient.files.create(body, opts).withResponse();
 
     return finalResponse(result);
@@ -135,17 +136,17 @@ export class MainFiles extends ApiResource {
 
 export interface FileCreateParams {
     file: any;
-    purpose: 'fine-tune' | 'assistants';
+    purpose?: string;
 }
 
 export interface FileObject {
     id: string;
-    bytes: number;
-    created_at: number;
-    filename: string;
-    object: 'file';
-    purpose: 'fine-tune' | 'fine-tune-results' | 'assistants' | 'assistants_output';
-    status: 'uploaded' | 'processed' | 'error';
+    bytes?: number;
+    created_at?: number;
+    filename?: string;
+    object?: string;
+    purpose?: string;
+    status?: string;
     status_details?: string;
 }
 

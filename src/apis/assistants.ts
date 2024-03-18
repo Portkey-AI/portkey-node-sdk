@@ -22,7 +22,7 @@ export interface FileCreateParams {
 
 export interface FileListParams extends CursorPageParams {
     before?: string;
-    order?: 'asc' | 'desc';
+    order?: string;
 }
 
 export interface CursorPageParams {
@@ -32,7 +32,7 @@ export interface CursorPageParams {
 
 export interface AssistantListParams extends CursorPageParams {
     before?: string;
-    order?: 'asc' | 'desc';
+    order?: string;
 }
 
 export interface AssistantUpdateParams {
@@ -99,7 +99,7 @@ export class Assistants extends ApiResource {
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+         // @ts-ignore
         const result = await OAIclient.beta.assistants.list(query, opts).withResponse();
 
         return finalResponse(result);
@@ -230,7 +230,7 @@ export class Files extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
         });
-    
+        // @ts-ignore
         const result = await OAIclient.beta.assistants.files.list(assistantId, query, opts).withResponse();
 
         return finalResponse(result);
