@@ -8,7 +8,6 @@ import OpenAI from "openai";
 
 export class Models extends ApiResource {
   async list(
-    _body: any,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {

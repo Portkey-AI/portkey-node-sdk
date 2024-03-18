@@ -35,11 +35,11 @@ export class MainFiles extends ApiResource {
   }
 
   async list(
-    _query: FileListParams,
+    _query?: FileListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const query: FileListParams = _query;
+    const query: FileListParams | undefined = _query;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {

@@ -81,11 +81,11 @@ export class Assistants extends ApiResource {
     }
 
     async list(
-        _query: AssistantListParams,
+        _query?: AssistantListParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
       ): Promise<any> {
-        const query: AssistantListParams = _query;
+        const query: AssistantListParams | undefined = _query;
         if (params) {
           const config = overrideConfig(this.client.config, params.config);
           this.client.customHeaders = {
