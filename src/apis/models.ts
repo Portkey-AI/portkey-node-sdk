@@ -1,13 +1,17 @@
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY, PORTKEY_BASE_URL } from "../constants";
+import { OPEN_AI_API_KEY } from "../constants";
 import { finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
 
 export class Models extends ApiResource {
-  async list(params?: ApiClientInterface, opts?: RequestOptions): Promise<any> {
+  async list(
+    _body: any,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -18,12 +22,15 @@ export class Models extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
+      baseURL: this.client.baseURL,
+      defaultHeaders: {
+        ...this.client.customHeaders,
+        ...this.client.portkeyHeaders,
+      },
     });
 
     const result = await OAIclient.models.list(opts).withResponse();
-    
+
     return finalResponse(result);
   }
 
@@ -42,8 +49,11 @@ export class Models extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
+      baseURL: this.client.baseURL,
+      defaultHeaders: {
+        ...this.client.customHeaders,
+        ...this.client.portkeyHeaders,
+      },
     });
 
     const result = await OAIclient.models.retrieve(model, opts).withResponse();
@@ -66,8 +76,11 @@ export class Models extends ApiResource {
 
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
-      baseURL: PORTKEY_BASE_URL,
-      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
+      baseURL: this.client.baseURL,
+      defaultHeaders: {
+        ...this.client.customHeaders,
+        ...this.client.portkeyHeaders,
+      },
     });
 
     const result = await OAIclient.models.del(model, opts).withResponse();
