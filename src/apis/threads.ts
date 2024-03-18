@@ -37,6 +37,7 @@ export class Threads extends ApiResource {
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.create(body, opts).withResponse();
 
@@ -174,6 +175,7 @@ export class Messages extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.messages.create(threadId, body, opts).withResponse();
 
@@ -200,6 +202,7 @@ export class Messages extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.messages.list(threadId, query, opts).withResponse();
         
@@ -285,6 +288,7 @@ export class Files extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.messages.files.list(threadId, messageId, query, opts).withResponse();
 
@@ -375,6 +379,7 @@ export class Runs extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.runs.list(threadId, query, opts).withResponse();
 
@@ -510,6 +515,7 @@ export class Steps extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.runs.steps.list(threadId, runId, query, opts).withResponse();
 
@@ -547,18 +553,18 @@ export class Steps extends ApiResource{
 
 
 export interface ThreadCreateParams {
-    messages?: Array<ThreadCreateParams.Message>;
+    messages?: Array<Message>;
     metadata?: unknown | null;
 }
 
-export namespace ThreadCreateParams {
-    export interface Message {
-      content: string;
-      role: string;
-      file_ids?: Array<string>;
-      metadata?: unknown | null;
-    }
+
+export interface Message {
+  content: string;
+  role: string;
+  file_ids?: Array<string>;
+  metadata?: unknown | null;
 }
+
 
 export interface ThreadUpdateParams {
     metadata?: unknown | null;
@@ -624,12 +630,11 @@ export interface RunUpdateParams {
 }
 
 export interface RunSubmitToolOutputsParams {
-    tool_outputs: Array<RunSubmitToolOutputsParams.ToolOutput>;
+    tool_outputs: Array<ToolOutput>;
 }
 
-export namespace RunSubmitToolOutputsParams {
-    export interface ToolOutput {
-      output?: string;
-      tool_call_id?: string;
-    }
+
+export interface ToolOutput {
+  output?: string;
+  tool_call_id?: string;
 }

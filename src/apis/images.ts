@@ -8,7 +8,7 @@ import OpenAI from "openai";
 
 export interface ImagesBody {
   prompt: string;
-  model?: (string & {});
+  model?: (string & unknown);
   n?: number | null;
   quality?: string;
   response_format?: string | null;
@@ -21,7 +21,7 @@ export interface ImageEditParams {
     image: any;
     prompt: string;
     mask?: any;
-    model?: (string & {}) | null;
+    model?: (string & object) | null;
     n?: number | null;
     response_format?: string | null;
     size?: string | null;
@@ -30,7 +30,7 @@ export interface ImageEditParams {
 
 export interface ImageCreateVariationParams {
     image: any;
-    model?: (string & {}) | null;
+    model?: (string & object) | null;
     n?: number | null;
     response_format?: string | null;
     size?: string | null;
@@ -68,6 +68,7 @@ export class Images extends ApiResource {
       baseURL: this.client.baseURL,
       defaultHeaders: defaultHeadersBuilder(this.client),
     });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.images.generate(body, opts).withResponse();
     
@@ -94,6 +95,7 @@ export class Images extends ApiResource {
       defaultHeaders: defaultHeadersBuilder(this.client),
     });
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.images.edit(body, opts).withResponse();
 
@@ -119,6 +121,7 @@ export class Images extends ApiResource {
       baseURL: this.client.baseURL,
       defaultHeaders: defaultHeadersBuilder(this.client),
     });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.images.createVariation(body, opts).withResponse();
 

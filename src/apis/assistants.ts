@@ -99,6 +99,7 @@ export class Assistants extends ApiResource {
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
         const result = await OAIclient.beta.assistants.list(query, opts).withResponse();
 
@@ -230,6 +231,7 @@ export class Files extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.assistants.files.list(assistantId, query, opts).withResponse();
 
