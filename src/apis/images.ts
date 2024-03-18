@@ -2,7 +2,7 @@ import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
 import { OPEN_AI_API_KEY } from "../constants";
-import { finalResponse, overrideConfig } from "../utils";
+import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
 
@@ -66,7 +66,7 @@ export class Images extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: this.client.baseURL,
-      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
+      defaultHeaders: defaultHeadersBuilder(this.client),
     });
     // @ts-ignore
     const result = await OAIclient.images.generate(body, opts).withResponse();
@@ -91,7 +91,7 @@ export class Images extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: this.client.baseURL,
-      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
+      defaultHeaders: defaultHeadersBuilder(this.client),
     });
 
     // @ts-ignore
@@ -117,7 +117,7 @@ export class Images extends ApiResource {
     const OAIclient = new OpenAI({
       apiKey: OPEN_AI_API_KEY,
       baseURL: this.client.baseURL,
-      defaultHeaders: {...this.client.customHeaders, ...this.client.portkeyHeaders},
+      defaultHeaders: defaultHeadersBuilder(this.client),
     });
     // @ts-ignore
     const result = await OAIclient.images.createVariation(body, opts).withResponse();

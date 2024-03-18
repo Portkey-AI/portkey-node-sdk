@@ -104,3 +104,15 @@ export function portkeyHeaders(headers:any) {
     
     return Object.fromEntries(filteredHeaders)
 }
+
+export function defaultHeadersBuilder(client: any){
+	
+	const customHeaders = client.customHeaders
+	const portkeyHeaders = client.portkeyHeaders
+
+	customHeaders.hasOwnProperty("authorization") &&
+      (client.customHeaders["authorization"] =
+        "Bearer " + client.customHeaders["authorization"]);
+
+	return {...customHeaders, ...portkeyHeaders}
+}
