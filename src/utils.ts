@@ -110,9 +110,12 @@ export function defaultHeadersBuilder(client: any){
 	const customHeaders = client.customHeaders
 	const portkeyHeaders = client.portkeyHeaders
 
-	customHeaders.hasOwnProperty("authorization") &&
-      (client.customHeaders["authorization"] =
-        "Bearer " + client.customHeaders["authorization"]);
-
+	// Logic to add Bearer only if it is not present. 
+	// Else it would be added everytime a request is made
+	if (customHeaders.hasOwnProperty("authorization") && !customHeaders["authorization"].startsWith("Bearer")){
+		client.customHeaders["authorization"] =
+		  "Bearer " + client.customHeaders["authorization"];
+	}
+	
 	return {...customHeaders, ...portkeyHeaders}
 }
