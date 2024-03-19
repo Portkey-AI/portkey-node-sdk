@@ -8,7 +8,7 @@ import OpenAI from "openai";
 
 export interface ImagesBody {
   prompt: string;
-  model?: (string & unknown);
+  model?: string;
   n?: number | null;
   quality?: string;
   response_format?: string | null;
@@ -21,7 +21,7 @@ export interface ImageEditParams {
     image: any;
     prompt: string;
     mask?: any;
-    model?: (string & object) | null;
+    model?: string | null;
     n?: number | null;
     response_format?: string | null;
     size?: string | null;
@@ -30,7 +30,7 @@ export interface ImageEditParams {
 
 export interface ImageCreateVariationParams {
     image: any;
-    model?: (string & object) | null;
+    model?: string | null;
     n?: number | null;
     response_format?: string | null;
     size?: string | null;
