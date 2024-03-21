@@ -1,5 +1,4 @@
 import { ApiClientInterface } from "./_types/generalTypes";
-import * as Types from "./_types/portkeyConstructs";
 import * as API from "./apis";
 import { PostBodyParams } from "./apis/postMethod";
 import { ApiClient, RequestOptions } from "./baseClient";
@@ -37,8 +36,9 @@ export class Portkey extends ApiClient {
 			traceID,
 			metadata,
 			Authorization,
-			cacheForceRefresh
+			cacheForceRefresh,
 		});
+
 		this.apiKey = apiKey;
 		if (!this.apiKey) {
 			throw castToError(MISSING_API_KEY_ERROR_MESSAGE)
@@ -56,6 +56,17 @@ export class Portkey extends ApiClient {
 	chat = new API.Chat(this);
 	generations = new API.Generations(this);
 	prompts = new API.Prompt(this);
+	feedback = new API.Feedback(this);
+	embeddings = new API.Embeddings(this);
+	images = new API.Images(this);
+	files = new API.MainFiles(this);
+	models = new API.Models(this);
+	beta = {
+		assistants: new API.Assistants(this),
+		threads: new API.Threads(this)
+	};
+
+
 	post = (
 		url: string,
 		_body: PostBodyParams,
@@ -64,6 +75,5 @@ export class Portkey extends ApiClient {
 	) => {
 		return new API.postMethod(this).create(url, _body, params, opts)
 	};
-	feedback = new API.Feedback(this);
-	embeddings = new API.Embeddings(this);
+
 }
