@@ -47,6 +47,7 @@ type PromptsResponse = Record<string, any> & APIResponseType;
 
 export class Prompt extends ApiResource {
 	completions: PromptCompletions = new PromptCompletions(this.client);
+	render: PromptRender = new PromptRender(this.client);
 }
 
 
@@ -86,3 +87,40 @@ export class PromptCompletions extends ApiResource {
 		return response
 	}
 }
+
+export class PromptRender extends ApiResource {
+		create(
+			_body: PromptsCreateNonStreaming,
+			params?: ApiClientInterface,
+			opts?: RequestOptions
+		): APIPromise<PromptsResponse>;
+		create(
+			_body: PromptsCreateStreaming,
+			params?: ApiClientInterface,
+			opts?: RequestOptions
+		): APIPromise<Stream<PromptsResponse>>;
+		create(
+			_body: PromptsCreateParams,
+			params?: ApiClientInterface,
+			opts?: RequestOptions,
+		): APIPromise<Stream<PromptsResponse> | PromptsResponse>;
+		create(
+			_body: PromptsCreateParams,
+			params?: ApiClientInterface,
+			opts?: RequestOptions
+		): APIPromise<PromptsResponse> | APIPromise<Stream<PromptsResponse>> {
+			if (params) {
+				const config = overrideConfig(this.client.config, params.config)
+				this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
+			}
+			const promptId = _body.promptID
+			const body = _body
+			const stream = _body.stream ?? false
+			delete body.promptID
+			body.stream = stream
+			const response = this.post<PromptsResponse>(`/prompts/${promptId}/render`, { body, ...opts, stream }) as
+				| APIPromise<PromptsResponse>
+				| APIPromise<Stream<PromptsResponse>>
+			return response
+		}
+	}
