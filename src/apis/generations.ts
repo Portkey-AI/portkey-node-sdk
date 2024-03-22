@@ -49,15 +49,16 @@ export class Prompt extends ApiResource {
 	completions: PromptCompletions = new PromptCompletions(this.client);
 
 	render(
-		_body: PromptsCreateNonStreaming,
+		_body: PromptsCreateParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
 	): APIPromise<PromptsResponse> {
 		const body = _body
+		const promptId = _body.promptID
+		
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const promptId = _body.promptID
 		const response = this.post<PromptsResponse>(`/prompts/${promptId}/render`, { body, ...opts }) 
 		return response
 	}
