@@ -47,6 +47,21 @@ type PromptsResponse = Record<string, any> & APIResponseType;
 
 export class Prompt extends ApiResource {
 	completions: PromptCompletions = new PromptCompletions(this.client);
+
+	render(
+		_body: PromptsCreateParams,
+		params?: ApiClientInterface,
+		opts?: RequestOptions
+	): APIPromise<PromptsResponse> {
+		const body = _body
+		const promptId = _body.promptID
+		
+		if (params) {
+			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+		}
+		const response = this.post<PromptsResponse>(`/prompts/${promptId}/render`, { body, ...opts }) 
+		return response
+	}
 }
 
 
