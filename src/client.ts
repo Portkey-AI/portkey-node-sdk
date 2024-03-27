@@ -15,6 +15,7 @@ export class Portkey extends ApiClient {
 	metadata: Record<string, unknown> | null | undefined;
 	Authorization?: string;
 	cacheForceRefresh?: boolean | null | undefined;
+	debug?: boolean | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -24,7 +25,8 @@ export class Portkey extends ApiClient {
 		traceID,
 		metadata,
 		Authorization,
-		cacheForceRefresh
+		cacheForceRefresh,
+		debug,
 	}: ApiClientInterface) {
 
 		super({
@@ -37,6 +39,7 @@ export class Portkey extends ApiClient {
 			metadata,
 			Authorization,
 			cacheForceRefresh,
+			debug,
 		});
 
 		this.apiKey = apiKey;
@@ -50,6 +53,7 @@ export class Portkey extends ApiClient {
 		this.traceID = traceID
 		this.metadata = metadata
 		this.cacheForceRefresh = cacheForceRefresh;
+		this.debug = debug;
 	}
 
 	completions: API.Completions = new API.Completions(this);

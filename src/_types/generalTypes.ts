@@ -10,6 +10,7 @@ export interface ApiClientInterface {
     metadata?: Record<string, unknown> | null | undefined;
     Authorization?: string | null | undefined;
     cacheForceRefresh?: boolean | null | undefined;
+    debug?: boolean | null | undefined;
 }
 
 export interface APIResponseType {
