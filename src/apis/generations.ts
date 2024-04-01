@@ -41,9 +41,58 @@ export interface PromptsCreateNonStreaming extends PromptBodyBase {
 	stream?: false;
 }
 
+export interface Functions {
+	name?: Optional<string>;
+	description?: Optional<string>;
+	parameters?: Optional<object>;
+}
+
+export interface Tool{
+	function?: Optional<Functions>;
+	type?: Optional<string>;
+}
+
+export interface Messages {
+	content?: Optional<string>;
+	role?: Optional<string>;
+}
+  
 export type PromptsCreateParams = PromptsCreateNonStreaming | PromptsCreateStreaming
 
 type PromptsResponse = Record<string, any> & APIResponseType;
+
+type Optional<T> = T | null | undefined;
+
+type PromptRenderResponse = {
+	success: boolean;
+	data: {
+		messages?: Optional<Messages[]>;
+		prompt?: Optional<string>;
+		model?: Optional<string>;
+		suffix?: Optional<string>;
+		max_tokens?: Optional<number>;
+		temperature?: Optional<number>;
+		top_k?: Optional<number>;
+		top_p?: Optional<number>;
+		n?: Optional<number>;
+		stop_sequences?: Optional<string[]>;
+		timeout?: Optional<number>;
+		functions?: Optional<Functions[]>;
+		function_call?: Optional<string | Functions>;
+		logprobs?: Optional<boolean>;
+		top_logprobs?: Optional<number>;
+		echo?: Optional<boolean>;
+		stop?: Optional<string | string[]>;
+		presence_penalty?: Optional<number>;
+		frequency_penalty?: Optional<number>;
+		best_of?: Optional<number>;
+		logit_bias?: Optional<{ [key: string]: number }>;
+		user?: Optional<string>;
+		organization?: Optional<string>;
+		tool_choice?: Optional<string>;
+		tools?: Optional<Tool[]>;
+	};
+  } & APIResponseType;
 
 export class Prompt extends ApiResource {
 	completions: PromptCompletions = new PromptCompletions(this.client);
@@ -52,14 +101,14 @@ export class Prompt extends ApiResource {
 		_body: PromptsCreateParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<PromptsResponse> {
+	): APIPromise<PromptRenderResponse> {
 		const body = _body
 		const promptId = _body.promptID
 		
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.post<PromptsResponse>(`/prompts/${promptId}/render`, { body, ...opts }) 
+		const response = this.post<PromptRenderResponse>(`/prompts/${promptId}/render`, { body, ...opts }) 
 		return response
 	}
 }
