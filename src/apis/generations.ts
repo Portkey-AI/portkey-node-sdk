@@ -42,55 +42,53 @@ export interface PromptsCreateNonStreaming extends PromptBodyBase {
 }
 
 export interface Functions {
-	name?: Optional<string>;
-	description?: Optional<string>;
-	parameters?: Optional<object>;
+	name?: string;
+	description?: string;
+	parameters?: object;
 }
 
 export interface Tool{
-	function?: Optional<Functions>;
-	type?: Optional<string>;
+	function?: Functions;
+	type?: string;
 }
 
 export interface Messages {
-	content?: Optional<string>;
-	role?: Optional<string>;
+	content?: string;
+	role?: string;
 }
   
 export type PromptsCreateParams = PromptsCreateNonStreaming | PromptsCreateStreaming
 
 type PromptsResponse = Record<string, any> & APIResponseType;
 
-type Optional<T> = T | null | undefined;
-
 type PromptRenderResponse = {
 	success: boolean;
 	data: {
-		messages?: Optional<Messages[]>;
-		prompt?: Optional<string>;
-		model?: Optional<string>;
-		suffix?: Optional<string>;
-		max_tokens?: Optional<number>;
-		temperature?: Optional<number>;
-		top_k?: Optional<number>;
-		top_p?: Optional<number>;
-		n?: Optional<number>;
-		stop_sequences?: Optional<string[]>;
-		timeout?: Optional<number>;
-		functions?: Optional<Functions[]>;
-		function_call?: Optional<string | Functions>;
-		logprobs?: Optional<boolean>;
-		top_logprobs?: Optional<number>;
-		echo?: Optional<boolean>;
-		stop?: Optional<string | string[]>;
-		presence_penalty?: Optional<number>;
-		frequency_penalty?: Optional<number>;
-		best_of?: Optional<number>;
-		logit_bias?: Optional<{ [key: string]: number }>;
-		user?: Optional<string>;
-		organization?: Optional<string>;
-		tool_choice?: Optional<string>;
-		tools?: Optional<Tool[]>;
+		messages?: Messages[];
+		prompt?: string;
+		model?: string;
+		suffix?: string;
+		max_tokens?: number;
+		temperature?: number;
+		top_k?: number;
+		top_p?: number;
+		n?: number;
+		stop_sequences?: string[];
+		timeout?: number;
+		functions?: Functions[];
+		function_call?: string | Functions;
+		logprobs?: boolean;
+		top_logprobs?: number;
+		echo?: boolean;
+		stop?: string | string[];
+		presence_penalty?: number;
+		frequency_penalty?: number;
+		best_of?: number;
+		logit_bias?: { [key: string]: number };
+		user?: string;
+		organization?: string;
+		tool_choice?: string;
+		tools?: Tool[];
 	};
   } & APIResponseType;
 
