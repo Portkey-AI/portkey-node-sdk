@@ -141,6 +141,10 @@ export abstract class ApiClient {
         return this.methodRequest("post", path, opts);
     }
 
+    _put<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
+        return this.methodRequest("put", path, opts);
+    }
+
     protected generateError(
         status: number | undefined,
         errorResponse: object | undefined,
