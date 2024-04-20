@@ -67,6 +67,7 @@ type PromptRenderResponse = {
 		messages?: Messages[];
 		prompt?: string;
 		model?: string;
+		stream?: boolean;
 		suffix?: string;
 		max_tokens?: number;
 		temperature?: number;
