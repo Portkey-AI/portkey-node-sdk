@@ -75,7 +75,6 @@ type PromptRenderResponse = {
 		top_p?: number;
 		n?: number;
 		stop_sequences?: string[];
-		timeout?: number;
 		functions?: Functions[];
 		function_call?: string | Functions;
 		logprobs?: boolean;
