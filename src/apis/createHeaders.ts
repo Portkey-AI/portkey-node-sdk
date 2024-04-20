@@ -13,8 +13,8 @@ export const createHeaders = (config: Record<string, any>): Record<string, strin
 			continue
 		}
 
-		// false logic (enter all the cases here, where we take a boolean input)
-		if (k.toLocaleLowerCase() === "debug" || k.toLocaleLowerCase() === "cacheforcerefresh") {
+		// false logic (type is boolean, to handle flasy logic)
+		if (typeof v === "boolean") {
 			v = v.toString()
 		}
 
