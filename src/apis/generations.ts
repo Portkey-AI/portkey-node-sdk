@@ -90,6 +90,8 @@ type PromptRenderResponse = {
 		organization?: string;
 		tool_choice?: string;
 		tools?: Tool[];
+		response_format?: object;
+		seed?: number;
 	};
   } & APIResponseType;
 
