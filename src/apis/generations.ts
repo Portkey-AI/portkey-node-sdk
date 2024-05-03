@@ -67,6 +67,7 @@ type PromptRenderResponse = {
 		messages?: Messages[];
 		prompt?: string;
 		model?: string;
+		stream?: boolean;
 		suffix?: string;
 		max_tokens?: number;
 		temperature?: number;
@@ -74,7 +75,6 @@ type PromptRenderResponse = {
 		top_p?: number;
 		n?: number;
 		stop_sequences?: string[];
-		timeout?: number;
 		functions?: Functions[];
 		function_call?: string | Functions;
 		logprobs?: boolean;
@@ -89,6 +89,8 @@ type PromptRenderResponse = {
 		organization?: string;
 		tool_choice?: string;
 		tools?: Tool[];
+		response_format?: object;
+		seed?: number;
 	};
   } & APIResponseType;
 
