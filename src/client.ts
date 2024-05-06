@@ -72,7 +72,7 @@ export class Portkey extends ApiClient {
 	batches = new API.Batches(this);
 	fineTuning = new API.FineTuning(this);
 	moderations = new API.Moderations(this);
-	audio = new API.audio(this);
+	audio = new API.Audio(this);
 	beta = {
 		assistants: new API.Assistants(this),
 		threads: new API.Threads(this),
