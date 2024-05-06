@@ -13,5 +13,6 @@ export { Models } from "./models";
 export { Batches } from "./batches";
 export { FineTuning } from "./fineTuning"
 export { Moderations } from "./moderations"
+export { Audio } from "./audio"
 export { VectorStores } from "./vectorStores"
 export { BetaChat } from "./betaChat"
