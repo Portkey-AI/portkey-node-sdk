@@ -10,4 +10,5 @@ export { Assistants } from "./assistants";
 export { Threads } from "./threads";
 export { MainFiles } from "./files";
 export { Models } from "./models";
-
+export { VectorStores } from "./vectorStores"
+export { BetaChat } from "./betaChat"

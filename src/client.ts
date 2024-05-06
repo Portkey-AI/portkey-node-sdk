@@ -62,16 +62,18 @@ export class Portkey extends ApiClient {
 
 	completions: API.Completions = new API.Completions(this);
 	chat = new API.Chat(this);
+	embeddings = new API.Embeddings(this);
+	files = new API.MainFiles(this);
+	images = new API.Images(this);
+	models = new API.Models(this);
 	generations = new API.Generations(this);
 	prompts = new API.Prompt(this);
 	feedback = new API.Feedback(this);
-	embeddings = new API.Embeddings(this);
-	images = new API.Images(this);
-	files = new API.MainFiles(this);
-	models = new API.Models(this);
 	beta = {
 		assistants: new API.Assistants(this),
-		threads: new API.Threads(this)
+		threads: new API.Threads(this),
+		vectorStores: new API.VectorStores(this),
+		chat: new API.BetaChat(this),
 	};
 
 
