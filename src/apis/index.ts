@@ -11,5 +11,6 @@ export { Threads } from "./threads";
 export { MainFiles } from "./files";
 export { Models } from "./models";
 export { Batches } from "./batches";
+export { FineTuning } from "./fineTuning"
 export { VectorStores } from "./vectorStores"
 export { BetaChat } from "./betaChat"
