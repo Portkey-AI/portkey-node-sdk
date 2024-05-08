@@ -57,6 +57,9 @@ const config: Config = {
   //   "enableGlobally": false
   // },
 
+  // Default timeout of a test in milliseconds
+  // testTimeout: 20000,
+
   // Force coverage collection from ignored files using an array of glob patterns
   // forceCoverageMatch: [],
 
