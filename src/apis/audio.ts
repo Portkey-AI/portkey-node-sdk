@@ -91,7 +91,7 @@ export class speech extends ApiResource{
             baseURL: this.client.baseURL,
             defaultHeaders: defaultHeadersBuilder(this.client),
         });
-        const response = await OAIclient.audio.speech.create(body, opts).withResponse();
-        return finalResponse(response);
+        const response = await OAIclient.audio.speech.create(body, opts);
+        return response;
     }
 }
