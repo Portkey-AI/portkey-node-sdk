@@ -9,11 +9,15 @@ import OpenAI from "openai";
 export interface AssistantCreateParams {
     model: string;
     description?: string | null;
-    file_ids?: Array<string>;
     instructions?: string | null;
     metadata?: unknown | null;
     name?: string | null;
     tools?: Array<any>;
+    response_format?: any | null;
+    temperature?: number | null;
+    tool_resources?: any | null;
+    top_p?: number | null;
+    
 }
 
 export interface FileCreateParams {
