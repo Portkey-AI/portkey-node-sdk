@@ -11,7 +11,9 @@ export interface ApiClientInterface {
     Authorization?: string | null | undefined;
     cacheForceRefresh?: boolean | null | undefined;
     debug?: boolean | null | undefined;
-    customHost?: string | null | undefined
+    customHost?: string | null | undefined;
+    openaiProject?: string | null | undefined;
+    openaiOrganization?: string | null | undefined;
 }
 
 export interface APIResponseType {
