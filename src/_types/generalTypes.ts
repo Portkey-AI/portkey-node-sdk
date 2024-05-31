@@ -14,6 +14,7 @@ export interface ApiClientInterface {
     customHost?: string | null | undefined;
     openaiProject?: string | null | undefined;
     openaiOrganization?: string | null | undefined;
+    cacheNamespace?: string | null | undefined;
 }
 
 export interface APIResponseType {

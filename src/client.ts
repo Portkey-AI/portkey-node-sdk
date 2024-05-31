@@ -19,6 +19,7 @@ export class Portkey extends ApiClient {
 	customHost?: string | null | undefined;
 	openaiProject: string | null | undefined;
 	openaiOrganization: string | null | undefined;
+	cacheNamespace?: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -32,7 +33,8 @@ export class Portkey extends ApiClient {
 		debug,
 		customHost,
 		openaiProject, 
-		openaiOrganization
+		openaiOrganization,
+		cacheNamespace,
 	}: ApiClientInterface) {
 
 		super({
@@ -48,7 +50,8 @@ export class Portkey extends ApiClient {
 			debug,
 			customHost,
 			openaiProject,
-			openaiOrganization
+			openaiOrganization,
+			cacheNamespace
 		});
 
 		this.apiKey = apiKey;
@@ -66,6 +69,7 @@ export class Portkey extends ApiClient {
 		this.customHost = customHost;
 		this.openaiProject = openaiProject;
 		this.openaiOrganization = openaiOrganization;
+		this.cacheNamespace = cacheNamespace;
 	}
 
 	completions: API.Completions = new API.Completions(this);
