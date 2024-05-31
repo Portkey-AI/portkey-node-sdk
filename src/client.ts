@@ -17,6 +17,8 @@ export class Portkey extends ApiClient {
 	cacheForceRefresh?: boolean | null | undefined;
 	debug?: boolean | null | undefined;
 	customHost?: string | null | undefined;
+	openaiProject: string | null | undefined;
+	openaiOrganization: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -29,6 +31,8 @@ export class Portkey extends ApiClient {
 		cacheForceRefresh,
 		debug,
 		customHost,
+		openaiProject, 
+		openaiOrganization
 	}: ApiClientInterface) {
 
 		super({
@@ -42,7 +46,9 @@ export class Portkey extends ApiClient {
 			Authorization,
 			cacheForceRefresh,
 			debug,
-			customHost
+			customHost,
+			openaiProject,
+			openaiOrganization
 		});
 
 		this.apiKey = apiKey;
@@ -57,7 +63,9 @@ export class Portkey extends ApiClient {
 		this.metadata = metadata
 		this.cacheForceRefresh = cacheForceRefresh;
 		this.debug = debug;
-		this.customHost = customHost
+		this.customHost = customHost;
+		this.openaiProject = openaiProject;
+		this.openaiOrganization = openaiOrganization;
 	}
 
 	completions: API.Completions = new API.Completions(this);
