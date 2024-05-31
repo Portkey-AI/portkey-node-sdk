@@ -17,9 +17,21 @@ export class Portkey extends ApiClient {
 	cacheForceRefresh?: boolean | null | undefined;
 	debug?: boolean | null | undefined;
 	customHost?: string | null | undefined;
-	openaiProject: string | null | undefined;
-	openaiOrganization: string | null | undefined;
+	openaiProject?: string | null | undefined;
+	openaiOrganization?: string | null | undefined;
 	cacheNamespace?: string | null | undefined;
+	awsSecretAccessKey?: string | null | undefined;
+	awsAccessKeyId?: string | null | undefined;
+	awsSessionToken?: string | null | undefined;
+	awsRegion?: string | null | undefined;
+	vertexProjectId?: string | null | undefined;
+	vertexRegion?: string | null | undefined;
+	workersAiAccountId?: string | null | undefined;
+	azureResourceName?: string | null | undefined;
+	azureDeploymentId?: string | null | undefined;
+	azureApiVersion?: string | null | undefined;
+	forwardHeaders?: Array<string> | null | undefined;
+
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -35,6 +47,17 @@ export class Portkey extends ApiClient {
 		openaiProject, 
 		openaiOrganization,
 		cacheNamespace,
+		awsSecretAccessKey,
+		awsAccessKeyId,
+		awsSessionToken,
+		awsRegion,
+		vertexProjectId,
+		vertexRegion,
+		workersAiAccountId,
+		azureResourceName,
+		azureDeploymentId,
+		azureApiVersion,
+		forwardHeaders,
 	}: ApiClientInterface) {
 
 		super({
@@ -51,7 +74,18 @@ export class Portkey extends ApiClient {
 			customHost,
 			openaiProject,
 			openaiOrganization,
-			cacheNamespace
+			cacheNamespace,
+			awsSecretAccessKey,
+			awsAccessKeyId,
+			awsSessionToken,
+			awsRegion,
+			vertexProjectId,
+			vertexRegion,
+			workersAiAccountId,
+			azureResourceName,
+			azureDeploymentId,
+			azureApiVersion,
+			forwardHeaders,
 		});
 
 		this.apiKey = apiKey;
@@ -70,6 +104,17 @@ export class Portkey extends ApiClient {
 		this.openaiProject = openaiProject;
 		this.openaiOrganization = openaiOrganization;
 		this.cacheNamespace = cacheNamespace;
+		this.awsSecretAccessKey = awsSecretAccessKey;
+		this.awsAccessKeyId = awsAccessKeyId;
+		this.awsSessionToken = awsSessionToken;
+		this.awsRegion = awsRegion;
+		this.vertexProjectId = vertexProjectId;
+		this.vertexRegion = vertexRegion;
+		this.workersAiAccountId = workersAiAccountId;
+		this.azureResourceName = azureResourceName;
+		this.azureDeploymentId = azureDeploymentId;
+		this.azureApiVersion = azureApiVersion;
+		this.forwardHeaders = forwardHeaders;
 	}
 
 	completions: API.Completions = new API.Completions(this);
