@@ -31,6 +31,7 @@ export class Portkey extends ApiClient {
 	azureApiVersion?: string | null | undefined;
 	forwardHeaders?: Array<string> | null | undefined;
 
+	cacheNamespace?: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -56,6 +57,7 @@ export class Portkey extends ApiClient {
 		azureDeploymentId,
 		azureApiVersion,
 		forwardHeaders,
+		cacheNamespace,
 	}: ApiClientInterface) {
 
 		super({
@@ -70,6 +72,7 @@ export class Portkey extends ApiClient {
 			cacheForceRefresh,
 			debug,
 			customHost,
+			cacheNamespace,
 			openaiProject,
 			openaiOrganization,
 			awsSecretAccessKey,
@@ -98,6 +101,7 @@ export class Portkey extends ApiClient {
 		this.cacheForceRefresh = cacheForceRefresh;
 		this.debug = debug;
 		this.customHost = customHost;
+		this.cacheNamespace = cacheNamespace;;
 		this.openaiProject = openaiProject;
 		this.openaiOrganization = openaiOrganization;
 		this.awsSecretAccessKey = awsSecretAccessKey;

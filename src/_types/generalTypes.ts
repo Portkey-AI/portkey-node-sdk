@@ -25,6 +25,7 @@ export interface ApiClientInterface {
     azureDeploymentId?: string | null | undefined;
     azureApiVersion?: string | null | undefined;
     forwardHeaders?: Array<string> | null | undefined;
+    cacheNamespace?: string | null | undefined;
 }
 
 export interface APIResponseType {

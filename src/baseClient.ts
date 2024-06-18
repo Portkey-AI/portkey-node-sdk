@@ -120,10 +120,10 @@ export abstract class ApiClient {
     portkeyHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, forwardHeaders }: ApiClientInterface) {
+    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, forwardHeaders, cacheNamespace }: ApiClientInterface) {
         this.apiKey = apiKey ?? "";
         this.baseURL = baseURL ?? "";
-        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, forwardHeaders })
+        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, cacheNamespace, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, forwardHeaders })
         this.portkeyHeaders = this.defaultHeaders()
         this.fetch = fetch;
         this.responseHeaders = {}
