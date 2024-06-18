@@ -31,7 +31,6 @@ export class Portkey extends ApiClient {
 	azureApiVersion?: string | null | undefined;
 	forwardHeaders?: Array<string> | null | undefined;
 	requestTimeout? : number | null | undefined;
-
 	cacheNamespace?: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
