@@ -30,6 +30,7 @@ export class Portkey extends ApiClient {
 	azureDeploymentId?: string | null | undefined;
 	azureApiVersion?: string | null | undefined;
 	forwardHeaders?: Array<string> | null | undefined;
+	requestTimeout? : number | null | undefined;
 
 	cacheNamespace?: string | null | undefined;
 	constructor({
@@ -58,6 +59,7 @@ export class Portkey extends ApiClient {
 		azureApiVersion,
 		forwardHeaders,
 		cacheNamespace,
+		requestTimeout,
 	}: ApiClientInterface) {
 
 		super({
@@ -86,6 +88,7 @@ export class Portkey extends ApiClient {
 			azureDeploymentId,
 			azureApiVersion,
 			forwardHeaders,
+			requestTimeout,
 		});
 
 		this.apiKey = apiKey;
@@ -115,6 +118,7 @@ export class Portkey extends ApiClient {
 		this.azureDeploymentId = azureDeploymentId;
 		this.azureApiVersion = azureApiVersion;
 		this.forwardHeaders = forwardHeaders;
+		this.requestTimeout = requestTimeout;
 	}
 
 	completions: API.Completions = new API.Completions(this);

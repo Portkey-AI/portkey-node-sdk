@@ -26,6 +26,7 @@ export interface ApiClientInterface {
     azureApiVersion?: string | null | undefined;
     forwardHeaders?: Array<string> | null | undefined;
     cacheNamespace?: string | null | undefined;
+    requestTimeout?: number | null | undefined;
 }
 
 export interface APIResponseType {
