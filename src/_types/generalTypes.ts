@@ -12,6 +12,7 @@ export interface ApiClientInterface {
     cacheForceRefresh?: boolean | null | undefined;
     debug?: boolean | null | undefined;
     customHost?: string | null | undefined
+    cacheNamespace?: string | null | undefined;
 }
 
 export interface APIResponseType {
