@@ -129,6 +129,7 @@ export class Portkey extends ApiClient {
 	images = new API.Images(this);
 	files = new API.MainFiles(this);
 	models = new API.Models(this);
+	admin = new API.Admin(this);
 	beta = {
 		assistants: new API.Assistants(this),
 		threads: new API.Threads(this)
