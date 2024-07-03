@@ -38,6 +38,8 @@ class ChatCompletions extends ApiResource {
             const config = overrideConfig(this.client.config, params.config)
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
+
+        
         const stream = _body.stream ?? false
         return this.post<ChatCompletion>(CHAT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<ChatCompletion>

@@ -31,6 +31,8 @@ export const PORTKEY_GATEWAY_URL = PORTKEY_BASE_URL
 export const PORTKEY_API_KEY_ENV = "PORTKEY_API_KEY"
 export const PORTKEY_PROXY_ENV = "PORTKEY_PROXY"
 
+export const OPEN_AI_API_KEY = "DUMMY-KEY"
+
 // API routes
 export const CHAT_COMPLETE_API = "/chat/completions"
 export const TEXT_COMPLETE_API = "/completions"

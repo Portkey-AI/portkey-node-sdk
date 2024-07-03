@@ -41,12 +41,76 @@ export interface PromptsCreateNonStreaming extends PromptBodyBase {
 	stream?: false;
 }
 
+export interface Functions {
+	name?: string;
+	description?: string;
+	parameters?: object;
+}
+
+export interface Tool{
+	function?: Functions;
+	type?: string;
+}
+
+export interface Messages {
+	content?: string;
+	role?: string;
+}
+  
 export type PromptsCreateParams = PromptsCreateNonStreaming | PromptsCreateStreaming
 
 type PromptsResponse = Record<string, any> & APIResponseType;
 
+type PromptRenderResponse = {
+	success: boolean;
+	data: {
+		messages?: Messages[];
+		prompt?: string;
+		model?: string;
+		stream?: boolean;
+		suffix?: string;
+		max_tokens?: number;
+		temperature?: number;
+		top_k?: number;
+		top_p?: number;
+		n?: number;
+		stop_sequences?: string[];
+		functions?: Functions[];
+		function_call?: string | Functions;
+		logprobs?: boolean;
+		top_logprobs?: number;
+		echo?: boolean;
+		stop?: string | string[];
+		presence_penalty?: number;
+		frequency_penalty?: number;
+		best_of?: number;
+		logit_bias?: { [key: string]: number };
+		user?: string;
+		organization?: string;
+		tool_choice?: string;
+		tools?: Tool[];
+		response_format?: object;
+		seed?: number;
+	};
+  } & APIResponseType;
+
 export class Prompt extends ApiResource {
 	completions: PromptCompletions = new PromptCompletions(this.client);
+
+	render(
+		_body: PromptsCreateParams,
+		params?: ApiClientInterface,
+		opts?: RequestOptions
+	): APIPromise<PromptRenderResponse> {
+		const body = _body
+		const promptId = _body.promptID
+		
+		if (params) {
+			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+		}
+		const response = this.post<PromptRenderResponse>(`/prompts/${promptId}/render`, { body, ...opts }) 
+		return response
+	}
 }
 
 

@@ -30,5 +30,3 @@ export class Embeddings extends ApiResource {
         return response
     }
 }
-
-

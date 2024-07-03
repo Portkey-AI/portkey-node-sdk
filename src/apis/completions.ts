@@ -7,7 +7,6 @@ import { Stream } from "../streaming";
 import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 
-
 export class Completions extends ApiResource {
     create(
         _body: CompletionsBodyNonStreaming,
@@ -36,6 +35,7 @@ export class Completions extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params, config }) }
         }
         const stream = _body.stream ?? false
+
         this.client.responseHeaders
         return this.post(TEXT_COMPLETE_API, { body, ...opts, stream }) as
             | APIPromise<TextCompletion>
@@ -45,7 +45,7 @@ export class Completions extends ApiResource {
 
 
 export interface CompletionsBodyBase extends ModelParams {
-    prompt?: string;
+    prompt: string;
 }
 
 export interface CompletionsBodyStreaming extends CompletionsBodyBase {

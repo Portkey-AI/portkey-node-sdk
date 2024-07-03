@@ -121,12 +121,14 @@ export abstract class ApiClient {
     baseURL: string;
     customHeaders: Record<string, string>
     responseHeaders: Record<string, string>
+    portkeyHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh }: ApiClientInterface) {
+    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, forwardHeaders, cacheNamespace, requestTimeout }: ApiClientInterface) {
         this.apiKey = apiKey ?? "";
         this.baseURL = baseURL ?? "";
-        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh })
+        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, cacheNamespace, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, forwardHeaders, requestTimeout })
+        this.portkeyHeaders = this.defaultHeaders()
         this.fetch = fetch;
         this.responseHeaders = {}
     }
@@ -141,6 +143,10 @@ export abstract class ApiClient {
 
     _post<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
         return this.methodRequest("post", path, opts);
+    }
+
+    _put<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
+        return this.methodRequest("put", path, opts);
     }
 
     protected generateError(
