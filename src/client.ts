@@ -6,8 +6,8 @@ import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
 import { castToError, readEnv } from "./utils";
 
 export class Portkey extends ApiClient {
-	override apiKey: string | null;
-	override baseURL: string;
+	declare apiKey: string | null;
+	declare baseURL: string;
 	virtualKey: string | null;
 	config: Record<string, unknown> | string | null | undefined;
 	provider: string | null | undefined;
