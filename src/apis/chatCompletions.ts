@@ -86,8 +86,8 @@ interface FunctionCall {
   }
 
 interface Message {
-    role?: string;
-    content?: string;
+    role: string;
+    content: string | null;
     function_call?: FunctionCall;
     tool_calls?: Array<ToolCall>;
 }
