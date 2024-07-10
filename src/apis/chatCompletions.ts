@@ -68,15 +68,34 @@ interface Usage {
     total_tokens?: number;
 }
 
+interface FunctionType {
+    arguments?: string;
+    name?: string;
+  }
+
+interface ToolCall {
+    index?: number;
+    id?: string;
+    function?: FunctionType;
+    type?: 'function';
+  }
+
+interface FunctionCall {
+    arguments?: string;
+    name?: string;
+  }
+
 interface Message {
-    role: string
-    content: string
+    role: string;
+    content: string | null;
+    function_call?: FunctionCall;
+    tool_calls?: Array<ToolCall>;
 }
 
 interface Choices {
     index?: number;
     message?: Message;
-    delta?: Message
+    delta?: Message;
     finish_reason?: string;
 }
 
