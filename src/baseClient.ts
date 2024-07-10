@@ -7,7 +7,6 @@ import { APIConnectionError, APIConnectionTimeoutError, APIError } from "./error
 import { Stream, createResponseHeaders, safeJSON } from "./streaming";
 import { castToError, getPlatformProperties, parseBody } from "./utils";
 import { VERSION } from "./version";
-fetch
 const defaultHttpAgent: Agent = new KeepAliveAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
 export type Fetch = (url: string, init?: RequestInit) => Promise<Response>;
 
@@ -46,10 +45,15 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
     const contentType = response.headers.get("content-type");
     if (contentType?.includes("application/json")) {
         const headers = defaultParseHeaders(props)
-        const json = {
-            ...await response.json(),
+        const rawData = await response.json();
+        const json = typeof rawData === 'object' && rawData !== null ? {
+            ...rawData,
+            getHeaders: () => headers
+        } : {
+            data: rawData,
             getHeaders: () => headers
         };
+    
 
         return json as T;
     }
@@ -187,7 +191,7 @@ export abstract class ApiClient {
 
     buildRequest(opts: FinalRequestOptions): { req: RequestInit, url: string } {
         const url = new URL(this.baseURL + opts.path!)
-        const { method, path, query, headers: headers = {}, body } = opts;
+        const { method, body } = opts;
         const reqHeaders: Record<string, string> = {
             ...this.defaultHeaders(), ...this.customHeaders,
         };
