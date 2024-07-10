@@ -49,6 +49,7 @@ class ChatCompletions extends ApiResource {
 
 export interface ChatCompletionsBodyBase extends ModelParams {
     messages?: Array<Message>;
+    response_format?: object;
 }
 
 export interface ChatCompletionsBodyStreaming extends ChatCompletionsBodyBase {
