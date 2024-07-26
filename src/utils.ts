@@ -1,5 +1,7 @@
 import { PORTKEY_HEADER_PREFIX } from "./constants";
 import { createResponseHeaders } from "./streaming";
+import OpenAI from "openai";
+import type { Portkey } from "./index";
 
 type PlatformProperties = {
 	"x-portkey-runtime"?: string,
@@ -118,4 +120,13 @@ export function defaultHeadersBuilder(client: any){
 	}
 	
 	return {...customHeaders, ...portkeyHeaders}
+}
+
+export function initOpenAIClient(client: Portkey){
+	return new OpenAI({
+		apiKey: client.apiKey || readEnv("OPENAI_API_KEY"),
+		baseURL: client.baseURL,
+		defaultHeaders: defaultHeadersBuilder(client),
+		maxRetries: 0
+	})
 }

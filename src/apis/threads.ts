@@ -1,10 +1,9 @@
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 
 
 export class Threads extends ApiResource {
@@ -32,11 +31,7 @@ export class Threads extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.create(body, opts).withResponse();
@@ -57,11 +52,7 @@ export class Threads extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.retrieve(threadId, opts).withResponse();
 
@@ -83,11 +74,7 @@ export class Threads extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.update(threadId, body, opts).withResponse();
 
@@ -107,11 +94,7 @@ export class Threads extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.del(threadId, opts).withResponse();
 
@@ -132,11 +115,7 @@ export class Threads extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.createAndRun(body, opts).withResponse();
 
@@ -170,11 +149,7 @@ export class Messages extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.messages.create(threadId, body, opts).withResponse();
@@ -197,11 +172,7 @@ export class Messages extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.messages.list(threadId, query, opts).withResponse();
@@ -223,11 +194,7 @@ export class Messages extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.messages.retrieve(threadId, messageId, opts).withResponse();
 
@@ -251,11 +218,7 @@ export class Messages extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.messages.update(threadId, messageId, body, opts).withResponse();
 
@@ -283,11 +246,7 @@ export class Files extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.messages.files.list(threadId, messageId, query, opts).withResponse();
@@ -310,11 +269,7 @@ export class Files extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.messages.files.retrieve(threadId, messageId, fileId, opts).withResponse();
 
@@ -348,11 +303,7 @@ export class Runs extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.create(threadId, body, opts).withResponse();
 
@@ -374,11 +325,7 @@ export class Runs extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.runs.list(threadId, query, opts).withResponse();
@@ -400,11 +347,7 @@ export class Runs extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.retrieve(threadId, runId, opts).withResponse();
 
@@ -427,11 +370,7 @@ export class Runs extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.update(threadId, runId, body, opts).withResponse();
 
@@ -454,11 +393,7 @@ export class Runs extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.submitToolOutputs(threadId, runId, body, opts).withResponse();
 
@@ -479,11 +414,7 @@ export class Runs extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, opts).withResponse();
 
@@ -510,11 +441,7 @@ export class Steps extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.runs.steps.list(threadId, runId, query, opts).withResponse();
@@ -537,11 +464,7 @@ export class Steps extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.steps.retrieve(threadId, runId, stepId, opts).withResponse();
 
