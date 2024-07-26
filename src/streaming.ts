@@ -66,11 +66,9 @@ export class Stream<Item> implements AsyncIterable<Item> {
 	}
 
 	async *[Symbol.asyncIterator](): AsyncIterator<Item, any, undefined> {
-		let done = false;
 		try {
 			for await (const sse of this.iterMessages()) {
 				if (sse.data.startsWith('[DONE]')) {
-					done = true;
 					continue;
 				}
 				if (sse.event === null) {
@@ -91,7 +89,6 @@ export class Stream<Item> implements AsyncIterable<Item> {
 					throw APIError
 				}
 			}
-			done = true;
 		} catch (e) {
 			if (e instanceof Error && e.name === "AbortError") return;
 			throw e;
