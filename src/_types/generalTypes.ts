@@ -27,6 +27,7 @@ export interface ApiClientInterface {
     forwardHeaders?: Array<string> | null | undefined;
     cacheNamespace?: string | null | undefined;
     requestTimeout?: number | null | undefined;
+    strictOpenAiCompliance?: boolean | null | undefined;
 }
 
 export interface APIResponseType {
