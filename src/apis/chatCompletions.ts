@@ -66,11 +66,13 @@ interface Usage {
     prompt_tokens?: number;
     completion_tokens?: number;
     total_tokens?: number;
+    [key: string]: any;
 }
 
 interface FunctionType {
     arguments?: string;
     name?: string;
+    [key: string]: any;
   }
 
 interface ToolCall {
@@ -78,11 +80,13 @@ interface ToolCall {
     id?: string;
     function?: FunctionType;
     type?: 'function';
+    [key: string]: any;
   }
 
 interface FunctionCall {
     arguments?: string;
     name?: string;
+    [key: string]: any;
   }
 
 interface Message {
@@ -90,6 +94,7 @@ interface Message {
     content: string | null;
     function_call?: FunctionCall;
     tool_calls?: Array<ToolCall>;
+    [key: string]: any;
 }
 
 interface Choices {
@@ -97,6 +102,7 @@ interface Choices {
     message?: Message;
     delta?: Message;
     finish_reason?: string;
+    [key: string]: any;
 }
 
 interface ChatCompletion extends APIResponseType {
@@ -106,4 +112,5 @@ interface ChatCompletion extends APIResponseType {
     model: string;
     choices: Array<Choices>;
     usage: Usage;
+    [key: string]: any;
 }
