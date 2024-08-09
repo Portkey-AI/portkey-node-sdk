@@ -30,6 +30,7 @@ export interface ModelParams {
     logit_bias?: Record<string, number>;
     user?: string;
     organization?: string;
+    seed?: number;
 }
 
 export interface Message {

@@ -14,6 +14,8 @@ import {
   ChatCompletionStreamingFunctionRunnerParams,
   ChatCompletionStreamingToolRunnerParams,
 } from "openai/lib/ChatCompletionStreamingRunner";
+import { ChatCompletionParseParams, ParsedChatCompletion } from "openai/resources/beta/chat/completions";
+import { ExtractParsedContentFromParams } from "openai/lib/parser";
 
 export class BetaChat extends ApiResource {
   completions: Completions;
@@ -25,6 +27,32 @@ export class BetaChat extends ApiResource {
 }
 
 export class Completions extends ApiResource {
+
+  async parse<Params extends ChatCompletionParseParams, ParsedT = ExtractParsedContentFromParams<Params>>
+  (
+    _body: Params,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: Params = _body;
+    
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = new OpenAI({
+      apiKey: OPEN_AI_API_KEY,
+      baseURL: this.client.baseURL,
+      defaultHeaders: defaultHeadersBuilder(this.client),
+    })
+
+    const result = await OAIclient.beta.chat.completions.parse(body, opts);
+    return result;
+  }
     
   async runFunctions<FunctionsArgs extends BaseFunctionsArgs>(
     body: ChatCompletionFunctionRunnerParams<FunctionsArgs>,
@@ -105,23 +133,23 @@ export class Completions extends ApiResource {
     _body:ChatCompletionStreamParams,
     params?: ApiClientInterface,
     opts?: RequestOptions): Promise<any> {
-        const body: ChatCompletionStreamParams = _body;
-        if (params) {
-            const config = overrideConfig(this.client.config, params.config);
-            this.client.customHeaders = {
-                ...this.client.customHeaders,
-                ...createHeaders({ ...params, config }),
-            };
-        }
+      const body: ChatCompletionStreamParams = _body;
+      if (params) {
+          const config = overrideConfig(this.client.config, params.config);
+          this.client.customHeaders = {
+              ...this.client.customHeaders,
+              ...createHeaders({ ...params, config }),
+          };
+      }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+      const OAIclient = new OpenAI({
+          apiKey: OPEN_AI_API_KEY,
+          baseURL: this.client.baseURL,
+          defaultHeaders: defaultHeadersBuilder(this.client),
+      });
 
-        const result = await OAIclient.beta.chat.completions.stream(body, opts);
-        return result;
+      const result = await OAIclient.beta.chat.completions.stream(body, opts).toReadableStream();
+      return result;
     }
 }
 
