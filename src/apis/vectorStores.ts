@@ -440,8 +440,10 @@ export class FileBatches extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        const body = {}
+        const options = { body, ...opts }
     
-        const result = await OAIclient.beta.vectorStores.fileBatches.cancel(vectorStoreId, batchId, opts).withResponse();
+        const result = await OAIclient.beta.vectorStores.fileBatches.cancel(vectorStoreId, batchId, options).withResponse();
 
         return finalResponse(result);
     

@@ -98,8 +98,10 @@ export class Batches extends ApiResource{
             baseURL: this.client.baseURL,
             defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        const body = {}
+        const options = { body, ...opts }
 
-        const result = await OAIclient.batches.cancel(batchId, opts).withResponse();
+        const result = await OAIclient.batches.cancel(batchId, options).withResponse();
         return finalResponse(result);
     }
 }

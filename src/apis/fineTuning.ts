@@ -113,8 +113,10 @@ export class Jobs extends ApiResource {
             baseURL: this.client.baseURL,
             defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        const body = {}
+        const options = { body, ...opts }
 
-        const result = await OAIclient.fineTuning.jobs.cancel(fineTuningJobId, opts).withResponse();
+        const result = await OAIclient.fineTuning.jobs.cancel(fineTuningJobId, options).withResponse();
         return finalResponse(result);
     }
 

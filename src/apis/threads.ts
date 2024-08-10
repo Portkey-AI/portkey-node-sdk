@@ -520,8 +520,10 @@ export class Runs extends ApiResource{
           baseURL: this.client.baseURL,
           defaultHeaders: defaultHeadersBuilder(this.client),
         });
+        const body = {}
+        const options = { body, ...opts }
     
-        const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, opts).withResponse();
+        const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, options).withResponse();
 
         return finalResponse(result);
     }

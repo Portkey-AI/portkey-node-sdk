@@ -56,7 +56,9 @@ export class Uploads extends ApiResource {
       baseURL: this.client.baseURL,
       defaultHeaders: defaultHeadersBuilder(this.client),
     });
-    const response = await OAIclient.uploads.cancel(uploadId, opts).withResponse();
+    const body = {}
+    const options = { body, ...opts }
+    const response = await OAIclient.uploads.cancel(uploadId, options).withResponse();
     return finalResponse(response);
   }
 
