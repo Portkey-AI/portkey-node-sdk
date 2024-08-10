@@ -2,10 +2,8 @@ import { BatchCreateParams, BatchListParams } from "openai/resources/batches";
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 
 export class Batches extends ApiResource{
 
@@ -23,11 +21,7 @@ export class Batches extends ApiResource{
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.batches.create(body, opts).withResponse();
         return finalResponse(result);
@@ -46,11 +40,7 @@ export class Batches extends ApiResource{
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.batches.retrieve(batchId, opts).withResponse();
         return finalResponse(result);
@@ -70,11 +60,7 @@ export class Batches extends ApiResource{
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.batches.list(query, opts).withResponse();
         return finalResponse(result);
@@ -93,11 +79,7 @@ export class Batches extends ApiResource{
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         const body = {}
         const options = { body, ...opts }
 

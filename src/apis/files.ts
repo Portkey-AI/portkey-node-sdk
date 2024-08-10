@@ -103,11 +103,7 @@ export class MainFiles extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.files.content(fileId, opts).withResponse();
 

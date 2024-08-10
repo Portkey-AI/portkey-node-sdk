@@ -2,10 +2,8 @@ import { TranscriptionCreateParams } from "openai/resources/audio/transcriptions
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 import { TranslationCreateParams } from "openai/resources/audio/translations";
 import { SpeechCreateParams } from "openai/resources/audio/speech";
 
@@ -36,11 +34,7 @@ export class transcriptions extends ApiResource{
                 ...createHeaders({ ...params, config }),
             };
         }
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         const response = await OAIclient.audio.transcriptions.create(body, opts).withResponse();
         return finalResponse(response);
     }
@@ -61,11 +55,7 @@ export class translations extends ApiResource{
                 ...createHeaders({ ...params, config }),
             };
         }
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         const response = await OAIclient.audio.translations.create(body, opts).withResponse();
         return finalResponse(response);
     }
@@ -86,11 +76,7 @@ export class speech extends ApiResource{
                 ...createHeaders({ ...params, config }),
             };
         }
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         const response = await OAIclient.audio.speech.create(body, opts);
         return response;
     }

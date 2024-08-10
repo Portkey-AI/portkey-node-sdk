@@ -2,10 +2,8 @@ import { Uploadable } from "openai/uploads";
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+import {  finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 
 export class VectorStores extends ApiResource {
   files: Files;
@@ -31,11 +29,7 @@ export class VectorStores extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.vectorStores
@@ -58,11 +52,7 @@ export class VectorStores extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.vectorStores
       .retrieve(vectorStoreId, opts)
@@ -86,11 +76,7 @@ export class VectorStores extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.vectorStores
       .update(vectorStoreId, body, opts)
@@ -113,11 +99,7 @@ export class VectorStores extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.vectorStores
       .list(query, opts)
@@ -138,11 +120,7 @@ export class VectorStores extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.vectorStores
       .del(vectorStoreId, opts)
@@ -172,11 +150,7 @@ export class Files extends ApiResource{
           };
         }
 
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.beta.vectorStores
           .files.create(vectorStoreId, body, opts)
@@ -199,11 +173,7 @@ export class Files extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.vectorStores.files.retrieve(vectorStoreId, fileId, opts).withResponse();
 
@@ -225,11 +195,7 @@ export class Files extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.vectorStores.files.list(vectorStoreId, query, opts).withResponse();
@@ -251,11 +217,7 @@ export class Files extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.vectorStores.files.del(vectorStoreId, fileId, opts).withResponse();
 
@@ -277,11 +239,7 @@ export class Files extends ApiResource{
           };
         }
 
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.beta.vectorStores
           .files.createAndPoll(vectorStoreId, body, opts);
@@ -303,11 +261,7 @@ export class Files extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.vectorStores.files.poll(vectorStoreId, fileId, opts);
 
@@ -328,11 +282,7 @@ export class Files extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.vectorStores.files.upload(vectorStoreId, file, opts);
 
@@ -353,11 +303,7 @@ export class Files extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.vectorStores.files.uploadAndPoll(vectorStoreId, file, opts);
 
@@ -383,11 +329,7 @@ export class FileBatches extends ApiResource{
           };
         }
 
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.beta.vectorStores
           .fileBatches.create(vectorStoreId, body, opts)
@@ -410,11 +352,7 @@ export class FileBatches extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.vectorStores.fileBatches.retrieve(vectorStoreId, batchId, opts).withResponse();
 
@@ -435,11 +373,7 @@ export class FileBatches extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         const body = {}
         const options = { body, ...opts }
     
@@ -464,11 +398,7 @@ export class FileBatches extends ApiResource{
           };
         }
 
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.beta.vectorStores
           .fileBatches.createAndPoll(vectorStoreId, body, opts);
@@ -493,11 +423,7 @@ export class FileBatches extends ApiResource{
           };
         }
         
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.vectorStores.fileBatches.listFiles(vectorStoreId, batchId, query, opts).withResponse();
@@ -519,11 +445,7 @@ export class FileBatches extends ApiResource{
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.vectorStores.fileBatches.poll(vectorStoreId, batchId, opts);
 
@@ -544,11 +466,7 @@ export class FileBatches extends ApiResource{
             }
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.beta.vectorStores.fileBatches.uploadAndPoll(vectorStoreId, { files, fileIds }, opts);
         return result;

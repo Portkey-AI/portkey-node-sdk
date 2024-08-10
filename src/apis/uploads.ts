@@ -1,10 +1,8 @@
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 import { UploadCompleteParams } from "openai/resources";
 import { Uploadable } from "openai/uploads";
 
@@ -30,11 +28,7 @@ export class Uploads extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
     const response = await OAIclient.uploads.create(body, opts).withResponse();
     return finalResponse(response);
   }
@@ -51,11 +45,7 @@ export class Uploads extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
     const body = {}
     const options = { body, ...opts }
     const response = await OAIclient.uploads.cancel(uploadId, options).withResponse();
@@ -76,11 +66,7 @@ export class Uploads extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
     const response = await OAIclient.uploads.complete(uploadId, body, opts).withResponse();
     return finalResponse(response);
   }
@@ -101,11 +87,7 @@ export class Parts extends ApiResource{
                 ...createHeaders({ ...params, config }),
             };
         }
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         const response = await OAIclient.uploads.parts.create(uploadId ,body, opts).withResponse();
         return finalResponse(response);
     }

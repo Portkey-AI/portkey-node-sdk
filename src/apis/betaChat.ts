@@ -2,10 +2,8 @@ import { ChatCompletionStreamParams } from "openai/lib/ChatCompletionStream";
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder,  overrideConfig } from "../utils";
+import { initOpenAIClient,  overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 import {
   ChatCompletionFunctionRunnerParams,
   ChatCompletionToolRunnerParams,
@@ -44,11 +42,7 @@ export class Completions extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    })
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.chat.completions.parse(body, opts);
     return result;
@@ -80,11 +74,7 @@ export class Completions extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.chat.completions.runFunctions(
       body,
@@ -119,11 +109,7 @@ export class Completions extends ApiResource {
       };
     }
 
-    const OAIclient = new OpenAI({
-      apiKey: OPEN_AI_API_KEY,
-      baseURL: this.client.baseURL,
-      defaultHeaders: defaultHeadersBuilder(this.client),
-    });
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.chat.completions.runTools(body, opts);
     return result;
@@ -142,11 +128,7 @@ export class Completions extends ApiResource {
           };
       }
 
-      const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-      });
+      const OAIclient = initOpenAIClient(this.client);
 
       const result = await OAIclient.beta.chat.completions.stream(body, opts).toReadableStream();
       return result;

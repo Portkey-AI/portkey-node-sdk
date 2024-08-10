@@ -2,10 +2,8 @@ import { JobCreateParams, JobListEventsParams, JobListParams } from "openai/reso
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 import { CheckpointListParams } from "openai/resources/fine-tuning/jobs/checkpoints";
 
 
@@ -38,11 +36,7 @@ export class Jobs extends ApiResource {
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.fineTuning.jobs.create(body, opts).withResponse();
         return finalResponse(result);
@@ -61,11 +55,7 @@ export class Jobs extends ApiResource {
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.fineTuning.jobs.retrieve(fineTuningJobId, opts).withResponse();
         return finalResponse(result);
@@ -85,11 +75,7 @@ export class Jobs extends ApiResource {
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.fineTuning.jobs.list(query, opts).withResponse();
         return finalResponse(result);
@@ -108,11 +94,7 @@ export class Jobs extends ApiResource {
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
         const body = {}
         const options = { body, ...opts }
 
@@ -135,11 +117,7 @@ export class Jobs extends ApiResource {
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.fineTuning.jobs.listEvents(fineTuningJobId, query, opts).withResponse();
         return finalResponse(result);
@@ -162,11 +140,7 @@ export class Checkpoints extends ApiResource {
             };
         }
 
-        const OAIclient = new OpenAI({
-            apiKey: OPEN_AI_API_KEY,
-            baseURL: this.client.baseURL,
-            defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient = initOpenAIClient(this.client);
 
         const result = await OAIclient.fineTuning.jobs.checkpoints.list(fineTuningJobId, query, opts).withResponse();
         return finalResponse(result);
