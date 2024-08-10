@@ -50,6 +50,7 @@ class ChatCompletions extends ApiResource {
 
 export interface ChatCompletionsBodyBase extends ModelParams {
     messages?: Array<Message>;
+    response_format?: object;
 }
 
 export interface ChatCompletionsBodyStreaming extends ChatCompletionsBodyBase {
@@ -69,6 +70,23 @@ interface Usage {
     total_tokens?: number;
 }
 
+interface FunctionType {
+    arguments?: string;
+    name?: string;
+  }
+
+interface ToolCall {
+    index?: number;
+    id?: string;
+    function?: FunctionType;
+    type?: 'function';
+  }
+
+interface FunctionCall {
+    arguments?: string;
+    name?: string;
+  }
+
 interface Message {
     role: string;
     content: string;
@@ -85,7 +103,7 @@ export interface Logprobs {
 interface Choices {
     index?: number;
     message?: Message;
-    delta?: Message
+    delta?: Message;
     finish_reason?: string;
     logprobs?: Logprobs
 }

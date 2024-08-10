@@ -6,8 +6,8 @@ import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
 import { castToError, readEnv } from "./utils";
 
 export class Portkey extends ApiClient {
-	override apiKey: string | null;
-	override baseURL: string;
+	declare apiKey: string | null;
+	declare baseURL: string;
 	virtualKey: string | null;
 	config: Record<string, unknown> | string | null | undefined;
 	provider: string | null | undefined;
@@ -17,6 +17,21 @@ export class Portkey extends ApiClient {
 	cacheForceRefresh?: boolean | null | undefined;
 	debug?: boolean | null | undefined;
 	customHost?: string | null | undefined;
+	openaiProject?: string | null | undefined;
+	openaiOrganization?: string | null | undefined;
+	awsSecretAccessKey?: string | null | undefined;
+	awsAccessKeyId?: string | null | undefined;
+	awsSessionToken?: string | null | undefined;
+	awsRegion?: string | null | undefined;
+	vertexProjectId?: string | null | undefined;
+	vertexRegion?: string | null | undefined;
+	workersAiAccountId?: string | null | undefined;
+	azureResourceName?: string | null | undefined;
+	azureDeploymentId?: string | null | undefined;
+	azureApiVersion?: string | null | undefined;
+	forwardHeaders?: Array<string> | null | undefined;
+	requestTimeout?: number | null | undefined;
+	cacheNamespace?: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -29,6 +44,21 @@ export class Portkey extends ApiClient {
 		cacheForceRefresh,
 		debug,
 		customHost,
+		openaiProject, 
+		openaiOrganization,
+		awsSecretAccessKey,
+		awsAccessKeyId,
+		awsSessionToken,
+		awsRegion,
+		vertexProjectId,
+		vertexRegion,
+		workersAiAccountId,
+		azureResourceName,
+		azureDeploymentId,
+		azureApiVersion,
+		forwardHeaders,
+		cacheNamespace,
+		requestTimeout,
 	}: ApiClientInterface) {
 
 		super({
@@ -42,7 +72,22 @@ export class Portkey extends ApiClient {
 			Authorization,
 			cacheForceRefresh,
 			debug,
-			customHost
+			customHost,
+			cacheNamespace,
+			openaiProject,
+			openaiOrganization,
+			awsSecretAccessKey,
+			awsAccessKeyId,
+			awsSessionToken,
+			awsRegion,
+			vertexProjectId,
+			vertexRegion,
+			workersAiAccountId,
+			azureResourceName,
+			azureDeploymentId,
+			azureApiVersion,
+			forwardHeaders,
+			requestTimeout,
 		});
 
 		this.apiKey = apiKey;
@@ -57,7 +102,22 @@ export class Portkey extends ApiClient {
 		this.metadata = metadata
 		this.cacheForceRefresh = cacheForceRefresh;
 		this.debug = debug;
-		this.customHost = customHost
+		this.customHost = customHost;
+		this.cacheNamespace = cacheNamespace;;
+		this.openaiProject = openaiProject;
+		this.openaiOrganization = openaiOrganization;
+		this.awsSecretAccessKey = awsSecretAccessKey;
+		this.awsAccessKeyId = awsAccessKeyId;
+		this.awsSessionToken = awsSessionToken;
+		this.awsRegion = awsRegion;
+		this.vertexProjectId = vertexProjectId;
+		this.vertexRegion = vertexRegion;
+		this.workersAiAccountId = workersAiAccountId;
+		this.azureResourceName = azureResourceName;
+		this.azureDeploymentId = azureDeploymentId;
+		this.azureApiVersion = azureApiVersion;
+		this.forwardHeaders = forwardHeaders;
+		this.requestTimeout = requestTimeout;
 	}
 
 	completions: API.Completions = new API.Completions(this);

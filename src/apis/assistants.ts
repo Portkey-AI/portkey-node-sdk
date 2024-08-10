@@ -1,10 +1,8 @@
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 
 export interface AssistantCreateParams {
     model: string;
@@ -66,11 +64,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.create(body, opts).withResponse();
 
@@ -91,11 +85,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
         const result = await OAIclient.beta.assistants.list(query, opts).withResponse();
@@ -116,11 +106,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.retrieve(assistantId, opts).withResponse();
 
@@ -142,11 +128,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.update(assistantId, body, opts).withResponse();
 
@@ -166,11 +148,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.del(assistantId, opts).withResponse();
 
