@@ -31,6 +31,10 @@ export interface ModelParams {
     user?: string;
     organization?: string;
     seed?: number;
+    response_format?: any;
+    service_tier?: string;
+    top_logprobs?: number | null;
+    parallel_tool_calls?: boolean
 }
 
 export interface Message {

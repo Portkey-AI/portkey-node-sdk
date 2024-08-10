@@ -5,8 +5,8 @@ import { OPEN_AI_API_KEY } from "../constants";
 import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 import OpenAI from "openai";
-import { PartCreateParams } from "openai/resources/uploads/parts";
-import { UploadCompleteParams, UploadCreateParams } from "openai/resources";
+import { UploadCompleteParams } from "openai/resources";
+import { Uploadable } from "openai/uploads";
 
 export class Uploads extends ApiResource {
   parts: Parts 
@@ -107,4 +107,15 @@ export class Parts extends ApiResource{
         const response = await OAIclient.uploads.parts.create(uploadId ,body, opts).withResponse();
         return finalResponse(response);
     }
+}
+
+export interface UploadCreateParams {
+  bytes: number;
+  filename: string;
+  mime_type: string;
+  purpose: 'assistants' | 'batch' | 'fine-tune' | 'vision';
+}
+
+export interface PartCreateParams {
+  data: Uploadable;
 }
