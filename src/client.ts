@@ -29,6 +29,7 @@ export class Portkey extends ApiClient {
 	azureResourceName?: string | null | undefined;
 	azureDeploymentId?: string | null | undefined;
 	azureApiVersion?: string | null | undefined;
+	huggingfaceBaseUrl?: string | null | undefined;
 	forwardHeaders?: Array<string> | null | undefined;
 	requestTimeout?: number | null | undefined;
 	cacheNamespace?: string | null | undefined;
@@ -56,6 +57,7 @@ export class Portkey extends ApiClient {
 		azureResourceName,
 		azureDeploymentId,
 		azureApiVersion,
+		huggingfaceBaseUrl,
 		forwardHeaders,
 		cacheNamespace,
 		requestTimeout,
@@ -86,6 +88,7 @@ export class Portkey extends ApiClient {
 			azureResourceName,
 			azureDeploymentId,
 			azureApiVersion,
+			huggingfaceBaseUrl,
 			forwardHeaders,
 			requestTimeout,
 		});
@@ -116,6 +119,7 @@ export class Portkey extends ApiClient {
 		this.azureResourceName = azureResourceName;
 		this.azureDeploymentId = azureDeploymentId;
 		this.azureApiVersion = azureApiVersion;
+		this.huggingfaceBaseUrl = huggingfaceBaseUrl;
 		this.forwardHeaders = forwardHeaders;
 		this.requestTimeout = requestTimeout;
 	}
