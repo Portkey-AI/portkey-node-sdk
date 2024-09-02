@@ -130,7 +130,7 @@ export class Completions extends ApiResource {
 
       const OAIclient = initOpenAIClient(this.client);
 
-      const result = await OAIclient.beta.chat.completions.stream(body, opts).toReadableStream();
+      const result = await OAIclient.beta.chat.completions.stream(body, opts);
       return result;
     }
 }
