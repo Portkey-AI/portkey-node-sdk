@@ -1,8 +1,9 @@
 import { ApiClientInterface } from "./_types/generalTypes";
 import * as API from "./apis";
-import { PostBodyParams } from "./apis/postMethod";
-import { ApiClient, RequestOptions } from "./baseClient";
+import { PostBodyParams, PostResponse } from "./apis/postMethod";
+import { ApiClient, APIPromise, RequestOptions } from "./baseClient";
 import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
+import { Stream } from "./streaming";
 import { castToError, readEnv } from "./utils";
 
 export class Portkey extends ApiClient {
@@ -140,7 +141,7 @@ export class Portkey extends ApiClient {
 		_body: PostBodyParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	) => {
+	): APIPromise<Stream<PostResponse>> | APIPromise<PostResponse>  => {
 		return new API.postMethod(this).create(url, _body, params, opts)
 	};
 
