@@ -70,11 +70,6 @@ interface Usage {
     total_tokens?: number;
 }
 
-interface FunctionType {
-    arguments?: string;
-    name?: string;
-}
-
 interface Message {
     role: string;
     content: string;
