@@ -73,19 +73,7 @@ interface Usage {
 interface FunctionType {
     arguments?: string;
     name?: string;
-  }
-
-interface ToolCall {
-    index?: number;
-    id?: string;
-    function?: FunctionType;
-    type?: 'function';
-  }
-
-interface FunctionCall {
-    arguments?: string;
-    name?: string;
-  }
+}
 
 interface Message {
     role: string;
@@ -93,6 +81,7 @@ interface Message {
     refusal?: string;
     function_call?: any;
     tool_calls?: Array<ChatCompletionMessageToolCall>;
+    tool_call_id?: string;
 }
 
 export interface Logprobs {
