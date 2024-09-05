@@ -120,10 +120,10 @@ export abstract class ApiClient {
     portkeyHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, huggingfaceBaseUrl, forwardHeaders, cacheNamespace, requestTimeout }: ApiClientInterface) {
+    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, huggingfaceBaseUrl, forwardHeaders, cacheNamespace, requestTimeout, strictOpenAiCompliance }: ApiClientInterface) {
         this.apiKey = apiKey ?? "";
         this.baseURL = baseURL ?? "";
-        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, cacheNamespace, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, huggingfaceBaseUrl, forwardHeaders, requestTimeout })
+        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, cacheNamespace, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, huggingfaceBaseUrl, forwardHeaders, requestTimeout, strictOpenAiCompliance })
         this.portkeyHeaders = this.defaultHeaders()
         this.fetch = fetch;
         this.responseHeaders = {}
