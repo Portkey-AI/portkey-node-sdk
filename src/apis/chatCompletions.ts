@@ -68,7 +68,14 @@ interface Usage {
     prompt_tokens?: number;
     completion_tokens?: number;
     total_tokens?: number;
+    [key: string]: any;
 }
+
+interface FunctionType {
+    arguments?: string;
+    name?: string;
+    [key: string]: any;
+  }
 
 interface Message {
     role: string;
@@ -82,7 +89,8 @@ interface Message {
 export interface Logprobs {
     content: Array<ChatCompletionTokenLogprob> | null;
     refusal: Array<ChatCompletionTokenLogprob> | null;
-  }
+      [key: string]: any;
+}
 
 interface Choices {
     index?: number;
@@ -90,6 +98,7 @@ interface Choices {
     delta?: Message;
     finish_reason?: string;
     logprobs?: Logprobs
+    [key: string]: any;
 }
 
 interface ChatCompletion extends APIResponseType {
@@ -101,4 +110,5 @@ interface ChatCompletion extends APIResponseType {
     usage: Usage;
     service_tier?: string;
     system_fingerprint?: string;
+    [key: string]: any;
 }
