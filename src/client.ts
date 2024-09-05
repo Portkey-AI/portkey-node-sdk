@@ -1,8 +1,9 @@
 import { ApiClientInterface } from "./_types/generalTypes";
 import * as API from "./apis";
-import { PostBodyParams } from "./apis/postMethod";
-import { ApiClient, RequestOptions } from "./baseClient";
+import { PostBodyParams, PostResponse } from "./apis/postMethod";
+import { ApiClient, APIPromise, RequestOptions } from "./baseClient";
 import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
+import { Stream } from "./streaming";
 import { castToError, readEnv } from "./utils";
 
 export class Portkey extends ApiClient {
@@ -29,6 +30,7 @@ export class Portkey extends ApiClient {
 	azureResourceName?: string | null | undefined;
 	azureDeploymentId?: string | null | undefined;
 	azureApiVersion?: string | null | undefined;
+	huggingfaceBaseUrl?: string | null | undefined;
 	forwardHeaders?: Array<string> | null | undefined;
 	requestTimeout?: number | null | undefined;
 	cacheNamespace?: string | null | undefined;
@@ -57,6 +59,7 @@ export class Portkey extends ApiClient {
 		azureResourceName,
 		azureDeploymentId,
 		azureApiVersion,
+		huggingfaceBaseUrl,
 		forwardHeaders,
 		cacheNamespace,
 		requestTimeout,
@@ -88,6 +91,7 @@ export class Portkey extends ApiClient {
 			azureResourceName,
 			azureDeploymentId,
 			azureApiVersion,
+			huggingfaceBaseUrl,
 			forwardHeaders,
 			requestTimeout,
 			strictOpenAiCompliance,
@@ -119,6 +123,7 @@ export class Portkey extends ApiClient {
 		this.azureResourceName = azureResourceName;
 		this.azureDeploymentId = azureDeploymentId;
 		this.azureApiVersion = azureApiVersion;
+		this.huggingfaceBaseUrl = huggingfaceBaseUrl;
 		this.forwardHeaders = forwardHeaders;
 		this.requestTimeout = requestTimeout;
 		this.strictOpenAiCompliance = strictOpenAiCompliance;
@@ -144,7 +149,7 @@ export class Portkey extends ApiClient {
 		_body: PostBodyParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	) => {
+	): APIPromise<Stream<PostResponse>> | APIPromise<PostResponse>  => {
 		return new API.postMethod(this).create(url, _body, params, opts)
 	};
 
