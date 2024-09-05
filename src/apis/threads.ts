@@ -122,17 +122,51 @@ const OAIclient =  initOpenAIClient(this.client);
         return finalResponse(result);
     }
 
+    async createAndRunPoll(
+      _body: ThreadCreateAndRunParamsNonStreaming,
+      params?: ApiClientInterface,
+      opts?: RequestOptions & {pollIntervalMs?: number}
+    ): Promise<any> {
+      const body: ThreadCreateAndRunParamsNonStreaming = _body;
+      if (params) {
+        const config = overrideConfig(this.client.config, params.config);
+        this.client.customHeaders = {
+          ...this.client.customHeaders,
+          ...createHeaders({ ...params, config }),
+        };
+      }
+  
+      const OAIclient = initOpenAIClient(this.client);
+  
+      const result = await OAIclient.beta.threads.createAndRunPoll(body, opts)
+      return result;
+
+  }
+
+  async createAndRunStream(
+    _body: ThreadCreateAndRunParamsBaseStream,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: ThreadCreateAndRunParamsBaseStream = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+  
+    const OAIclient = initOpenAIClient(this.client);
+  
+    const result = await OAIclient.beta.threads.createAndRunStream(body, opts);
+    return result;
+  }
+
 }
 
 
 export class Messages extends ApiResource{
-
-    files: Files;
-
-    constructor(client:any) {
-        super(client);
-        this.files = new Files(client);
-    }
 
     async create(
         threadId: string,
@@ -228,56 +262,6 @@ const OAIclient =  initOpenAIClient(this.client);
 
 }
 
-export class Files extends ApiResource{
-
-    async list(
-        threadId: string,
-        messageId: string,
-        _query?: FileListParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        const query: FileListParams | undefined = _query;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-        
-const OAIclient =  initOpenAIClient(this.client);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = await OAIclient.beta.threads.messages.files.list(threadId, messageId, query, opts).withResponse();
-
-        return finalResponse(result);
-    }
-
-    async retrieve(
-        threadId: string,
-        messageId: string,
-        fileId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-const OAIclient =  initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.threads.messages.files.retrieve(threadId, messageId, fileId, opts).withResponse();
-
-        return finalResponse(result);
-    }
-
-}
-
 
 export class Runs extends ApiResource{
 
@@ -303,7 +287,7 @@ export class Runs extends ApiResource{
           };
         }
     
-const OAIclient =  initOpenAIClient(this.client);
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.create(threadId, body, opts).withResponse();
 
@@ -325,7 +309,7 @@ const OAIclient =  initOpenAIClient(this.client);
           };
         }
         
-const OAIclient =  initOpenAIClient(this.client);
+        const OAIclient =  initOpenAIClient(this.client);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const result = await OAIclient.beta.threads.runs.list(threadId, query, opts).withResponse();
@@ -347,7 +331,7 @@ const OAIclient =  initOpenAIClient(this.client);
           };
         }
         
-const OAIclient =  initOpenAIClient(this.client);
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.retrieve(threadId, runId, opts).withResponse();
 
@@ -370,7 +354,7 @@ const OAIclient =  initOpenAIClient(this.client);
           };
         }
         
-const OAIclient =  initOpenAIClient(this.client);
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.update(threadId, runId, body, opts).withResponse();
 
@@ -393,11 +377,55 @@ const OAIclient =  initOpenAIClient(this.client);
           };
         }
         
-const OAIclient =  initOpenAIClient(this.client);
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.threads.runs.submitToolOutputs(threadId, runId, body, opts).withResponse();
 
         return finalResponse(result);
+    }
+
+    async submitToolOutputsAndPoll(
+        threadId: string,
+        runId: string,
+        _body: RunSubmitToolOutputsParamsNonStreaming,
+        params?: ApiClientInterface,
+        opts?: RequestOptions & {pollIntervalMs?: number}
+    ): Promise<any> {
+        const body: RunSubmitToolOutputsParamsNonStreaming = _body;
+        if (params) {
+          const config = overrideConfig(this.client.config, params.config);
+          this.client.customHeaders = {
+            ...this.client.customHeaders,
+            ...createHeaders({ ...params, config }),
+          };
+        }
+        
+        const OAIclient = initOpenAIClient(this.client);
+    
+        const result = await OAIclient.beta.threads.runs.submitToolOutputsAndPoll(threadId, runId, body, opts);
+        return result;
+    }
+
+    async submitToolOutputsStream(
+        threadId: string,
+        runId: string,
+        _body: RunSubmitToolOutputsParamsStreaming,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): Promise<any> {
+        const body: RunSubmitToolOutputsParamsStreaming = _body;
+        if (params) {
+          const config = overrideConfig(this.client.config, params.config);
+          this.client.customHeaders = {
+            ...this.client.customHeaders,
+            ...createHeaders({ ...params, config }),
+          };
+        }
+        
+        const OAIclient = initOpenAIClient(this.client);
+    
+        const result = await OAIclient.beta.threads.runs.submitToolOutputsStream(threadId, runId, body, opts);
+        return result;
     }
 
     async cancel(
@@ -414,11 +442,96 @@ const OAIclient =  initOpenAIClient(this.client);
           };
         }
         
-const OAIclient =  initOpenAIClient(this.client);
+        const OAIclient =  initOpenAIClient(this.client);
+        const body = {}
+        const options = { body, ...opts }
     
-        const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, opts).withResponse();
+        const result = await OAIclient.beta.threads.runs.cancel(threadId, runId, options).withResponse();
 
         return finalResponse(result);
+    }
+
+    async createAndPoll(
+      threadId: string,
+      _body: RunCreateParamsNonStreaming,
+      params?: ApiClientInterface,
+      opts?: RequestOptions & {pollIntervalMs?: number},
+    ): Promise<any> {
+      const body: RunCreateParamsNonStreaming = _body;
+      if (params) {
+        const config = overrideConfig(this.client.config, params.config);
+        this.client.customHeaders = {
+          ...this.client.customHeaders,
+          ...createHeaders({ ...params, config }),
+        };
+      }
+      
+      const OAIclient = initOpenAIClient(this.client);
+
+      const result = await OAIclient.beta.threads.runs.createAndPoll(threadId, body, opts);
+      return result;
+    }
+
+    async createAndStream(
+      threadId: string,
+      _body: RunCreateParamsBaseStream,
+      params?: ApiClientInterface,
+      opts?: RequestOptions
+    ): Promise<any> {
+      const body: RunCreateParamsBaseStream = _body;
+      if (params) {
+        const config = overrideConfig(this.client.config, params.config);
+        this.client.customHeaders = {
+          ...this.client.customHeaders,
+          ...createHeaders({ ...params, config }),
+        };
+      }
+
+      const OAIclient = initOpenAIClient(this.client);
+
+      const result = await OAIclient.beta.threads.runs.createAndStream(threadId, body, opts);
+      return result;
+    }
+
+    async poll(
+      threadId: string,
+      runId: string,
+      params?: ApiClientInterface,
+      opts?: RequestOptions & {pollIntervalMs?: number}
+    ): Promise<any> {
+      if (params) {
+        const config = overrideConfig(this.client.config, params.config);
+        this.client.customHeaders = {
+          ...this.client.customHeaders,
+          ...createHeaders({ ...params, config }),
+        };
+      }
+      
+      const OAIclient = initOpenAIClient(this.client);
+
+      const result = await OAIclient.beta.threads.runs.poll(threadId, runId, opts);
+      return result
+    }
+
+    async stream(
+      threadId: string,
+      _body: RunCreateParamsBaseStream,
+      params?: ApiClientInterface,
+      opts?: RequestOptions
+    ): Promise<any> { 
+      const body: RunCreateParamsBaseStream = _body;
+      if (params) {
+        const config = overrideConfig(this.client.config, params.config);
+        this.client.customHeaders = {
+          ...this.client.customHeaders,
+          ...createHeaders({ ...params, config }),
+        };
+      }
+
+      const OAIclient = initOpenAIClient(this.client);
+
+      const result = await OAIclient.beta.threads.runs.stream(threadId, body, opts);
+      return result;
     }
 
 }
@@ -528,6 +641,9 @@ export interface RunCreateParams {
     tools?: Array<any> | null;
 }
 
+export interface RunCreateParamsNonStreaming extends RunCreateParams {
+    stream?: false | null;
+}
 export interface ThreadCreateAndRunParams {
 
     assistant_id: string;
@@ -537,6 +653,14 @@ export interface ThreadCreateAndRunParams {
     thread?: any;
     tools?: Array<any> | null;
 }
+
+export interface ThreadCreateAndRunParamsNonStreaming extends ThreadCreateAndRunParams{
+    stream?: false | null;
+}
+
+export type ThreadCreateAndRunParamsBaseStream = Omit<ThreadCreateAndRunParams, 'stream'> & {
+  stream?: true;
+};
 
 export interface RunListParams extends CursorPageParams {
     before?: string;
@@ -560,4 +684,16 @@ export interface RunSubmitToolOutputsParams {
 export interface ToolOutput {
   output?: string;
   tool_call_id?: string;
+}
+
+export type RunCreateParamsBaseStream = Omit<RunCreateParams, 'stream'> & {
+  stream?: true;
+};
+
+export interface RunSubmitToolOutputsParamsNonStreaming extends RunSubmitToolOutputsParams {
+    stream?: false | null;
+}
+
+export interface RunSubmitToolOutputsParamsStreaming extends RunSubmitToolOutputsParams {
+  stream: true;
 }

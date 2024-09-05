@@ -64,10 +64,20 @@ interface Usage {
     total_tokens?: number;
 }
 
+interface Logprobs {
+    text_offset?: Array<number>;
+
+    token_logprobs?: Array<number>;
+
+    tokens?: Array<string>;
+
+    top_logprobs?: Array<Record<string, number>>;
+  }
+
 interface Choices {
     index?: number;
     text?: string;
-    logprobs: any;
+    logprobs: Logprobs;
     finish_reason?: string;
 }
 
@@ -78,4 +88,5 @@ interface TextCompletion extends APIResponseType {
     model: string;
     choices: Array<Choices>;
     usage?: Usage;
+    system_fingerprint?: string;
 }

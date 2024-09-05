@@ -90,6 +90,26 @@ export class MainFiles extends ApiResource {
     return finalResponse(result);
   }
 
+  async content(
+    fileId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.files.content(fileId, opts).withResponse();
+
+    return finalResponse(result);
+  }
+  
   async retrieveContent(
     fileId: string,
     params?: ApiClientInterface,

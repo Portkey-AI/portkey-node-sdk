@@ -1,3 +1,4 @@
+import { ChatCompletionMessageToolCall, ChatCompletionStreamOptions, ChatCompletionTokenLogprob } from "openai/resources/chat/completions";
 import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { ModelParams } from "../_types/portkeyConstructs";
 import { ApiResource } from "../apiResource";
@@ -54,6 +55,7 @@ export interface ChatCompletionsBodyBase extends ModelParams {
 
 export interface ChatCompletionsBodyStreaming extends ChatCompletionsBodyBase {
     stream?: true;
+    stream_options?: ChatCompletionStreamOptions
 }
 
 export interface ChatCompletionsBodyNonStreaming extends ChatCompletionsBodyBase {
@@ -75,26 +77,19 @@ interface FunctionType {
     [key: string]: any;
   }
 
-interface ToolCall {
-    index?: number;
-    id?: string;
-    function?: FunctionType;
-    type?: 'function';
-    [key: string]: any;
-  }
-
-interface FunctionCall {
-    arguments?: string;
-    name?: string;
-    [key: string]: any;
-  }
-
 interface Message {
     role: string;
-    content: string | null;
-    function_call?: FunctionCall;
-    tool_calls?: Array<ToolCall>;
-    [key: string]: any;
+    content: string;
+    refusal?: string;
+    function_call?: any;
+    tool_calls?: Array<ChatCompletionMessageToolCall>;
+    tool_call_id?: string;
+}
+
+export interface Logprobs {
+    content: Array<ChatCompletionTokenLogprob> | null;
+    refusal: Array<ChatCompletionTokenLogprob> | null;
+      [key: string]: any;
 }
 
 interface Choices {
@@ -102,6 +97,7 @@ interface Choices {
     message?: Message;
     delta?: Message;
     finish_reason?: string;
+    logprobs?: Logprobs
     [key: string]: any;
 }
 
@@ -112,5 +108,7 @@ interface ChatCompletion extends APIResponseType {
     model: string;
     choices: Array<Choices>;
     usage: Usage;
+    service_tier?: string;
+    system_fingerprint?: string;
     [key: string]: any;
 }

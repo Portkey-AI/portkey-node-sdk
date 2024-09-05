@@ -1,4 +1,4 @@
-import { PORTKEY_HEADER_PREFIX } from "./constants";
+import { OPEN_AI_API_KEY, PORTKEY_HEADER_PREFIX } from "./constants";
 import { createResponseHeaders } from "./streaming";
 import OpenAI from "openai";
 import type { Portkey } from "./index";
@@ -124,7 +124,7 @@ export function defaultHeadersBuilder(client: any){
 
 export function initOpenAIClient(client: Portkey){
 	return new OpenAI({
-		apiKey: client.apiKey || readEnv("OPENAI_API_KEY"),
+		apiKey: client.apiKey || readEnv("OPENAI_API_KEY") || OPEN_AI_API_KEY,
 		baseURL: client.baseURL,
 		defaultHeaders: defaultHeadersBuilder(client),
 		maxRetries: 0
