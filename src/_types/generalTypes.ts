@@ -29,6 +29,7 @@ export interface ApiClientInterface {
     cacheNamespace?: string | null | undefined;
     requestTimeout?: number | null | undefined;
     strictOpenAiCompliance?: boolean | null | undefined;
+    anthropicBeta?: string | null | undefined;
 }
 
 export interface APIResponseType {
