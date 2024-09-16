@@ -14,6 +14,7 @@ export interface ApiClientInterface {
     customHost?: string | null | undefined;
     openaiProject?: string | null | undefined;
     openaiOrganization?: string | null | undefined;
+    inputAudioLength?: number | null | undefined;
     awsSecretAccessKey?: string | null | undefined;
     awsAccessKeyId?: string | null | undefined;
     awsSessionToken?: string | null | undefined;
