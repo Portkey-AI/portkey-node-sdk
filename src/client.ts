@@ -20,6 +20,7 @@ export class Portkey extends ApiClient {
 	customHost?: string | null | undefined;
 	openaiProject?: string | null | undefined;
 	openaiOrganization?: string | null | undefined;
+	inputAudioLength?: number | null | undefined;
 	awsSecretAccessKey?: string | null | undefined;
 	awsAccessKeyId?: string | null | undefined;
 	awsSessionToken?: string | null | undefined;
@@ -49,6 +50,7 @@ export class Portkey extends ApiClient {
 		customHost,
 		openaiProject, 
 		openaiOrganization,
+		inputAudioLength,
 		awsSecretAccessKey,
 		awsAccessKeyId,
 		awsSessionToken,
@@ -81,6 +83,7 @@ export class Portkey extends ApiClient {
 			cacheNamespace,
 			openaiProject,
 			openaiOrganization,
+			inputAudioLength,
 			awsSecretAccessKey,
 			awsAccessKeyId,
 			awsSessionToken,
@@ -113,6 +116,7 @@ export class Portkey extends ApiClient {
 		this.cacheNamespace = cacheNamespace;;
 		this.openaiProject = openaiProject;
 		this.openaiOrganization = openaiOrganization;
+		this.inputAudioLength = inputAudioLength;
 		this.awsSecretAccessKey = awsSecretAccessKey;
 		this.awsAccessKeyId = awsAccessKeyId;
 		this.awsSessionToken = awsSessionToken;
