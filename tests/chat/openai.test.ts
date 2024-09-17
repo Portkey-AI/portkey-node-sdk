@@ -70,4 +70,11 @@ describe('Openai ChatCompletions APIs', () => {
         expect(completion.choices).toBeDefined();
         expect(completion.choices.length).toBeGreaterThan(0);
     });
+
+        test('model: gpt-4-turbo-2024-04-09', async () => {
+        const completion = await client.chat.completions.create({ model: 'gpt-4-turbo-2024-04-09', messages: [{ "role": "user", "content": "Say this is a test" }] });
+        expect(completion).toBeDefined();
+        expect(completion.choices).toBeDefined();
+        expect(completion.choices.length).toBeGreaterThan(0);
+    });
 });

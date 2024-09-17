@@ -30,9 +30,21 @@ export interface ModelParams {
     logit_bias?: Record<string, number>;
     user?: string;
     organization?: string;
+    seed?: number;
+    response_format?: any;
+    service_tier?: string;
+    top_logprobs?: number | null;
+    parallel_tool_calls?: boolean;
+    tools?: Array<Tool>;
+    tool_choice?: any;
 }
 
 export interface Message {
     role: string
     content: string
+}
+
+export interface Tool {
+    type?: string;
+    function?: Record<string, any>
 }

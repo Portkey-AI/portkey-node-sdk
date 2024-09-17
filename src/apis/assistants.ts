@@ -1,19 +1,21 @@
 import { ApiClientInterface } from "../_types/generalTypes";
 import { ApiResource } from "../apiResource";
 import { RequestOptions } from "../baseClient";
-import { OPEN_AI_API_KEY } from "../constants";
-import { defaultHeadersBuilder, finalResponse, overrideConfig } from "../utils";
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
-import OpenAI from "openai";
 
 export interface AssistantCreateParams {
     model: string;
     description?: string | null;
-    file_ids?: Array<string>;
     instructions?: string | null;
     metadata?: unknown | null;
     name?: string | null;
     tools?: Array<any>;
+    response_format?: any | null;
+    temperature?: number | null;
+    tool_resources?: any | null;
+    top_p?: number | null;
+    
 }
 
 export interface FileCreateParams {
@@ -47,13 +49,6 @@ export interface AssistantUpdateParams {
 
 
 export class Assistants extends ApiResource {
-    
-    files: Files;
-
-    constructor(client:any) {
-        super(client);
-        this.files = new Files(client);
-    }
 
     async create(
         _body: AssistantCreateParams,
@@ -69,11 +64,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.create(body, opts).withResponse();
 
@@ -94,11 +85,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
         const result = await OAIclient.beta.assistants.list(query, opts).withResponse();
@@ -119,11 +106,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.retrieve(assistantId, opts).withResponse();
 
@@ -145,11 +128,7 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.update(assistantId, body, opts).withResponse();
 
@@ -169,123 +148,11 @@ export class Assistants extends ApiResource {
           };
         }
     
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
+        const OAIclient =  initOpenAIClient(this.client);
     
         const result = await OAIclient.beta.assistants.del(assistantId, opts).withResponse();
 
         return finalResponse(result);
     }
     
-}
-
-export class Files extends ApiResource{
-    
-    async create(
-        assistantId: string,
-        _body: FileCreateParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        const body: FileCreateParams = _body;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-        
-    
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
-    
-        const result = await OAIclient.beta.assistants.files.create(assistantId, body, opts).withResponse();
-
-        return finalResponse(result);
-    }
-
-    async list(
-        assistantId: string,
-        _query?: FileListParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        const query: FileListParams | undefined = _query;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-        
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = await OAIclient.beta.assistants.files.list(assistantId, query, opts).withResponse();
-
-        return finalResponse(result);
-    }
-
-    async retrieve(
-        assistantId: string,
-        fileId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
-    
-        const result = await OAIclient.beta.assistants.files.retrieve(assistantId, fileId, opts).withResponse();
-
-        return finalResponse(result);
-    } 
-    
-    async del(
-        assistantId: string,
-        fileId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = new OpenAI({
-          apiKey: OPEN_AI_API_KEY,
-          baseURL: this.client.baseURL,
-          defaultHeaders: defaultHeadersBuilder(this.client),
-        });
-    
-        const result = await OAIclient.beta.assistants.files.del(assistantId, fileId, opts).withResponse();
-
-        return finalResponse(result);
-    } 
-
 }

@@ -1,13 +1,14 @@
 import { ApiClientInterface } from "./_types/generalTypes";
 import * as API from "./apis";
-import { PostBodyParams } from "./apis/postMethod";
-import { ApiClient, RequestOptions } from "./baseClient";
+import { PostBodyParams, PostResponse } from "./apis/postMethod";
+import { ApiClient, APIPromise, RequestOptions } from "./baseClient";
 import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from "./constants";
+import { Stream } from "./streaming";
 import { castToError, readEnv } from "./utils";
 
 export class Portkey extends ApiClient {
-	override apiKey: string | null;
-	override baseURL: string;
+	declare apiKey: string | null;
+	declare baseURL: string;
 	virtualKey: string | null;
 	config: Record<string, unknown> | string | null | undefined;
 	provider: string | null | undefined;
@@ -29,9 +30,11 @@ export class Portkey extends ApiClient {
 	azureResourceName?: string | null | undefined;
 	azureDeploymentId?: string | null | undefined;
 	azureApiVersion?: string | null | undefined;
+	huggingfaceBaseUrl?: string | null | undefined;
 	forwardHeaders?: Array<string> | null | undefined;
 	requestTimeout?: number | null | undefined;
 	cacheNamespace?: string | null | undefined;
+	strictOpenAiCompliance?: boolean | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -56,9 +59,11 @@ export class Portkey extends ApiClient {
 		azureResourceName,
 		azureDeploymentId,
 		azureApiVersion,
+		huggingfaceBaseUrl,
 		forwardHeaders,
 		cacheNamespace,
 		requestTimeout,
+		strictOpenAiCompliance,
 	}: ApiClientInterface) {
 
 		super({
@@ -86,8 +91,10 @@ export class Portkey extends ApiClient {
 			azureResourceName,
 			azureDeploymentId,
 			azureApiVersion,
+			huggingfaceBaseUrl,
 			forwardHeaders,
 			requestTimeout,
+			strictOpenAiCompliance,
 		});
 
 		this.apiKey = apiKey;
@@ -116,23 +123,32 @@ export class Portkey extends ApiClient {
 		this.azureResourceName = azureResourceName;
 		this.azureDeploymentId = azureDeploymentId;
 		this.azureApiVersion = azureApiVersion;
+		this.huggingfaceBaseUrl = huggingfaceBaseUrl;
 		this.forwardHeaders = forwardHeaders;
 		this.requestTimeout = requestTimeout;
+		this.strictOpenAiCompliance = strictOpenAiCompliance;
 	}
 
 	completions: API.Completions = new API.Completions(this);
 	chat = new API.Chat(this);
+	embeddings = new API.Embeddings(this);
+	files = new API.MainFiles(this);
+	images = new API.Images(this);
+	models = new API.Models(this);
 	generations = new API.Generations(this);
 	prompts = new API.Prompt(this);
 	feedback = new API.Feedback(this);
-	embeddings = new API.Embeddings(this);
-	images = new API.Images(this);
-	files = new API.MainFiles(this);
-	models = new API.Models(this);
+	batches = new API.Batches(this);
+	fineTuning = new API.FineTuning(this);
+	moderations = new API.Moderations(this);
+	audio = new API.Audio(this);
+	uploads = new API.Uploads(this);
 	admin = new API.Admin(this);
 	beta = {
 		assistants: new API.Assistants(this),
-		threads: new API.Threads(this)
+		threads: new API.Threads(this),
+		vectorStores: new API.VectorStores(this),
+		chat: new API.BetaChat(this),
 	};
 
 
@@ -141,7 +157,7 @@ export class Portkey extends ApiClient {
 		_body: PostBodyParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	) => {
+	): APIPromise<Stream<PostResponse>> | APIPromise<PostResponse>  => {
 		return new API.postMethod(this).create(url, _body, params, opts)
 	};
 
