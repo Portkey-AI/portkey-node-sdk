@@ -125,11 +125,48 @@ export interface WorkspacesUpdateParams extends APIResponseType {
     description?: string,
     defaults?: Record<string, any>,
 }
-
-
-
+export interface WorkspaceMemberAddParams extends APIResponseType {
+    workspaceId?: string,
+    users?: Record<string, string>[],
+}
+export interface WorkspaceMemberRetrieveParams extends APIResponseType {
+    workspaceId?: string,
+    userId?: string,
+}
+export interface WorkspaceMemberRetrieveAllParams extends APIResponseType {
+    workspaceId?: string,
+    pageSize?: number,
+    currentPage?: number,
+    email?: string,
+    role?: string,
+}
+export interface WorkspaceMemberRetrieveResponse extends APIResponseType {
+    object?: string,
+    id?: string,
+    first_name?: string,
+    last_name?: string,
+    org_role?: string,
+    role?: string,
+    created_at?: Date,
+    last_updated_at?: Date,
+    status?: string
+}
+export interface WorkspaceMemberRetrieveAllResponse extends APIResponseType {
+    total?: number,
+    object?: string,
+    data?: WorkspaceMemberRetrieveResponse[]
+}
+export interface WorkspaceMemberRemoveParams extends APIResponseType {
+    workspaceId?: string,
+    userId?: string,
+}
+export interface WorkspaceMemberUpdateParams extends APIResponseType {
+    workspaceId?: string,
+    userId?: string,
+    role?: "admin" | "member",
+}
 // Function to convert UsersRetrieveParams to query parameters
-function toQueryParams(params?: (UsersRetrieveParams | UserInviteRetrieveAllParams | WorkspacesRetrieveParams | WorkspacesRetrieveAllParams)): string {
+function toQueryParams(params?: (UsersRetrieveAllParams | UserInviteRetrieveAllParams | WorkspacesRetrieveParams | WorkspacesRetrieveAllParams | WorkspaceMemberRetrieveAllParams)): string {
     if (!params) {
         return '';
     }
@@ -282,9 +319,10 @@ export class Invites extends ApiResource {
 }
 
 export class Workspaces extends ApiResource {
-
+    users: Member
     constructor(client: any) {
         super(client);
+        this.users = new Member(client);
     }
     create(
         _body: WorkspacesCreateParams,
@@ -356,4 +394,80 @@ export class Workspaces extends ApiResource {
         return response;
     }
 
+}
+export class Member extends ApiResource {
+
+    create(
+        _body: WorkspaceMemberAddParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<any> {
+        const body = _body;
+        const workspaceId = body.workspaceId;
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.post<UserInviteResponse>(`/admin/workspaces/${workspaceId}/users`, { body, ...opts });
+        return response;
+    }
+
+    retrieve(
+        _body: WorkspaceMemberRetrieveParams,
+		params?: ApiClientInterface,
+		opts?: RequestOptions
+    ): APIPromise<WorkspaceMemberRetrieveResponse> {
+        const body = _body;
+        const workspaceId = _body.workspaceId;
+        const userId = _body.userId;
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.get<WorkspaceMemberRetrieveResponse>(`/admin/workspaces/${workspaceId}/users/${userId}`, { body, ...opts });
+        return response;
+    }
+
+    retrieveAll(
+        _body: WorkspaceMemberRetrieveAllParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<WorkspaceMemberRetrieveAllResponse> {
+        const body = _body;
+        const workspaceId = _body.workspaceId;
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const query = toQueryParams(body);
+        const response = this.get<WorkspaceMemberRetrieveAllResponse>(`/admin/workspaces/${workspaceId}/users${query}`, { body, ...opts });
+        return response;
+    }
+
+    remove(
+        _body: WorkspaceMemberRemoveParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<any> {
+        const body = _body;
+        const workspaceId = _body.workspaceId;
+        const userId = _body.userId;
+        if (params){
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.delete<any>(`/admin/workspaces/${workspaceId}/users/${userId}`, { body, ...opts });
+        return response;
+    }
+    update(
+        _body: WorkspaceMemberUpdateParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<any> {
+        const body = _body;
+        const workspaceId = _body.workspaceId;
+        const userId = _body.userId;
+        delete body.workspaceId;
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.put<any>(`/admin/workspaces/${workspaceId}/users/${userId}`, { body, ...opts });
+        return response;
+    }
 }
