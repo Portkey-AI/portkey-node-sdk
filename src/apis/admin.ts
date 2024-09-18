@@ -81,8 +81,55 @@ export interface UserInviteRemoveParams extends APIResponseType {
     inviteId?: string,
 }
 
+export interface WorkspacesCreateParams extends APIResponseType {
+    name?: string,
+    description?: string,
+    defaults?: Record<string, any>,
+    users?: Record<string, string>[],
+}
+export interface WorkspacesRetrieveParams {
+    workspaceId?: string;
+}
+export interface WorkspacesRetrieveAllParams {
+    pageSize?: number;
+    currentPage?: number;
+}
+
+export interface WorkspacesCreateResponse extends APIResponseType {
+    id?: string,
+    slug?: string,
+    name?: string,
+    description?: string,
+    created_at?: Date,
+    last_updated_at?: Date,
+    defaults?: Record<string, any>
+}
+export interface WorkspacesRetrieveResponse extends APIResponseType {
+    id?: string,
+    slug?: string,
+    name?: string,
+    description?: string,
+    created_at?: Date,
+    last_updated_at?: Date,
+    defaults?: Record<string, any>,
+    users?: Record<string, any>[],
+}
+export interface WorkspacesRetrieveAllResponse extends APIResponseType {
+    total?: number,
+    object?: string,
+    data?: WorkspacesRetrieveResponse[]
+}
+export interface WorkspacesUpdateParams extends APIResponseType {
+    workspaceId?: string,
+    name?: string,
+    description?: string,
+    defaults?: Record<string, any>,
+}
+
+
+
 // Function to convert UsersRetrieveParams to query parameters
-function toQueryParams(params?: (UsersRetrieveParams | UserInviteRetrieveAllParams)): string {
+function toQueryParams(params?: (UsersRetrieveParams | UserInviteRetrieveAllParams | WorkspacesRetrieveParams | WorkspacesRetrieveAllParams)): string {
     if (!params) {
         return '';
     }
@@ -96,10 +143,11 @@ function toQueryParams(params?: (UsersRetrieveParams | UserInviteRetrieveAllPara
 
 export class Admin extends ApiResource {
     users: Users
-    
+    workspaces: Workspaces
     constructor(client: any) {
         super(client);
         this.users = new Users(client);
+        this.workspaces= new Workspaces(client);
     }
 }
 
@@ -228,6 +276,83 @@ export class Invites extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
         const response = this.delete<any>(`/admin/users/invites/${inviteId}`, { body, ...opts });
+        return response;
+    }
+
+}
+
+export class Workspaces extends ApiResource {
+
+    constructor(client: any) {
+        super(client);
+    }
+    create(
+        _body: WorkspacesCreateParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<WorkspacesCreateResponse> {
+        const body = _body;
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.post<any>('/admin/workspaces', { body, ...opts });
+        return response;
+    }
+    retrieve(
+        _body: WorkspacesRetrieveParams,
+		params?: ApiClientInterface,
+		opts?: RequestOptions
+    ): APIPromise<WorkspacesRetrieveResponse> {
+        const body = _body;
+        const workspaceId = body.workspaceId;
+        
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.get<WorkspacesRetrieveResponse>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
+        return response;
+    }
+
+    retrieveAll(
+        _body: WorkspacesRetrieveAllParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<WorkspacesRetrieveAllResponse> {
+        const body = _body;
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const query = toQueryParams(body);
+        const response = this.get<WorkspacesRetrieveAllResponse>(`/admin/workspaces${query}`, { body, ...opts });
+        return response;
+    }
+    
+    update(
+        _body: WorkspacesUpdateParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<any> {
+        const body = _body;
+        const workspaceId = _body.workspaceId;
+        delete body.workspaceId;
+        if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.put<any>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
+        return response;
+    }
+
+    remove(
+        _body: WorkspacesRetrieveParams,
+        params?: ApiClientInterface,
+        opts?: RequestOptions
+    ): APIPromise<any> {
+        const body = _body;
+        const workspaceId = _body.workspaceId;
+        if (params){
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.delete<any>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
         return response;
     }
 
