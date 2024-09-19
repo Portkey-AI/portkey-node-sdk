@@ -407,7 +407,7 @@ export class Member extends ApiResource {
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.post<UserInviteResponse>(`/admin/workspaces/${workspaceId}/users`, { body, ...opts });
+        const response = this.post<any>(`/admin/workspaces/${workspaceId}/users`, { body, ...opts });
         return response;
     }
 
