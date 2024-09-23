@@ -1,8 +1,8 @@
-import { ApiClientInterface } from "../_types/generalTypes";
-import { ApiResource } from "../apiResource";
-import { RequestOptions } from "../baseClient";
-import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
-import { createHeaders } from "./createHeaders";
+import { ApiClientInterface } from '../_types/generalTypes';
+import { ApiResource } from '../apiResource';
+import { RequestOptions } from '../baseClient';
+import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
+import { createHeaders } from './createHeaders';
 
 export interface ImagesBody {
   prompt: string;
@@ -16,23 +16,23 @@ export interface ImagesBody {
 }
 
 export interface ImageEditParams {
-    image: any;
-    prompt: string;
-    mask?: any;
-    model?: string | null;
-    n?: number | null;
-    response_format?: string | null;
-    size?: string | null;
-    user?: string;
+  image: any;
+  prompt: string;
+  mask?: any;
+  model?: string | null;
+  n?: number | null;
+  response_format?: string | null;
+  size?: string | null;
+  user?: string;
 }
 
 export interface ImageCreateVariationParams {
-    image: any;
-    model?: string | null;
-    n?: number | null;
-    response_format?: string | null;
-    size?: string | null;
-    user?: string;
+  image: any;
+  model?: string | null;
+  n?: number | null;
+  response_format?: string | null;
+  size?: string | null;
+  user?: string;
 }
 
 export interface ImagesResponse {
@@ -61,12 +61,12 @@ export class Images extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
+    const OAIclient = initOpenAIClient(this.client);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.images.generate(body, opts).withResponse();
-    
+
     return finalResponse(result);
   }
 
@@ -84,7 +84,7 @@ export class Images extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
+    const OAIclient = initOpenAIClient(this.client);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -107,10 +107,12 @@ export class Images extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
+    const OAIclient = initOpenAIClient(this.client);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const result = await OAIclient.images.createVariation(body, opts).withResponse();
+    const result = await OAIclient.images
+      .createVariation(body, opts)
+      .withResponse();
 
     return finalResponse(result);
   }

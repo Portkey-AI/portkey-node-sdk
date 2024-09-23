@@ -1,11 +1,10 @@
-import { ApiClientInterface } from "../_types/generalTypes";
-import { ApiResource } from "../apiResource";
-import { RequestOptions } from "../baseClient";
-import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
-import { createHeaders } from "./createHeaders";
+import { ApiClientInterface } from '../_types/generalTypes';
+import { ApiResource } from '../apiResource';
+import { RequestOptions } from '../baseClient';
+import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
+import { createHeaders } from './createHeaders';
 
 export class MainFiles extends ApiResource {
-
   async create(
     _body: FileCreateParams,
     params?: ApiClientInterface,
@@ -20,8 +19,8 @@ export class MainFiles extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
-    
+    const OAIclient = initOpenAIClient(this.client);
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.files.create(body, opts).withResponse();
@@ -43,7 +42,7 @@ export class MainFiles extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.files.list(query, opts).withResponse();
 
@@ -63,7 +62,7 @@ export class MainFiles extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.files.retrieve(fileId, opts).withResponse();
 
@@ -83,7 +82,7 @@ export class MainFiles extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.files.del(fileId, opts).withResponse();
 
@@ -109,7 +108,7 @@ export class MainFiles extends ApiResource {
 
     return finalResponse(result);
   }
-  
+
   async retrieveContent(
     fileId: string,
     params?: ApiClientInterface,
@@ -123,32 +122,30 @@ export class MainFiles extends ApiResource {
       };
     }
 
-    const OAIclient =  initOpenAIClient(this.client);
+    const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.files.content(fileId, opts).withResponse();
 
     return finalResponse(result);
   }
-
 }
 
-
 export interface FileCreateParams {
-    file: any;
-    purpose?: string;
+  file: any;
+  purpose?: string;
 }
 
 export interface FileObject {
-    id: string;
-    bytes?: number;
-    created_at?: number;
-    filename?: string;
-    object?: string;
-    purpose?: string;
-    status?: string;
-    status_details?: string;
+  id: string;
+  bytes?: number;
+  created_at?: number;
+  filename?: string;
+  object?: string;
+  purpose?: string;
+  status?: string;
+  status_details?: string;
 }
 
 export interface FileListParams {
-    purpose?: string;
-  }
+  purpose?: string;
+}

@@ -1,13 +1,13 @@
-import { Uploadable } from "openai/uploads";
-import { ApiClientInterface } from "../_types/generalTypes";
-import { ApiResource } from "../apiResource";
-import { RequestOptions } from "../baseClient";
-import {  finalResponse, initOpenAIClient, overrideConfig } from "../utils";
-import { createHeaders } from "./createHeaders";
+import { Uploadable } from 'openai/uploads';
+import { ApiClientInterface } from '../_types/generalTypes';
+import { ApiResource } from '../apiResource';
+import { RequestOptions } from '../baseClient';
+import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
+import { createHeaders } from './createHeaders';
 
 export class VectorStores extends ApiResource {
   files: Files;
-  fileBatches: FileBatches
+  fileBatches: FileBatches;
 
   constructor(client: any) {
     super(client);
@@ -111,7 +111,7 @@ export class VectorStores extends ApiResource {
     vectorStoreId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<any> { 
+  ): Promise<any> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -127,356 +127,385 @@ export class VectorStores extends ApiResource {
       .withResponse();
 
     return finalResponse(result);
-  
+  }
+}
+
+export class Files extends ApiResource {
+  async create(
+    vectorStoreId: string,
+    _body: FileCreateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: FileCreateParams = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.vectorStores.files
+      .create(vectorStoreId, body, opts)
+      .withResponse();
+
+    return finalResponse(result);
   }
 
+  async retrieve(
+    vectorStoreId: string,
+    fileId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.vectorStores.files
+      .retrieve(vectorStoreId, fileId, opts)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+
+  async list(
+    vectorStoreId: string,
+    _query?: FileListParams | RequestOptions,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const query: FileListParams | RequestOptions | undefined = _query;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const result = await OAIclient.beta.vectorStores.files
+      .list(vectorStoreId, query, opts)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+
+  async del(
+    vectorStoreId: string,
+    fileId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.vectorStores.files
+      .del(vectorStoreId, fileId, opts)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+
+  async createAndPoll(
+    vectorStoreId: string,
+    _body: FileCreateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: FileCreateParams = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.vectorStores.files.createAndPoll(
+      vectorStoreId,
+      body,
+      opts
+    );
+
+    return result;
+  }
+
+  async poll(
+    vectorStoreId: string,
+    fileId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions & { pollIntervalMs?: number }
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.vectorStores.files.poll(
+      vectorStoreId,
+      fileId,
+      opts
+    );
+
+    return result;
+  }
+
+  async upload(
+    vectorStoreId: string,
+    file: Uploadable,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.vectorStores.files.upload(
+      vectorStoreId,
+      file,
+      opts
+    );
+
+    return result;
+  }
+
+  async uploadAndPoll(
+    vectorStoreId: string,
+    file: Uploadable,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.vectorStores.files.uploadAndPoll(
+      vectorStoreId,
+      file,
+      opts
+    );
+
+    return result;
+  }
 }
 
-export class Files extends ApiResource{
-
-
-    async create(
-        vectorStoreId: string,
-        _body: FileCreateParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        const body: FileCreateParams = _body;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-
-        const OAIclient = initOpenAIClient(this.client);
-
-        const result = await OAIclient.beta.vectorStores
-          .files.create(vectorStoreId, body, opts)
-          .withResponse();
-        
-        return finalResponse(result);
+export class FileBatches extends ApiResource {
+  async create(
+    vectorStoreId: string,
+    _body: FileBatchCreateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: FileBatchCreateParams = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
     }
 
-    async retrieve(
-        vectorStoreId: string,
-        fileId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.vectorStores.files.retrieve(vectorStoreId, fileId, opts).withResponse();
+    const OAIclient = initOpenAIClient(this.client);
 
-        return finalResponse(result);
+    const result = await OAIclient.beta.vectorStores.fileBatches
+      .create(vectorStoreId, body, opts)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+
+  async retrieve(
+    vectorStoreId: string,
+    batchId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
     }
 
-    async list(
-        vectorStoreId: string,
-        _query?: FileListParams | RequestOptions,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        const query: FileListParams | RequestOptions| undefined = _query;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-        
-        const OAIclient = initOpenAIClient(this.client);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = await OAIclient.beta.vectorStores.files.list(vectorStoreId, query, opts).withResponse();
+    const OAIclient = initOpenAIClient(this.client);
 
-        return finalResponse(result);
+    const result = await OAIclient.beta.vectorStores.fileBatches
+      .retrieve(vectorStoreId, batchId, opts)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+
+  async cancel(
+    vectorStoreId: string,
+    batchId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
     }
 
-    async del(
-        vectorStoreId: string,
-        fileId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.vectorStores.files.del(vectorStoreId, fileId, opts).withResponse();
+    const OAIclient = initOpenAIClient(this.client);
+    const body = {};
+    const options = { body, ...opts };
 
-        return finalResponse(result);
+    const result = await OAIclient.beta.vectorStores.fileBatches
+      .cancel(vectorStoreId, batchId, options)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+
+  async createAndPoll(
+    vectorStoreId: string,
+    _body: FileBatchCreateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: FileBatchCreateParams = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
     }
 
-    async createAndPoll(
-        vectorStoreId: string,
-        _body: FileCreateParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        const body: FileCreateParams = _body;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
+    const OAIclient = initOpenAIClient(this.client);
 
-        const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.beta.vectorStores.fileBatches.createAndPoll(
+      vectorStoreId,
+      body,
+      opts
+    );
 
-        const result = await OAIclient.beta.vectorStores
-          .files.createAndPoll(vectorStoreId, body, opts);
-        
-        return result;
+    return result;
+  }
+
+  async listFiles(
+    vectorStoreId: string,
+    batchId: string,
+    _query?: FileBatchListFilesParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const query: FileBatchListFilesParams | undefined = _query;
+
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
     }
 
-    async poll(
-        vectorStoreId: string,
-        fileId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions & { pollIntervalMs?: number }
-    ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.vectorStores.files.poll(vectorStoreId, fileId, opts);
+    const OAIclient = initOpenAIClient(this.client);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const result = await OAIclient.beta.vectorStores.fileBatches
+      .listFiles(vectorStoreId, batchId, query, opts)
+      .withResponse();
 
-        return result;
+    return finalResponse(result);
+  }
+
+  async poll(
+    vectorStoreId: string,
+    batchId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions & { pollIntervalMs?: number }
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
     }
 
-    async upload(
-        vectorStoreId: string,
-        file: Uploadable,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.vectorStores.files.upload(vectorStoreId, file, opts);
+    const OAIclient = initOpenAIClient(this.client);
 
-        return result;
+    const result = await OAIclient.beta.vectorStores.fileBatches.poll(
+      vectorStoreId,
+      batchId,
+      opts
+    );
+
+    return result;
+  }
+
+  async uploadAndPoll(
+    vectorStoreId: string,
+    { files, fileIds = [] }: { files: Uploadable[]; fileIds?: string[] },
+    params?: ApiClientInterface,
+    opts?: RequestOptions & { pollIntervalMs?: number; maxConcurrency?: number }
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
     }
 
-    async uploadAndPoll(
-        vectorStoreId: string,
-        file: Uploadable,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.vectorStores.files.uploadAndPoll(vectorStoreId, file, opts);
+    const OAIclient = initOpenAIClient(this.client);
 
-        return result;
-    
-    }
+    const result = await OAIclient.beta.vectorStores.fileBatches.uploadAndPoll(
+      vectorStoreId,
+      { files, fileIds },
+      opts
+    );
+    return result;
+  }
 }
-
-export class FileBatches extends ApiResource{
-
-    async create(
-        vectorStoreId: string,
-        _body: FileBatchCreateParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        const body: FileBatchCreateParams = _body;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-
-        const OAIclient = initOpenAIClient(this.client);
-
-        const result = await OAIclient.beta.vectorStores
-          .fileBatches.create(vectorStoreId, body, opts)
-          .withResponse();
-        
-        return finalResponse(result);
-    }
-
-    async retrieve(
-        vectorStoreId: string,
-        batchId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-      ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.vectorStores.fileBatches.retrieve(vectorStoreId, batchId, opts).withResponse();
-
-        return finalResponse(result);
-    }
-
-    async cancel(
-        vectorStoreId: string,
-        batchId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-        const body = {}
-        const options = { body, ...opts }
-    
-        const result = await OAIclient.beta.vectorStores.fileBatches.cancel(vectorStoreId, batchId, options).withResponse();
-
-        return finalResponse(result);
-    
-    }
-
-    async createAndPoll(
-        vectorStoreId: string,
-        _body: FileBatchCreateParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        const body: FileBatchCreateParams = _body;
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-
-        const OAIclient = initOpenAIClient(this.client);
-
-        const result = await OAIclient.beta.vectorStores
-          .fileBatches.createAndPoll(vectorStoreId, body, opts);
-        
-        return result;
-    }
-
-    async listFiles(
-        vectorStoreId: string,
-        batchId: string,
-        _query?: FileBatchListFilesParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        const query: FileBatchListFilesParams | undefined = _query;
-
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-        
-        const OAIclient = initOpenAIClient(this.client);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const result = await OAIclient.beta.vectorStores.fileBatches.listFiles(vectorStoreId, batchId, query, opts).withResponse();
-
-        return finalResponse(result);
-    }
-
-    async poll(
-        vectorStoreId: string,
-        batchId: string,
-        params?: ApiClientInterface,
-        opts?: RequestOptions & { pollIntervalMs?: number }
-    ): Promise<any> {
-        if (params) {
-          const config = overrideConfig(this.client.config, params.config);
-          this.client.customHeaders = {
-            ...this.client.customHeaders,
-            ...createHeaders({ ...params, config }),
-          };
-        }
-    
-        const OAIclient = initOpenAIClient(this.client);
-    
-        const result = await OAIclient.beta.vectorStores.fileBatches.poll(vectorStoreId, batchId, opts);
-
-        return result;
-    }
-
-    async uploadAndPoll(
-        vectorStoreId: string,
-        { files, fileIds = [] }: { files: Uploadable[]; fileIds?: string[] },
-        params?: ApiClientInterface,
-        opts?: RequestOptions & { pollIntervalMs?: number; maxConcurrency?: number },
-    ): Promise<any> {
-        if(params){
-            const config = overrideConfig(this.client.config, params.config);
-            this.client.customHeaders = {
-                ...this.client.customHeaders,
-                ...createHeaders({ ...params, config }),
-            }
-        }
-
-        const OAIclient = initOpenAIClient(this.client);
-
-        const result = await OAIclient.beta.vectorStores.fileBatches.uploadAndPoll(vectorStoreId, { files, fileIds }, opts);
-        return result;
-    }
-}
-
-
 
 export interface ExpiresAfter {
-  anchor: "last_active_at";
+  anchor: 'last_active_at';
   days: number;
 }
 
@@ -495,7 +524,7 @@ export interface VectorStoreUpdateParams {
 
 export interface VectorStoreListParams extends CursorPageParams {
   before?: string;
-  order?: "asc" | "desc";
+  order?: 'asc' | 'desc';
 }
 
 export interface CursorPageParams {
@@ -504,23 +533,22 @@ export interface CursorPageParams {
   limit?: number;
 }
 
-
 export interface FileCreateParams {
-    file_id: string;
+  file_id: string;
 }
 
 export interface FileListParams extends CursorPageParams {
-    before?: string;
-    filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
-    order?: 'asc' | 'desc';
-  }
+  before?: string;
+  filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
+  order?: 'asc' | 'desc';
+}
 
-  export interface FileBatchCreateParams {
-    file_ids: Array<string>;
-  }
+export interface FileBatchCreateParams {
+  file_ids: Array<string>;
+}
 
-  export interface FileBatchListFilesParams extends CursorPageParams {
-    before?: string;
-    filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
-    order?: 'asc' | 'desc';
-  }
+export interface FileBatchListFilesParams extends CursorPageParams {
+  before?: string;
+  filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
+  order?: 'asc' | 'desc';
+}
