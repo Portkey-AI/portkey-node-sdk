@@ -33,7 +33,7 @@ export class Threads extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads
-      .create(body, opts)
+      .create(body as any, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -191,7 +191,7 @@ export class Messages extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.messages
-      .create(threadId, body, opts)
+      .create(threadId, body as any, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -216,7 +216,7 @@ export class Messages extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.messages
-      .list(threadId, query, opts)
+      .list(threadId, query as any, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -322,7 +322,7 @@ export class Runs extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.runs
-      .list(threadId, query, opts)
+      .list(threadId, query as any, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -601,7 +601,7 @@ export class Steps extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.runs.steps
-      .list(threadId, runId, query, opts)
+      .list(threadId, runId, query as any, opts)
       .withResponse();
 
     return finalResponse(result);

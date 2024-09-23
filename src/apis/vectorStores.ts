@@ -194,10 +194,8 @@ export class Files extends ApiResource {
     }
 
     const OAIclient = initOpenAIClient(this.client);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const result = await OAIclient.beta.vectorStores.files
-      .list(vectorStoreId, query, opts)
+      .list(vectorStoreId, query as any, opts)
       .withResponse();
 
     return finalResponse(result);

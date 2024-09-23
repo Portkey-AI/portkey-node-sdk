@@ -88,7 +88,7 @@ export class Assistants extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.assistants
-      .list(query, opts)
+      .list(query as any, opts)
       .withResponse();
 
     return finalResponse(result);

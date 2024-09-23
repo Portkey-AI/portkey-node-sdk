@@ -111,7 +111,7 @@ export class Images extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.images
-      .createVariation(body, opts)
+      .createVariation(body as any, opts)
       .withResponse();
 
     return finalResponse(result);

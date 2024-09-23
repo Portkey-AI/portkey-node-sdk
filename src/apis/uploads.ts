@@ -3,7 +3,6 @@ import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
-import { UploadCompleteParams } from 'openai/resources';
 import { Uploadable } from 'openai/uploads';
 
 export class Uploads extends ApiResource {
@@ -55,11 +54,11 @@ export class Uploads extends ApiResource {
 
   async complete(
     uploadId: string,
-    _body: UploadCompleteParams,
+    _body: any,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: UploadCompleteParams = _body;
+    const body: any = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {

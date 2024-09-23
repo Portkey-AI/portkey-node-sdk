@@ -1,4 +1,3 @@
-import { ModerationCreateParams } from 'openai/resources';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
@@ -7,11 +6,11 @@ import { createHeaders } from './createHeaders';
 
 export class Moderations extends ApiResource {
   async create(
-    _body: ModerationCreateParams,
+    _body: any,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: ModerationCreateParams = _body;
+    const body: any = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
