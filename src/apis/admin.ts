@@ -125,6 +125,11 @@ export interface WorkspacesUpdateParams extends APIResponseType {
     description?: string,
     defaults?: Record<string, any>,
 }
+
+export interface WorkspacesRemoveParams extends APIResponseType {
+    workspaceId?: string;
+    name?: string;
+}
 export interface WorkspaceMemberAddParams extends APIResponseType {
     workspaceId?: string,
     users?: Record<string, string>[],
@@ -381,7 +386,7 @@ export class Workspaces extends ApiResource {
     }
 
     remove(
-        _body: WorkspacesRetrieveParams,
+        _body: WorkspacesRemoveParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<any> {
