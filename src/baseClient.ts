@@ -201,7 +201,7 @@ export abstract class ApiClient {
         };
         const httpAgent: Agent | undefined = defaultHttpAgent
         let req: RequestInit; 
-        if (method === "get" || method === "delete"){
+        if (method === "get"){
             req = {
                 method,
                 headers: reqHeaders,

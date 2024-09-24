@@ -129,6 +129,7 @@ export interface WorkspacesUpdateParams extends APIResponseType {
 export interface WorkspacesRemoveParams extends APIResponseType {
     workspaceId?: string;
     name?: string;
+
 }
 export interface WorkspaceMemberAddParams extends APIResponseType {
     workspaceId?: string,
