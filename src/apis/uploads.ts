@@ -1,10 +1,14 @@
-import { ApiClientInterface } from '../_types/generalTypes';
-import { ApiResource } from '../apiResource';
-import { RequestOptions } from '../baseClient';
-import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
-import { createHeaders } from './createHeaders';
-import { Uploadable } from 'openai/uploads';
+import { ApiClientInterface } from "../_types/generalTypes";
+import { ApiResource } from "../apiResource";
+import { RequestOptions } from "../baseClient";
+import { finalResponse, initOpenAIClient, overrideConfig } from "../utils";
+import { createHeaders } from "./createHeaders";
+import { Uploadable } from "openai/uploads";
 
+export interface UploadCompleteParams {
+  part_ids: Array<string>;
+ md5?: string;
+}
 export class Uploads extends ApiResource {
   parts: Parts;
 
