@@ -476,4 +476,4 @@ export class Member extends ApiResource {
         const response = this.put<any>(`/admin/workspaces/${workspaceId}/users/${userId}`, { body, ...opts });
         return response;
     }
-}
+} 

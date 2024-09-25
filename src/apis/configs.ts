@@ -4,14 +4,14 @@ import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
 
 export interface ConfigCreateParams {
-	name: string;
-	config: Record<string, unknown>;
-    isDefault: number;
-    workspace_id:string;
+	name?: string;
+	config?: Record<string, unknown>;
+    isDefault?: number;
+    workspace_id?:string;
 }
 
 export interface ConfigRetrieveParams {
-	slug: string;
+	slug: string?;
 }
 
 export interface ConfigUpdateParams {
@@ -81,5 +81,9 @@ export class Configs extends ApiResource {
 		const response = this.put<ConfigUpdateResponse>(`/configs/${slug}`, { body, ...opts });
 		return response;
 	}
+    list():APIPromise<ConfigListResponse>{
+        const response = this.get<ConfigListResponse>('/configs', {});
+        return response;
+    }
 }
 

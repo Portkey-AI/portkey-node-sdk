@@ -145,6 +145,7 @@ export class Portkey extends ApiClient {
 	uploads = new API.Uploads(this);
 	admin = new API.Admin(this);
 	configs = new API.Configs(this);
+	apiKeys = new API.ApiKeys(this);
 	beta = {
 		assistants: new API.Assistants(this),
 		threads: new API.Threads(this),
