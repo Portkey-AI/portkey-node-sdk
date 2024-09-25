@@ -8,7 +8,6 @@ export interface UsersRetrieveParams {
 }
 
 export interface UsersRetrieveAllParams {
-    userId?: string;
     pageSize?: number;
     currentPage?: number;
     email?: string;
@@ -24,6 +23,7 @@ export interface UsersRetrieveResponse extends APIResponseType {
     email?: string,
     created_at?: Date,
     last_updated_at?: Date
+    workspace_ids?: string[]
 }
 
 export interface UsersRetrieveAllResponse extends APIResponseType {
@@ -39,7 +39,8 @@ export interface UsersUpdateParams extends APIResponseType {
 
 export interface UserInviteParams extends APIResponseType {
     email?: string,
-    role?: string
+    role?: string,
+    workspaces?: Record<string,unknown>[]
 }
 
 export interface UserInviteResponse extends APIResponseType {
