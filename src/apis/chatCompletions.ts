@@ -71,12 +71,6 @@ interface Usage {
     [key: string]: any;
 }
 
-interface FunctionType {
-    arguments?: string;
-    name?: string;
-    [key: string]: any;
-  }
-
 interface Message {
     role: string;
     content: string;

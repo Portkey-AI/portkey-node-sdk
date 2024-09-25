@@ -13,7 +13,7 @@ import {
   ChatCompletionStreamingToolRunnerParams,
 } from "openai/lib/ChatCompletionStreamingRunner";
 import { ChatCompletionParseParams } from "openai/resources/beta/chat/completions";
-import { ExtractParsedContentFromParams } from "openai/lib/parser";
+
 
 export class BetaChat extends ApiResource {
   completions: Completions;
@@ -26,7 +26,7 @@ export class BetaChat extends ApiResource {
 
 export class Completions extends ApiResource {
 
-  async parse<Params extends ChatCompletionParseParams, ParsedT = ExtractParsedContentFromParams<Params>>
+  async parse<Params extends ChatCompletionParseParams>
   (
     _body: Params,
     params?: ApiClientInterface,
