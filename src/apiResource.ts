@@ -5,13 +5,13 @@ export class ApiResource {
 	protected post: Portkey["_post"]
 	protected put: Portkey["_put"]
 	protected get: Portkey["_get"]
-	protected delete: Portkey["_delete"]
+	protected deleteMethod: Portkey["_delete"]
 
 	constructor(client: Portkey) {
 		this.client = client
 		this.post = client._post.bind(client)
 		this.put = client._put.bind(client)
 		this.get = client._get.bind(client)
-		this.delete = client._delete.bind(client)
+		this.deleteMethod = client._delete.bind(client) // delete is a reserved word
 	}
 }

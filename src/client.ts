@@ -35,6 +35,7 @@ export class Portkey extends ApiClient {
 	requestTimeout?: number | null | undefined;
 	cacheNamespace?: string | null | undefined;
 	strictOpenAiCompliance?: boolean | null | undefined;
+	anthropicBeta?: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -64,6 +65,7 @@ export class Portkey extends ApiClient {
 		cacheNamespace,
 		requestTimeout,
 		strictOpenAiCompliance,
+		anthropicBeta,
 	}: ApiClientInterface) {
 
 		super({
@@ -95,6 +97,7 @@ export class Portkey extends ApiClient {
 			forwardHeaders,
 			requestTimeout,
 			strictOpenAiCompliance,
+			anthropicBeta,
 		});
 
 		this.apiKey = apiKey;
@@ -127,6 +130,7 @@ export class Portkey extends ApiClient {
 		this.forwardHeaders = forwardHeaders;
 		this.requestTimeout = requestTimeout;
 		this.strictOpenAiCompliance = strictOpenAiCompliance;
+		this.anthropicBeta = anthropicBeta;
 	}
 
 	completions: API.Completions = new API.Completions(this);
