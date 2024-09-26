@@ -144,13 +144,13 @@ export class Portkey extends ApiClient {
 	audio = new API.Audio(this);
 	uploads = new API.Uploads(this);
 	admin = new API.Admin(this);
+	apiKeys = new API.ApiKeys(this);
 	beta = {
 		assistants: new API.Assistants(this),
 		threads: new API.Threads(this),
 		vectorStores: new API.VectorStores(this),
 		chat: new API.BetaChat(this),
 	};
-
 
 	post = (
 		url: string,
