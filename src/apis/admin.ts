@@ -3,11 +3,11 @@ import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
 
-export interface UsersRetrieveParams {
+export interface UsersRetrieveParams{
     userId?: string;
 }
 
-export interface UsersRetrieveAllParams {
+export interface UsersRetrieveAllParams{
     pageSize?: number;
     currentPage?: number;
     email?: string;
@@ -32,12 +32,12 @@ export interface UsersRetrieveAllResponse extends APIResponseType {
     data?: UsersRetrieveResponse[]
 }
 
-export interface UsersUpdateParams extends APIResponseType {
+export interface UsersUpdateParams{
     userId?: string,
-    role?: string,
+    role?: "admin" | "manager" | "member",
 }
 
-export interface UserInviteParams extends APIResponseType {
+export interface UserInviteParams{
     email?: string,
     role?: string,
     workspaces?: Record<string,unknown>[]
@@ -48,7 +48,7 @@ export interface UserInviteResponse extends APIResponseType {
     invite_link?: string,
 }
 
-export interface UserInviteRetrieveParams extends APIResponseType {
+export interface UserInviteRetrieveParams{
     inviteId?: string,
 }
 
@@ -64,7 +64,7 @@ export interface UserInviteRetrieveResponse extends APIResponseType {
     invited_by?: string
 }
 
-export interface UserInviteRetrieveAllParams extends APIResponseType {
+export interface UserInviteRetrieveAllParams{
     email?: string,
     role?: string,
     status?: string
@@ -78,11 +78,11 @@ export interface UserInviteRetrieveAllResponse extends APIResponseType {
     data?: UserInviteRetrieveResponse[]
 }
 
-export interface UserInviteRemoveParams extends APIResponseType {
+export interface UserInviteRemoveParams {
     inviteId?: string,
 }
 
-export interface WorkspacesCreateParams extends APIResponseType {
+export interface WorkspacesCreateParams{
     name?: string,
     description?: string,
     defaults?: Record<string, any>,
@@ -92,8 +92,8 @@ export interface WorkspacesRetrieveParams {
     workspaceId?: string;
 }
 export interface WorkspacesRetrieveAllParams {
-    pageSize?: number;
-    currentPage?: number;
+    page_size?: number;
+    current_page?: number;
 }
 
 export interface WorkspacesCreateResponse extends APIResponseType {
@@ -103,7 +103,8 @@ export interface WorkspacesCreateResponse extends APIResponseType {
     description?: string,
     created_at?: Date,
     last_updated_at?: Date,
-    defaults?: Record<string, any>
+    defaults?: Record<string, any>,
+    users?: Record<string, string>[],
 }
 export interface WorkspacesRetrieveResponse extends APIResponseType {
     id?: string,
@@ -120,32 +121,43 @@ export interface WorkspacesRetrieveAllResponse extends APIResponseType {
     object?: string,
     data?: WorkspacesRetrieveResponse[]
 }
-export interface WorkspacesUpdateParams extends APIResponseType {
+export interface WorkspacesUpdateParams{
     workspaceId?: string,
     name?: string,
     description?: string,
     defaults?: Record<string, any>,
 }
 
-export interface WorkspacesRemoveParams extends APIResponseType {
+export interface WorkspacesUpdateResponse extends APIResponseType {
+    id?: string,
+    slug?: string,
+    name?: string,
+    description?: string,
+    created_at?: Date,
+    last_updated_at?: Date,
+    defaults?: Record<string, any>,
+    object?: string,
+}
+
+export interface WorkspacesRemoveParams{
     workspaceId?: string;
     name?: string;
 
 }
-export interface WorkspaceMemberAddParams extends APIResponseType {
+export interface WorkspaceMemberAddParams{
     workspaceId?: string,
-    users?: Record<string, string>[],
+    users?: { id: string, role: "member" | "admin" }[],
 }
-export interface WorkspaceMemberRetrieveParams extends APIResponseType {
+export interface WorkspaceMemberRetrieveParams{
     workspaceId?: string,
     userId?: string,
 }
-export interface WorkspaceMemberRetrieveAllParams extends APIResponseType {
+export interface WorkspaceMemberRetrieveAllParams {
     workspaceId?: string,
-    pageSize?: number,
-    currentPage?: number,
+    page_size?: number,
+    current_page?: number,
     email?: string,
-    role?: string,
+    role?: "admin" | "manager" | "member",
 }
 export interface WorkspaceMemberRetrieveResponse extends APIResponseType {
     object?: string,
@@ -163,11 +175,11 @@ export interface WorkspaceMemberRetrieveAllResponse extends APIResponseType {
     object?: string,
     data?: WorkspaceMemberRetrieveResponse[]
 }
-export interface WorkspaceMemberRemoveParams extends APIResponseType {
+export interface WorkspaceMemberRemoveParams{
     workspaceId?: string,
     userId?: string,
 }
-export interface WorkspaceMemberUpdateParams extends APIResponseType {
+export interface WorkspaceMemberUpdateParams{
     workspaceId?: string,
     userId?: string,
     role?: "admin" | "member",
@@ -259,7 +271,7 @@ export class Users extends ApiResource {
         if (params){
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.delete<any>(`/admin/users/${userId}`, { body, ...opts });
+        const response = this.deleteMethod<any>(`/admin/users/${userId}`, { body, ...opts });
         return response;
     }
 
@@ -267,6 +279,7 @@ export class Users extends ApiResource {
 
 
 export class Invites extends ApiResource {
+
 
     create(
         _body: UserInviteParams,
@@ -309,7 +322,7 @@ export class Invites extends ApiResource {
         return response;
     }
 
-    remove(
+    delete(
         _body: UserInviteRemoveParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
@@ -319,7 +332,7 @@ export class Invites extends ApiResource {
         if (params){
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.delete<any>(`/admin/users/invites/${inviteId}`, { body, ...opts });
+        const response = this.deleteMethod<any>(`/admin/users/invites/${inviteId}`, { body, ...opts });
         return response;
     }
 
@@ -376,18 +389,18 @@ export class Workspaces extends ApiResource {
         _body: WorkspacesUpdateParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): APIPromise<any> {
+    ): APIPromise<WorkspacesUpdateResponse> {
         const body = _body;
         const workspaceId = _body.workspaceId;
         delete body.workspaceId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.put<any>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
+        const response = this.put<WorkspacesUpdateResponse>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
         return response;
     }
 
-    remove(
+    delete(
         _body: WorkspacesRemoveParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
@@ -397,14 +410,14 @@ export class Workspaces extends ApiResource {
         if (params){
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.delete<any>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
+        const response = this.deleteMethod<any>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
         return response;
     }
 
 }
 export class Member extends ApiResource {
 
-    create(
+    add(
         _body: WorkspaceMemberAddParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
@@ -454,12 +467,12 @@ export class Member extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<any> {
         const body = _body;
-        const workspaceId = _body.workspaceId;
-        const userId = _body.userId;
+        const workspaceId = body.workspaceId;
+        const userId = body.userId;
         if (params){
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.delete<any>(`/admin/workspaces/${workspaceId}/users/${userId}`, { body, ...opts });
+        const response = this.deleteMethod<any>(`/admin/workspaces/${workspaceId}/users/${userId}`, { body, ...opts });
         return response;
     }
     update(
@@ -468,7 +481,7 @@ export class Member extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<any> {
         const body = _body;
-        const workspaceId = _body.workspaceId;
+        const workspaceId = body.workspaceId;
         const userId = _body.userId;
         delete body.workspaceId;
         if (params) {
