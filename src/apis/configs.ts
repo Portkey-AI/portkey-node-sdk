@@ -19,7 +19,9 @@ export interface ConfigsUpdateParams {
     config?: Record<string, unknown>;
     status?: string;
 }
-
+export interface CongfigsListParams {
+	workspace_id?: string;
+}
 export interface ConfigsCreateResponse extends APIResponseType {
 	id?: string;
 	version_id?: string;
@@ -52,6 +54,17 @@ export interface ConfigsListResponse extends APIResponseType {
 export interface ConfigsUpdateResponse extends APIResponseType {
     version_id?: string;
     object?: string;
+}
+function toQueryParams(params?: CongfigsListParams): string {
+    if (!params) {
+        return '';
+    }
+    const queryParams = Object.entries(params)
+        .filter(([, value]) => value !== undefined && value !== null)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+
+    return queryParams ? `?${queryParams}` : '';
 }
 export class Configs extends ApiResource {
     constructor(client: any) {
@@ -103,10 +116,11 @@ export class Configs extends ApiResource {
 		opts?: RequestOptions
 	):APIPromise<ConfigsListResponse>{
 		const body = _body;
+		const query = toQueryParams(body);
 		if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.get<ConfigsListResponse>(`/configs`, { body, ...opts});
+        const response = this.get<ConfigsListResponse>(`/configs${query}`, {...opts});
         return response;
     }
 }
