@@ -12,6 +12,7 @@ export { MainFiles } from "./files";
 export { Models } from "./models";
 export { Admin } from "./admin";
 export { Batches } from "./batches";
+export { VirtualKeys } from "./virtualKeys";
 export { FineTuning } from "./fineTuning"
 export { Moderations } from "./moderations"
 export { Audio } from "./audio"
