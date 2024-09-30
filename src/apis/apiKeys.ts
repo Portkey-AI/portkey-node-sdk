@@ -4,45 +4,75 @@ import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
 
 export interface ApiKeysCreateParams {
-	name: string;
-	config: Record<string, unknown>;
-    isDefault: number;
-    workspace_id:string;
+	type?: string;
+	"sub-type"?: string;
+    name?: string;
+    description?: string;
+    workspace_id?:string;
+    user_id?:string;
+    rate_limits?: Record<string, unknown>[];
+    usage_limits?: Record<string, unknown>;
+    scopes: string[];
+    defaults?: Record<string, unknown>;
 }
 
 export interface ApiKeysRetrieveParams {
-	slug: string;
+    id?: string;
 }
 
 export interface ApiKeysUpdateParams {
-	slug?: string;
+	id?: string;
 	name?: string;
-    config?: Record<string, unknown>;
-    status?: string;
+    description?: string;
+    rate_limits?: Record<string, unknown>[];
+    usage_limits?: Record<string, unknown>;
+    scopes?: string[];
+    defaults?: Record<string, unknown>;
 }
 export interface ApiKeysListParams {
     page_size?: number;
     current_page?: number;
     workspace_id?: string;
 }
-
+export interface ApiKeysDeleteParams {
+    id?: string;
+}
 export interface ApiKeysCreateResponse extends APIResponseType {
-	success: boolean;
-	data: Record<string, unknown>;
+	id?: string;
+    key?: string;
+    object?: string;
 }
 export interface ApiKeysRetrieveResponse extends APIResponseType {
-    success: boolean;
-    data: Record<string, unknown>;
+    id?: string;
+    key?: string;
+    name?: string;
+    description?: string;
+    type?: string;
+    organisation_id?: string;
+    workspace_id?: string;
+    user_id?: string;
+    status?: string;
+    created_at?: Date;
+    last_updated_at?: Date;
+    creation_mode?: string;
+    rate_limits?: Record<string, unknown>[];
+    usage_limits?: Record<string, unknown>;
+    reset_usage?:number;
+    scopes?: string[];
+    defaults?: Record<string, unknown>;
+    object?: string;
 }
 export interface ApiKeysListResponse extends APIResponseType {
-    sucess: boolean;
-    data: Record<string, unknown>[];
+    total?: number;
+    object?: string;
+    data?: Record<string, unknown>[];
 }
 export interface ApiKeysUpdateResponse extends APIResponseType {
-    success: boolean;
-    data: Record<string, unknown>;
+    object?: string;
+    total?:number;
+    data?: Record<string, unknown>[];
 }
-function toQueryParams(params?: ApiKeysListResponse): string {
+function toQueryParams(params?: ApiKeysListParams): string {
     if (!params) {
         return '';
     }
@@ -63,10 +93,12 @@ export class ApiKeys extends ApiResource {
 		opts?: RequestOptions
 	): APIPromise<ApiKeysCreateResponse> {
 		const body = _body;
+        const type = body.type;
+        const subType = body["sub-type"];
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.post<ApiKeysCreateResponse>('/configs', { body, ...opts });
+		const response = this.post<ApiKeysCreateResponse>(`/api-keys/${type}/${subType}`, { body, ...opts });
 		return response;
 	}
 
@@ -76,11 +108,11 @@ export class ApiKeys extends ApiResource {
 		opts?: RequestOptions
 	): APIPromise<ApiKeysRetrieveResponse> {
 		const body = _body;
-		const slug = body.slug;
+		const id = body.id;
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.get<ApiKeysRetrieveResponse>(`/configs/${slug}`, { body, ...opts });
+		const response = this.get<ApiKeysRetrieveResponse>(`/api-keys/${id}`, { body, ...opts });
 		return response;
 	}
 
@@ -90,11 +122,11 @@ export class ApiKeys extends ApiResource {
 		opts?: RequestOptions
 	): APIPromise<ApiKeysUpdateResponse> {
 		const body = _body;
-		const slug = body.slug;
+		const id = body.id;
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.put<ApiKeysUpdateResponse>(`/configs/${slug}`, { body, ...opts });
+		const response = this.put<ApiKeysUpdateResponse>(`/api-keys/${id}`, { body, ...opts });
 		return response;
 	}
     list(
@@ -107,7 +139,20 @@ export class ApiKeys extends ApiResource {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
         const query = toQueryParams(body);
-        const response = this.get<ApiKeysListResponse>('/configs', { body, ...opts });
+        const response = this.get<ApiKeysListResponse>(`/api-keys${query}`, { body, ...opts });
+        return response;
+    }
+    delete(
+        _body: ApiKeysDeleteParams,
+		params?: ApiClientInterface,
+		opts?: RequestOptions
+    ):APIPromise<any>{
+        const body = _body;
+        const id=body.id;
+		if (params) {
+			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+		}
+        const response = this.deleteMethod<any>(`/api-keys/${id}`, { body, ...opts });
         return response;
     }
 }
