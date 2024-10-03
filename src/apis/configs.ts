@@ -29,7 +29,7 @@ export interface ConfigsCreateResponse extends APIResponseType {
 	object?: string;
 }
 export interface ConfigsRetrieveResponse extends APIResponseType {
-    ide?: string;
+    id?: string;
 	name?: string;
 	workspace_id?: string;
 	slug?: string;
@@ -93,7 +93,7 @@ export class Configs extends ApiResource {
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.get<ConfigsRetrieveResponse>(`/configs/${slug}`, { body, ...opts });
+		const response = this.get<ConfigsRetrieveResponse>(`/configs/${slug}`, {  ...opts });
 		return response;
 	}
 
