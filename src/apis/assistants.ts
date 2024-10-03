@@ -15,7 +15,7 @@ export interface AssistantCreateParams {
     temperature?: number | null;
     tool_resources?: any | null;
     top_p?: number | null;
-    
+    [key: string]: any;
 }
 
 export interface FileCreateParams {
@@ -30,6 +30,7 @@ export interface FileListParams extends CursorPageParams {
 export interface CursorPageParams {
     after?: string;
     limit?: number;
+    [key: string]: any;
 }
 
 export interface AssistantListParams extends CursorPageParams {
@@ -45,6 +46,7 @@ export interface AssistantUpdateParams {
     model?: string;
     name?: string | null;
     tools?: Array<any>;
+    [key: string]: any;
 }
 
 

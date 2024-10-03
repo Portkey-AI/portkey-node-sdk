@@ -7,8 +7,10 @@ import { Uploadable } from "openai/uploads";
 
 export interface UploadCompleteParams {
   part_ids: Array<string>;
- md5?: string;
+  md5?: string;
+  [key: string]: any;
 }
+
 export class Uploads extends ApiResource {
   parts: Parts 
 
@@ -101,8 +103,10 @@ export interface UploadCreateParams {
   filename: string;
   mime_type: string;
   purpose: 'assistants' | 'batch' | 'fine-tune' | 'vision';
+  [key: string]: any;
 }
 
 export interface PartCreateParams {
   data: Uploadable;
+  [key: string]: any;
 }

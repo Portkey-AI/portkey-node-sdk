@@ -3,7 +3,7 @@ export interface RetrySettings {
     on_status_codes: Array<number>
 }
 
-export interface Function {
+export interface FunctionInterface {
     name: string;
     description: string;
     parameters: string;
@@ -19,8 +19,8 @@ export interface ModelParams {
     n?: number;
     stop_sequences?: Array<any>;
     timeout?: number;
-    functions?: Array<Function>;
-    function_call?: string | Function;
+    functions?: Array<FunctionInterface>;
+    function_call?: string | FunctionInterface;
     logprobs?: number;
     echo?: boolean;
     stop?: Array<string>;
@@ -37,6 +37,7 @@ export interface ModelParams {
     parallel_tool_calls?: boolean;
     tools?: Array<Tool>;
     tool_choice?: any;
+    [key: string]: any;
 }
 
 export interface Message {
