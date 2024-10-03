@@ -112,7 +112,7 @@ export class ApiKeys extends ApiResource {
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.get<ApiKeysRetrieveResponse>(`/api-keys/${id}`, { body, ...opts });
+		const response = this.get<ApiKeysRetrieveResponse>(`/api-keys/${id}`, { ...opts });
 		return response;
 	}
 
@@ -139,7 +139,7 @@ export class ApiKeys extends ApiResource {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
         const query = toQueryParams(body);
-        const response = this.get<ApiKeysListResponse>(`/api-keys${query}`, { body, ...opts });
+        const response = this.get<ApiKeysListResponse>(`/api-keys${query}`, {...opts });
         return response;
     }
     delete(
