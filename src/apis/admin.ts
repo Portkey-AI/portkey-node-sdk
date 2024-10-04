@@ -11,7 +11,7 @@ export interface UsersRetrieveAllParams{
     pageSize?: number;
     currentPage?: number;
     email?: string;
-    role?: string;
+    role?: "admin" | "member" | "owner" | any;
 }
 
 export interface UsersRetrieveResponse extends APIResponseType {
@@ -34,13 +34,14 @@ export interface UsersRetrieveAllResponse extends APIResponseType {
 
 export interface UsersUpdateParams{
     userId?: string,
-    role?: "admin" | "manager" | "member",
+    role?: "admin" | "member" | any,
 }
 
 export interface UserInviteParams{
     email?: string,
     role?: string,
     workspaces?: Record<string,unknown>[]
+    workspace_api_key_details?: Record<string,unknown>
 }
 
 export interface UserInviteResponse extends APIResponseType {
@@ -56,7 +57,7 @@ export interface UserInviteRetrieveResponse extends APIResponseType {
     object?: string,
     id?: string,
     email?: string,
-    role?: string,
+    role?: "admin"| "member" | any,
     created_at?: Date,
     expires_at?: Date,
     accepted_at?: Date,
@@ -66,8 +67,8 @@ export interface UserInviteRetrieveResponse extends APIResponseType {
 
 export interface UserInviteRetrieveAllParams{
     email?: string,
-    role?: string,
-    status?: string
+    role?: "admin" | "member" | any,
+    status?: "pending" | "accepted" | "expired"| "cancelled"| any,
     pageSize?: number,
     currentPage?: number
 }
@@ -86,7 +87,7 @@ export interface WorkspacesCreateParams{
     name?: string,
     description?: string,
     defaults?: Record<string, any>,
-    users?: Record<string, string>[],
+    users?: string[],
 }
 export interface WorkspacesRetrieveParams {
     workspaceId?: string;
@@ -105,6 +106,7 @@ export interface WorkspacesCreateResponse extends APIResponseType {
     last_updated_at?: Date,
     defaults?: Record<string, any>,
     users?: Record<string, string>[],
+    object?: string,
 }
 export interface WorkspacesRetrieveResponse extends APIResponseType {
     id?: string,
@@ -113,7 +115,7 @@ export interface WorkspacesRetrieveResponse extends APIResponseType {
     description?: string,
     created_at?: Date,
     last_updated_at?: Date,
-    defaults?: Record<string, any>,
+    defaults?: Record<string, any> | null,
     users?: Record<string, any>[],
 }
 export interface WorkspacesRetrieveAllResponse extends APIResponseType {
@@ -134,6 +136,7 @@ export interface WorkspacesUpdateResponse extends APIResponseType {
     name?: string,
     description?: string,
     created_at?: Date,
+    is_default?:number,
     last_updated_at?: Date,
     defaults?: Record<string, any>,
     object?: string,
@@ -157,11 +160,9 @@ export interface WorkspaceMemberRetrieveAllParams {
     page_size?: number,
     current_page?: number,
     email?: string,
-    role?: "admin" | "manager" | "member",
+    role?: "admin" | "manager" | "member" | any,
 }
 export interface WorkspaceMemberRetrieveResponse extends APIResponseType {
-    object?: string,
-    id?: string,
     first_name?: string,
     last_name?: string,
     org_role?: string,
@@ -169,6 +170,10 @@ export interface WorkspaceMemberRetrieveResponse extends APIResponseType {
     created_at?: Date,
     last_updated_at?: Date,
     status?: string
+    workspace_id?: string,
+    scopes?: string[],
+    settings?: Record<string, any>| null,
+    object?: string,
 }
 export interface WorkspaceMemberRetrieveAllResponse extends APIResponseType {
     total?: number,
@@ -182,7 +187,7 @@ export interface WorkspaceMemberRemoveParams{
 export interface WorkspaceMemberUpdateParams{
     workspaceId?: string,
     userId?: string,
-    role?: "admin" | "member",
+    role?: "admin" | "member" | any,
 }
 // Function to convert UsersRetrieveParams to query parameters
 function toQueryParams(params?: (UsersRetrieveAllParams | UserInviteRetrieveAllParams | WorkspacesRetrieveParams | WorkspacesRetrieveAllParams | WorkspaceMemberRetrieveAllParams)): string {
@@ -228,7 +233,7 @@ export class Users extends ApiResource {
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.get<UsersRetrieveResponse>(`/admin/users/${userId}`, { body, ...opts });
+        const response = this.get<UsersRetrieveResponse>(`/admin/users/${userId}`, {...opts });
         return response;
     }
 
@@ -242,7 +247,7 @@ export class Users extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
         const query = toQueryParams(body);
-        const response = this.get<UsersRetrieveAllResponse>(`/admin/users${query}`, { body, ...opts });
+        const response = this.get<UsersRetrieveAllResponse>(`/admin/users${query}`, { ...opts });
         return response;
     }
     
@@ -299,17 +304,16 @@ export class Invites extends ApiResource {
 		params?: ApiClientInterface,
 		opts?: RequestOptions
     ): APIPromise<UserInviteRetrieveResponse> {
-        const body = _body;
         const inviteId = _body.inviteId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.get<UserInviteRetrieveResponse>(`/admin/users/invites/${inviteId}`, { body, ...opts });
+        const response = this.get<UserInviteRetrieveResponse>(`/admin/users/invites/${inviteId}`, { ...opts });
         return response;
     }
 
     retrieveAll(
-        _body: UserInviteRetrieveAllParams,
+        _body?: UserInviteRetrieveAllParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<UserInviteRetrieveAllResponse> {
@@ -317,8 +321,8 @@ export class Invites extends ApiResource {
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const query = toQueryParams(body);
-        const response = this.get<UserInviteRetrieveAllResponse>(`/admin/users/invites${query}`, { body, ...opts });
+        const query = body ? toQueryParams(body) : '';
+        const response = this.get<UserInviteRetrieveAllResponse>(`/admin/users/invites${query}`, { ...opts });
         return response;
     }
 
@@ -353,7 +357,7 @@ export class Workspaces extends ApiResource {
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.post<any>('/admin/workspaces', { body, ...opts });
+        const response = this.post<WorkspacesCreateResponse>('/admin/workspaces', { body, ...opts });
         return response;
     }
     retrieve(
@@ -367,7 +371,7 @@ export class Workspaces extends ApiResource {
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.get<WorkspacesRetrieveResponse>(`/admin/workspaces/${workspaceId}`, { body, ...opts });
+        const response = this.get<WorkspacesRetrieveResponse>(`/admin/workspaces/${workspaceId}`, { ...opts });
         return response;
     }
 
@@ -381,7 +385,7 @@ export class Workspaces extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
         const query = toQueryParams(body);
-        const response = this.get<WorkspacesRetrieveAllResponse>(`/admin/workspaces${query}`, { body, ...opts });
+        const response = this.get<WorkspacesRetrieveAllResponse>(`/admin/workspaces${query}`, { ...opts });
         return response;
     }
     
@@ -436,13 +440,12 @@ export class Member extends ApiResource {
 		params?: ApiClientInterface,
 		opts?: RequestOptions
     ): APIPromise<WorkspaceMemberRetrieveResponse> {
-        const body = _body;
         const workspaceId = _body.workspaceId;
         const userId = _body.userId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.get<WorkspaceMemberRetrieveResponse>(`/admin/workspaces/${workspaceId}/users/${userId}`, { body, ...opts });
+        const response = this.get<WorkspaceMemberRetrieveResponse>(`/admin/workspaces/${workspaceId}/users/${userId}`, { ...opts });
         return response;
     }
 
@@ -457,7 +460,7 @@ export class Member extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
         const query = toQueryParams(body);
-        const response = this.get<WorkspaceMemberRetrieveAllResponse>(`/admin/workspaces/${workspaceId}/users${query}`, { body, ...opts });
+        const response = this.get<WorkspaceMemberRetrieveAllResponse>(`/admin/workspaces/${workspaceId}/users${query}`, { ...opts });
         return response;
     }
 
