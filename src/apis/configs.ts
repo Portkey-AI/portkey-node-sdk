@@ -9,26 +9,16 @@ export interface ConfigsCreateParams {
     isDefault?: number;
     workspace_id?:string;
 }
-export interface ConfigsRetrieveParams {
-	slug?: string;
-}
-
-export interface ConfigsUpdateParams {
-	slug?: string;
-	name?: string;
-    config?: Record<string, unknown>;
-    status?: string;
-}
-export interface CongfigsListParams {
-	workspace_id?: string;
-}
 export interface ConfigsCreateResponse extends APIResponseType {
 	id?: string;
 	version_id?: string;
 	slug?: string;
 	object?: string;
 }
-export interface ConfigsRetrieveResponse extends APIResponseType {
+export interface ConfigsGetParams {
+	slug?: string;
+}
+export interface ConfigsGetResponse extends APIResponseType {
     id?: string;
 	name?: string;
 	workspace_id?: string;
@@ -46,10 +36,19 @@ export interface ConfigsRetrieveResponse extends APIResponseType {
 	version_id?: string;
 	object?: string;
 }
+export interface CongfigsListParams {
+	workspace_id?: string;
+}
 export interface ConfigsListResponse extends APIResponseType {
     object?: boolean;
 	total?: number;
     data?: Record<string, unknown>[];
+}
+export interface ConfigsUpdateParams {
+	slug?: string;
+	name?: string;
+    config?: Record<string, unknown>;
+    status?: string;
 }
 export interface ConfigsUpdateResponse extends APIResponseType {
     version_id?: string;
@@ -83,17 +82,17 @@ export class Configs extends ApiResource {
 		return response;
 	}
 
-	retrieve(
-		_body: ConfigsRetrieveParams,
+	get(
+		_body: ConfigsGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<ConfigsRetrieveResponse> {
+	): APIPromise<ConfigsGetResponse> {
 		const body = _body;
 		const slug = body.slug;
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.get<ConfigsRetrieveResponse>(`/configs/${slug}`, {  ...opts });
+		const response = this.getMethod<ConfigsGetResponse>(`/configs/${slug}`, {  ...opts });
 		return response;
 	}
 
@@ -111,7 +110,7 @@ export class Configs extends ApiResource {
 		return response;
 	}
     list(
-		_body?:any, //? will be removed when query params will be introduced
+		_body?:CongfigsListParams, //? will be removed when query params will be introduced
 		params?: ApiClientInterface,
 		opts?: RequestOptions
 	):APIPromise<ConfigsListResponse>{
@@ -120,7 +119,7 @@ export class Configs extends ApiResource {
 		if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.get<ConfigsListResponse>(`/configs${query}`, {...opts});
+        const response = this.getMethod<ConfigsListResponse>(`/configs${query}`, {...opts});
         return response;
     }
 }
