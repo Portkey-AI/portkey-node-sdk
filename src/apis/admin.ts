@@ -36,7 +36,9 @@ export interface UsersUpdateParams{
     userId?: string,
     role?: "admin" | "member" | any,
 }
-
+export interface UsersDeleteParams{
+    userId?: string;
+}
 export interface UserInviteParams{
     email?: string,
     role?: string,
@@ -79,7 +81,7 @@ export interface UserInviteListResponse extends APIResponseType {
     data?: UserInviteGetResponse[]
 }
 
-export interface UserInviteRemoveParams {
+export interface UserInviteDeleteParams {
     inviteId?: string,
 }
 
@@ -147,7 +149,7 @@ export interface WorkspacesUpdateResponse extends APIResponseType {
     object?: string,
 }
 
-export interface WorkspacesRemoveParams{
+export interface WorkspacesDeleteParams{
     workspaceId?: string;
     name?: string;
 }
@@ -190,7 +192,7 @@ export interface WorkspaceMemberListResponse extends APIResponseType {
     data?: WorkspaceMemberGetResponse[]
 }
 
-export interface WorkspaceMemberRemoveParams{
+export interface WorkspaceMemberDeleteParams{
     workspaceId?: string,
     userId?: string,
 }
@@ -277,8 +279,8 @@ export class Users extends ApiResource {
         return response;
     }
 
-    remove(
-        _body: UsersGetParams,
+    delete(
+        _body: UsersDeleteParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<any> {
@@ -338,7 +340,7 @@ export class Invites extends ApiResource {
     }
 
     delete(
-        _body: UserInviteRemoveParams,
+        _body: UserInviteDeleteParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<any> {
@@ -416,7 +418,7 @@ export class Workspaces extends ApiResource {
     }
 
     delete(
-        _body: WorkspacesRemoveParams,
+        _body: WorkspacesDeleteParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<any> {
@@ -475,8 +477,8 @@ export class Member extends ApiResource {
         return response;
     }
 
-    remove(
-        _body: WorkspaceMemberRemoveParams,
+    delete(
+        _body: WorkspaceMemberDeleteParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
     ): APIPromise<any> {
