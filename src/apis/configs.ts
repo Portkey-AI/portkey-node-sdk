@@ -54,6 +54,9 @@ export interface ConfigsUpdateResponse extends APIResponseType {
     version_id?: string;
     object?: string;
 }
+export interface ConfigsDeleteParams {
+	id?: string;
+}
 function toQueryParams(params?: CongfigsListParams): string {
     if (!params) {
         return '';
@@ -120,6 +123,19 @@ export class Configs extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
         const response = this.getMethod<ConfigsListResponse>(`/configs${query}`, {...opts});
+        return response;
+    }
+	delete(
+		_body:ConfigsDeleteParams, //? will be removed when query params will be introduced
+		params?: ApiClientInterface,
+		opts?: RequestOptions
+	):APIPromise<any>{
+		const body = _body;
+		const configId = body.id;
+		if (params) {
+            this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
+        }
+        const response = this.deleteMethod<any>(`/configs/${configId}`, {...opts});
         return response;
     }
 }
