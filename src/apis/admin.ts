@@ -85,14 +85,14 @@ export interface UserInviteDeleteParams {
     inviteId?: string,
 }
 
-export interface WorkspacesCreateParams{
+export interface WorkspacesAddParams{
     name?: string,
     description?: string,
     defaults?: Record<string, any>,
     users?: string[],
 }
 
-export interface WorkspacesCreateResponse extends APIResponseType {
+export interface WorkspacesAddResponse extends APIResponseType {
     id?: string,
     slug?: string,
     name?: string,
@@ -299,7 +299,7 @@ export class Users extends ApiResource {
 export class Invites extends ApiResource {
 
 
-    create(
+    add(
         _body: UserInviteParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
@@ -361,16 +361,16 @@ export class Workspaces extends ApiResource {
         super(client);
         this.users = new Member(client);
     }
-    create(
-        _body: WorkspacesCreateParams,
+    add(
+        _body: WorkspacesAddParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): APIPromise<WorkspacesCreateResponse> {
+    ): APIPromise<WorkspacesAddResponse> {
         const body = _body;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.post<WorkspacesCreateResponse>('/admin/workspaces', { body, ...opts });
+        const response = this.post<WorkspacesAddResponse>('/admin/workspaces', { body, ...opts });
         return response;
     }
     get(
