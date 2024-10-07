@@ -2,6 +2,7 @@ import { ApiResource } from "../apiResource";
 import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
+import { toQueryParams } from "portkey-ai/utils";
 
 export interface ApiKeysAddParams {
 	type?: string;
@@ -69,18 +70,6 @@ export interface ApiKeysListResponse extends APIResponseType {
 }
 export interface ApiKeysDeleteParams {
     id?: string;
-}
-
-function toQueryParams(params?: ApiKeysListParams): string {
-    if (!params) {
-        return '';
-    }
-    const queryParams = Object.entries(params)
-        .filter(([, value]) => value !== undefined && value !== null)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&');
-    
-    return queryParams ? `?${queryParams}` : '';
 }
 export class ApiKeys extends ApiResource {
     constructor(client: any) {
