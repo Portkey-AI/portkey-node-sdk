@@ -13,6 +13,7 @@ export interface VirtualKeysAddParams {
     deploymentName?: string | null;
     workspace_id?: string;
     usage_limits?: Record<string, unknown>;
+    [key: string]: any;
 }
 export interface VirtualKeysAddResponse extends APIResponseType {
     id?: string;
@@ -53,6 +54,7 @@ export interface VirtualKeysUpdateParams {
     note?: string | null;
     usage_limits?: Record<string, unknown>;
     rate_limits?: Record<string, unknown>[];
+    [key: string]: any;
 }
 export interface VirtualKeysUpdateResponse extends APIResponseType {
     id?:string;
