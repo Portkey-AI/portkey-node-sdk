@@ -5,7 +5,7 @@ import { createHeaders } from "./createHeaders";
 
 export interface ConfigsAddParams {
 	name?: string;
-	config?: Record<string, unknown>;
+	config?: Record<string, any>;
     isDefault?: number;
     workspace_id?:string;
 }
@@ -30,7 +30,7 @@ export interface ConfigsGetResponse extends APIResponseType {
 	created_at?: string;
 	updated_by?: string;
 	last_updated_at?: string;
-	config?: Record<string, unknown>;
+	config?: Record<string, any>;
 	format?: string;
 	type?: string;
 	version_id?: string;
@@ -42,12 +42,12 @@ export interface CongfigsListParams {
 export interface ConfigsListResponse extends APIResponseType {
     object?: boolean;
 	total?: number;
-    data?: Record<string, unknown>[];
+    data?: Record<string, any>[];
 }
 export interface ConfigsUpdateParams {
 	slug?: string;
 	name?: string;
-    config?: Record<string, unknown>;
+    config?: Record<string, any>;
     status?: string;
 }
 export interface ConfigsUpdateResponse extends APIResponseType {
@@ -113,7 +113,7 @@ export class Configs extends ApiResource {
 		return response;
 	}
     list(
-		_body?:CongfigsListParams, //? will be removed when query params will be introduced
+		_body?:CongfigsListParams, 
 		params?: ApiClientInterface,
 		opts?: RequestOptions
 	):APIPromise<ConfigsListResponse>{
@@ -126,7 +126,7 @@ export class Configs extends ApiResource {
         return response;
     }
 	delete(
-		_body:ConfigsDeleteParams, //? will be removed when query params will be introduced
+		_body:ConfigsDeleteParams, 
 		params?: ApiClientInterface,
 		opts?: RequestOptions
 	):APIPromise<any>{
