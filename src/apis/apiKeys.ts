@@ -3,7 +3,7 @@ import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
 
-export interface ApiKeysCreateParams {
+export interface ApiKeysAddParams {
 	type?: string;
 	"sub-type"?: string;
     name?: string;
@@ -16,7 +16,7 @@ export interface ApiKeysCreateParams {
     defaults?: Record<string, unknown>;
 }
 
-export interface ApiKeysRetrieveParams {
+export interface ApiKeysGetParams {
     id?: string;
 }
 
@@ -37,12 +37,12 @@ export interface ApiKeysListParams {
 export interface ApiKeysDeleteParams {
     id?: string;
 }
-export interface ApiKeysCreateResponse extends APIResponseType {
+export interface ApiKeysAddResponse extends APIResponseType {
 	id?: string;
     key?: string;
     object?: string;
 }
-export interface ApiKeysRetrieveResponse extends APIResponseType {
+export interface ApiKeysGetResponse extends APIResponseType {
     id?: string;
     key?: string;
     name?: string;
@@ -87,32 +87,32 @@ export class ApiKeys extends ApiResource {
     constructor(client: any) {
         super(client);
     }
-	create(
-		_body: ApiKeysCreateParams,
+	add(
+		_body: ApiKeysAddParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<ApiKeysCreateResponse> {
+	): APIPromise<ApiKeysAddResponse> {
 		const body = _body;
         const type = body.type;
         const subType = body["sub-type"];
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.post<ApiKeysCreateResponse>(`/api-keys/${type}/${subType}`, { body, ...opts });
+		const response = this.post<ApiKeysAddResponse>(`/api-keys/${type}/${subType}`, { body, ...opts });
 		return response;
 	}
 
-	retrieve(
-		_body: ApiKeysRetrieveParams,
+	get(
+		_body: ApiKeysGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<ApiKeysRetrieveResponse> {
+	): APIPromise<ApiKeysGetResponse> {
 		const body = _body;
 		const id = body.id;
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.get<ApiKeysRetrieveResponse>(`/api-keys/${id}`, { ...opts });
+		const response = this.getMethod<ApiKeysGetResponse>(`/api-keys/${id}`, { ...opts });
 		return response;
 	}
 
@@ -139,7 +139,7 @@ export class ApiKeys extends ApiResource {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
         const query = toQueryParams(body);
-        const response = this.get<ApiKeysListResponse>(`/api-keys${query}`, {...opts });
+        const response = this.getMethod<ApiKeysListResponse>(`/api-keys${query}`, {...opts });
         return response;
     }
     delete(
