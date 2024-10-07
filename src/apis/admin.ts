@@ -2,7 +2,7 @@ import { ApiResource } from "../apiResource";
 import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
-
+import { toQueryParams } from "portkey-ai/utils";
 export interface UsersGetParams{
     userId?: string;
 }
@@ -42,8 +42,8 @@ export interface UsersDeleteParams{
 export interface UserInviteParams{
     email?: string,
     role?: string,
-    workspaces?: Record<string,unknown>[]
-    workspace_api_key_details?: Record<string,unknown>
+    workspaces?: Record<string,any>[]
+    workspace_api_key_details?: Record<string,any>
 }
 
 export interface UserInviteResponse extends APIResponseType {
@@ -203,17 +203,7 @@ export interface WorkspaceMemberUpdateParams{
     role?: "admin" | "member" | any,
 }
 // Function to convert UsersGetParams to query parameters
-function toQueryParams(params?: (UsersListParams | UserInviteListParams | WorkspacesListParams | WorkspaceMemberListParams)): string {
-    if (!params) {
-        return '';
-    }
-    const queryParams = Object.entries(params)
-        .filter(([, value]) => value !== undefined && value !== null)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&');
-    
-    return queryParams ? `?${queryParams}` : '';
-}
+
 
 export class Admin extends ApiResource {
     users: Users
