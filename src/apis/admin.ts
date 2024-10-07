@@ -42,8 +42,8 @@ export interface UsersDeleteParams{
 export interface UserInviteParams{
     email?: string,
     role?: string,
-    workspaces?: Record<string,unknown>[]
-    workspace_api_key_details?: Record<string,unknown>
+    workspaces?: Record<string,any>[]
+    workspace_api_key_details?: Record<string,any>
 }
 
 export interface UserInviteResponse extends APIResponseType {
