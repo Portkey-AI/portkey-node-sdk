@@ -53,11 +53,6 @@ export interface ApiKeysUpdateParams {
     scopes?: string[];
     defaults?: Record<string, any>;
 }
-export interface ApiKeysUpdateResponse extends APIResponseType {
-    object?: string;
-    total?:number;
-    data?: Record<string, any>[];
-}
 export interface ApiKeysListParams {
     page_size?: number;
     current_page?: number;
@@ -108,13 +103,13 @@ export class ApiKeys extends ApiResource {
 		_body: ApiKeysUpdateParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<ApiKeysUpdateResponse> {
+	): APIPromise<any> {
 		const body = _body;
 		const id = body.id;
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.put<ApiKeysUpdateResponse>(`/api-keys/${id}`, { body, ...opts });
+		const response = this.put<any>(`/api-keys/${id}`, { body, ...opts });
 		return response;
 	}
     list(
