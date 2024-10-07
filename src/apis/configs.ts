@@ -3,13 +3,13 @@ import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
 
-export interface ConfigsCreateParams {
+export interface ConfigsAddParams {
 	name?: string;
 	config?: Record<string, unknown>;
     isDefault?: number;
     workspace_id?:string;
 }
-export interface ConfigsCreateResponse extends APIResponseType {
+export interface ConfigsAddResponse extends APIResponseType {
 	id?: string;
 	version_id?: string;
 	slug?: string;
@@ -72,16 +72,16 @@ export class Configs extends ApiResource {
     constructor(client: any) {
         super(client);
     }
-	create(
-		_body: ConfigsCreateParams,
+	add(
+		_body: ConfigsAddParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
-	): APIPromise<ConfigsCreateResponse> {
+	): APIPromise<ConfigsAddResponse> {
 		const body = _body;
 		if (params) {
 			this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
 		}
-		const response = this.post<ConfigsCreateResponse>('/configs', { body, ...opts });
+		const response = this.post<ConfigsAddResponse>('/configs', { body, ...opts });
 		return response;
 	}
 
