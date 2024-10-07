@@ -14,44 +14,13 @@ export interface VirtualKeysAddParams {
     workspace_id?: string;
     usage_limits?: Record<string, unknown>;
 }
-
-export interface VirtualKeysListParams {
-    workspace_id?: string;
-}
-
-export interface VirtualKeysGetParams {
-    slug?: string;
-}
-
-export interface VirtualKeysUpdateParams {
-    slug?: string;
-    name?: string;
-    key?: string;
-    note?: string | null;
-    usage_limits?: Record<string, unknown>;
-    rate_limits?: Record<string, unknown>[];
-}
-
-export interface VirtualKeysDeleteParams {
-    slug?: string;
-}
-
-export interface UsageLimits {
-    credit_limit?: number;
-    periodic_reset?: string;
-    alert_threshold?: number;
-}
-
 export interface VirtualKeysAddResponse extends APIResponseType {
     id?: string;
     slug?:string;
     object?: string;
 }
-
-export interface VirtualKeysListResponse extends APIResponseType {
-    object?:string,
-    total?:number,
-    data?: VirtualKeysGetResponse[];
+export interface VirtualKeysGetParams {
+    slug?: string;
 }
 
 export interface VirtualKeysGetResponse extends APIResponseType {
@@ -68,12 +37,32 @@ export interface VirtualKeysGetResponse extends APIResponseType {
     rate_limits: Record<string, unknown>[],
     object: string,
 }
+export interface VirtualKeysListParams {
+    workspace_id?: string;
+}
+export interface VirtualKeysListResponse extends APIResponseType {
+    object?:string,
+    total?:number,
+    data?: VirtualKeysGetResponse[];
+}
 
+export interface VirtualKeysUpdateParams {
+    slug?: string;
+    name?: string;
+    key?: string;
+    note?: string | null;
+    usage_limits?: Record<string, unknown>;
+    rate_limits?: Record<string, unknown>[];
+}
 export interface VirtualKeysUpdateResponse extends APIResponseType {
     id?:string;
     slug?:string;
     object?: string;
 }
+export interface VirtualKeysDeleteParams {
+    slug?: string;
+}
+
 function toQueryParams(params?: VirtualKeysListParams): string {
     if (!params) {
         return '';
