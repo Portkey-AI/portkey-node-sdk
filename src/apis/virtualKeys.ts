@@ -3,7 +3,7 @@ import { APIResponseType, ApiClientInterface } from "../_types/generalTypes";
 import { APIPromise, RequestOptions } from "../baseClient";
 import { createHeaders } from "./createHeaders";
 
-export interface VirtualKeysCreateParams {
+export interface VirtualKeysAddParams {
     name?: string;
     provider?: string;
     key?: string;
@@ -19,7 +19,7 @@ export interface VirtualKeysListParams {
     workspace_id?: string;
 }
 
-export interface VirtualKeysRetrieveParams {
+export interface VirtualKeysGetParams {
     slug?: string;
 }
 
@@ -42,7 +42,7 @@ export interface UsageLimits {
     alert_threshold?: number;
 }
 
-export interface VirtualKeysCreateResponse extends APIResponseType {
+export interface VirtualKeysAddResponse extends APIResponseType {
     id?: string;
     slug?:string;
     object?: string;
@@ -51,10 +51,10 @@ export interface VirtualKeysCreateResponse extends APIResponseType {
 export interface VirtualKeysListResponse extends APIResponseType {
     object?:string,
     total?:number,
-    data?: VirtualKeysRetrieveResponse[];
+    data?: VirtualKeysGetResponse[];
 }
 
-export interface VirtualKeysRetrieveResponse extends APIResponseType {
+export interface VirtualKeysGetResponse extends APIResponseType {
     id: string,
     ai_provider_name: string,
     model_config: Record<string, unknown>,
@@ -91,15 +91,15 @@ export class VirtualKeys extends ApiResource {
         super(client);
     }
 
-    create(
-        body: VirtualKeysCreateParams,
+    add(
+        body: VirtualKeysAddParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): APIPromise<VirtualKeysCreateResponse> {
+    ): APIPromise<VirtualKeysAddResponse> {
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.post<VirtualKeysCreateResponse>('/virtual-keys', { body, ...opts });
+        const response = this.post<VirtualKeysAddResponse>('/virtual-keys', { body, ...opts });
         return response;
     }
 
@@ -113,20 +113,20 @@ export class VirtualKeys extends ApiResource {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
         const query = toQueryParams(body);
-        const response = this.get<VirtualKeysListResponse>(`/virtual-keys${query}`, { ...opts });
+        const response = this.getMethod<VirtualKeysListResponse>(`/virtual-keys${query}`, { ...opts });
         return response;
     }
 
-    retrieve(
-        body: VirtualKeysRetrieveParams,
+    get(
+        body: VirtualKeysGetParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
-    ): APIPromise<VirtualKeysRetrieveResponse> {
+    ): APIPromise<VirtualKeysGetResponse> {
         const { slug } = body;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
-        const response = this.get<VirtualKeysRetrieveResponse>(`/virtual-keys/${slug}`, { ...opts });
+        const response = this.getMethod<VirtualKeysGetResponse>(`/virtual-keys/${slug}`, { ...opts });
         return response;
     }
 
