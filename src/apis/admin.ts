@@ -256,7 +256,7 @@ export class Users extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<any> {
         const body = _body;
-        const userId = _body.userId;
+        const userId = body.userId;
         delete body.userId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
@@ -271,7 +271,7 @@ export class Users extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<any> {
         const body = _body;
-        const userId = _body.userId;
+        const userId = body.userId;
         if (params){
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
@@ -303,7 +303,8 @@ export class Invites extends ApiResource {
 		params?: ApiClientInterface,
 		opts?: RequestOptions
     ): APIPromise<UserInviteGetResponse> {
-        const inviteId = _body.inviteId;
+        const body=_body;
+        const inviteId = body.inviteId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
@@ -331,7 +332,7 @@ export class Invites extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<any> {
         const body = _body;
-        const inviteId = _body.inviteId;
+        const inviteId = body.inviteId;
         if (params){
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
@@ -391,7 +392,7 @@ export class Workspaces extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<WorkspacesUpdateResponse> {
         const body = _body;
-        const workspaceId = _body.workspaceId;
+        const workspaceId = body.workspaceId;
         delete body.workspaceId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
@@ -406,7 +407,7 @@ export class Workspaces extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<any> {
         const body = _body;
-        const workspaceId = _body.workspaceId;
+        const workspaceId = body.workspaceId;
         if (params){
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
@@ -436,8 +437,9 @@ export class Member extends ApiResource {
 		params?: ApiClientInterface,
 		opts?: RequestOptions
     ): APIPromise<WorkspaceMemberGetResponse> {
-        const workspaceId = _body.workspaceId;
-        const userId = _body.userId;
+        const body = _body;
+        const workspaceId = body.workspaceId;
+        const userId = body.userId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
@@ -451,7 +453,7 @@ export class Member extends ApiResource {
         opts?: RequestOptions
     ): APIPromise<WorkspaceMemberListResponse> {
         const body = _body;
-        const workspaceId = _body.workspaceId;
+        const workspaceId = body.workspaceId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
         }
