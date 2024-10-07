@@ -228,12 +228,7 @@ export class Admin extends ApiResource {
 
 export class Users extends ApiResource {
 
-    invites: Invites
-
-    constructor(client: any) {
-        super(client);
-        this.invites = new Invites(client);
-    }
+    invites: Invites= new Invites(this.client);
 
     get(
         _body: UsersGetParams,
@@ -356,11 +351,8 @@ export class Invites extends ApiResource {
 }
 
 export class Workspaces extends ApiResource {
-    users: Member
-    constructor(client: any) {
-        super(client);
-        this.users = new Member(client);
-    }
+    users: Member = new Member(this.client);
+    
     add(
         _body: WorkspacesAddParams,
         params?: ApiClientInterface,
