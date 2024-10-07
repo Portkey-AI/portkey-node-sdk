@@ -481,7 +481,7 @@ export class Member extends ApiResource {
     ): APIPromise<any> {
         const body = _body;
         const workspaceId = body.workspaceId;
-        const userId = _body.userId;
+        const userId = body.userId;
         delete body.workspaceId;
         if (params) {
             this.client.customHeaders = { ...this.client.customHeaders, ...createHeaders({ ...params }) }
