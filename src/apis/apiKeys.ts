@@ -10,10 +10,10 @@ export interface ApiKeysAddParams {
     description?: string;
     workspace_id?:string;
     user_id?:string;
-    rate_limits?: Record<string, unknown>[];
-    usage_limits?: Record<string, unknown>;
+    rate_limits?: Record<string, any>[];
+    usage_limits?: Record<string, any>;
     scopes: string[];
-    defaults?: Record<string, unknown>;
+    defaults?: Record<string, any>;
 }
 export interface ApiKeysAddResponse extends APIResponseType {
 	id?: string;
@@ -36,26 +36,26 @@ export interface ApiKeysGetResponse extends APIResponseType {
     created_at?: Date;
     last_updated_at?: Date;
     creation_mode?: string;
-    rate_limits?: Record<string, unknown>[];
-    usage_limits?: Record<string, unknown>;
+    rate_limits?: Record<string, any>[];
+    usage_limits?: Record<string, any>;
     reset_usage?:number;
     scopes?: string[];
-    defaults?: Record<string, unknown>;
+    defaults?: Record<string, any>;
     object?: string;
 }
 export interface ApiKeysUpdateParams {
 	id?: string;
 	name?: string;
     description?: string;
-    rate_limits?: Record<string, unknown>[];
-    usage_limits?: Record<string, unknown>;
+    rate_limits?: Record<string, any>[];
+    usage_limits?: Record<string, any>;
     scopes?: string[];
-    defaults?: Record<string, unknown>;
+    defaults?: Record<string, any>;
 }
 export interface ApiKeysUpdateResponse extends APIResponseType {
     object?: string;
     total?:number;
-    data?: Record<string, unknown>[];
+    data?: Record<string, any>[];
 }
 export interface ApiKeysListParams {
     page_size?: number;
@@ -65,7 +65,7 @@ export interface ApiKeysListParams {
 export interface ApiKeysListResponse extends APIResponseType {
     total?: number;
     object?: string;
-    data?: Record<string, unknown>[];
+    data?: Record<string, any>[];
 }
 export interface ApiKeysDeleteParams {
     id?: string;
