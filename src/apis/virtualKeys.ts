@@ -68,7 +68,7 @@ export interface VirtualKeysDeleteParams {
 
 
 export class VirtualKeys extends ApiResource {
-    add(
+    create(
         body: VirtualKeysAddParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
@@ -94,7 +94,7 @@ export class VirtualKeys extends ApiResource {
         return response;
     }
 
-    get(
+    retrieve(
         body: VirtualKeysGetParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
