@@ -68,10 +68,6 @@ export interface VirtualKeysDeleteParams {
 
 
 export class VirtualKeys extends ApiResource {
-    constructor(client: any) {
-        super(client);
-    }
-
     add(
         body: VirtualKeysAddParams,
         params?: ApiClientInterface,
