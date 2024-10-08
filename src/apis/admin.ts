@@ -221,7 +221,7 @@ export class Users extends ApiResource {
 
     invites: Invites= new Invites(this.client);
 
-    get(
+    retrieve(
         _body: UsersGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
@@ -298,7 +298,7 @@ export class Invites extends ApiResource {
         return response;
     }
 
-    get(
+    retrieve(
         _body: UserInviteGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
@@ -357,7 +357,7 @@ export class Workspaces extends ApiResource {
         const response = this.post<WorkspacesAddResponse>('/admin/workspaces', { body, ...opts });
         return response;
     }
-    get(
+    retrieve(
         _body: WorkspacesGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
@@ -432,7 +432,7 @@ export class Member extends ApiResource {
         return response;
     }
 
-    get(
+    retrieve(
         _body: WorkspaceMemberGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
