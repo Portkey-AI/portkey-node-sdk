@@ -13,7 +13,7 @@ export interface VirtualKeysAddParams {
     resourceName?: string | null;
     deploymentName?: string | null;
     workspace_id?: string;
-    usage_limits?: Record<string, unknown>;
+    usage_limits?: Record<string, any>;
     [key: string]: any;
 }
 export interface VirtualKeysAddResponse extends APIResponseType {
@@ -28,15 +28,15 @@ export interface VirtualKeysGetParams {
 export interface VirtualKeysGetResponse extends APIResponseType {
     id?: string,
     ai_provider_name?: string,
-    model_config?: Record<string, unknown>,
+    model_config?: Record<string, any>,
     masked_api_key?: string,
     slug?: string,
     name?: string,
-    usage_limits?: Record<string, unknown>,
+    usage_limits?: Record<string, any>,
     status?: string,
     note?: null|string,
     created_at?: Date,
-    rate_limits?: Record<string, unknown>[],
+    rate_limits?: Record<string, any>[],
     object?: string,
 }
 export interface VirtualKeysListParams {
@@ -53,8 +53,8 @@ export interface VirtualKeysUpdateParams {
     name?: string;
     key?: string;
     note?: string | null;
-    usage_limits?: Record<string, unknown>;
-    rate_limits?: Record<string, unknown>[];
+    usage_limits?: Record<string, any>;
+    rate_limits?: Record<string, any>[];
     [key: string]: any;
 }
 export interface VirtualKeysUpdateResponse extends APIResponseType {
