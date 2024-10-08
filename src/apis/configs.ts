@@ -62,7 +62,7 @@ export class Configs extends ApiResource {
     constructor(client: any) {
         super(client);
     }
-	add(
+	create(
 		_body: ConfigsAddParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
@@ -75,7 +75,7 @@ export class Configs extends ApiResource {
 		return response;
 	}
 
-	get(
+	retrieve(
 		_body: ConfigsGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
