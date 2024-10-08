@@ -67,7 +67,7 @@ export interface ApiKeysDeleteParams {
     id?: string;
 }
 export class ApiKeys extends ApiResource {
-	add(
+	create(
 		_body: ApiKeysAddParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
@@ -82,7 +82,7 @@ export class ApiKeys extends ApiResource {
 		return response;
 	}
 
-	get(
+	retrieve(
 		_body: ApiKeysGetParams,
 		params?: ApiClientInterface,
 		opts?: RequestOptions
