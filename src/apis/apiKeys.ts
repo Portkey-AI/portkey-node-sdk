@@ -67,9 +67,6 @@ export interface ApiKeysDeleteParams {
     id?: string;
 }
 export class ApiKeys extends ApiResource {
-    constructor(client: any) {
-        super(client);
-    }
 	add(
 		_body: ApiKeysAddParams,
 		params?: ApiClientInterface,
