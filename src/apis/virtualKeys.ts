@@ -26,18 +26,18 @@ export interface VirtualKeysGetParams {
 }
 
 export interface VirtualKeysGetResponse extends APIResponseType {
-    id: string,
-    ai_provider_name: string,
-    model_config: Record<string, unknown>,
-    masked_api_key: string,
-    slug: string,
-    name: string,
-    usage_limits: Record<string, unknown>,
-    status: string,
-    note: null|string,
-    created_at: Date,
-    rate_limits: Record<string, unknown>[],
-    object: string,
+    id?: string,
+    ai_provider_name?: string,
+    model_config?: Record<string, unknown>,
+    masked_api_key?: string,
+    slug?: string,
+    name?: string,
+    usage_limits?: Record<string, unknown>,
+    status?: string,
+    note?: null|string,
+    created_at?: Date,
+    rate_limits?: Record<string, unknown>[],
+    object?: string,
 }
 export interface VirtualKeysListParams {
     workspace_id?: string;
