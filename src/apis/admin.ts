@@ -285,7 +285,7 @@ export class Users extends ApiResource {
 export class Invites extends ApiResource {
 
 
-    add(
+    create(
         _body: UserInviteParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
@@ -345,7 +345,7 @@ export class Invites extends ApiResource {
 export class Workspaces extends ApiResource {
     users: Member = new Member(this.client);
     
-    add(
+    create(
         _body: WorkspacesAddParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
@@ -418,7 +418,7 @@ export class Workspaces extends ApiResource {
 }
 export class Member extends ApiResource {
 
-    add(
+    create(
         _body: WorkspaceMemberAddParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
