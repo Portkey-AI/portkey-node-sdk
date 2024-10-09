@@ -11,6 +11,7 @@ export { Threads } from "./threads";
 export { MainFiles } from "./files";
 export { Models } from "./models";
 export { Admin } from "./admin";
+export { Configs } from "./configs";
 export { Batches } from "./batches";
 export { VirtualKeys } from "./virtualKeys";
 export { FineTuning } from "./fineTuning"
@@ -19,3 +20,4 @@ export { Audio } from "./audio"
 export { VectorStores } from "./vectorStores"
 export { BetaChat } from "./betaChat"
 export { Uploads } from "./uploads"
+export { ApiKeys } from "./apiKeys"
