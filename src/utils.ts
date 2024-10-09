@@ -4,6 +4,7 @@ import OpenAI from "openai";
 import type { Portkey } from "./index";
 import { UserInviteListParams, UsersListParams, WorkspaceMemberListParams, WorkspacesListParams } from "./apis/admin";
 import { ApiKeysListParams } from "./apis/apiKeys";
+import { CongfigsListParams } from "./apis/configs";
 
 type PlatformProperties = {
 	"x-portkey-runtime"?: string,
@@ -132,7 +133,7 @@ export function initOpenAIClient(client: Portkey){
 		maxRetries: 0
 	})
 }
-export function toQueryParams(params?: (UsersListParams | UserInviteListParams | WorkspacesListParams | WorkspaceMemberListParams | ApiKeysListParams)): string {
+export function toQueryParams(params?: (UsersListParams | UserInviteListParams | WorkspacesListParams | WorkspaceMemberListParams | ApiKeysListParams | CongfigsListParams)): string {
     if (!params) {
         return '';
     }
