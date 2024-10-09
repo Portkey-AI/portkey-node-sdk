@@ -3,6 +3,7 @@ import { createResponseHeaders } from "./streaming";
 import OpenAI from "openai";
 import type { Portkey } from "./index";
 import { UserInviteListParams, UsersListParams, WorkspaceMemberListParams, WorkspacesListParams } from "./apis/admin";
+import { VirtualKeysListParams } from "./apis/virtualKeys";
 import { ApiKeysListParams } from "./apis/apiKeys";
 import { CongfigsListParams } from "./apis/configs";
 
@@ -133,7 +134,7 @@ export function initOpenAIClient(client: Portkey){
 		maxRetries: 0
 	})
 }
-export function toQueryParams(params?: (UsersListParams | UserInviteListParams | WorkspacesListParams | WorkspaceMemberListParams | ApiKeysListParams | CongfigsListParams)): string {
+export function toQueryParams(params?: (UsersListParams | UserInviteListParams | WorkspacesListParams | WorkspaceMemberListParams |VirtualKeysListParams | ApiKeysListParams | CongfigsListParams)): string {
     if (!params) {
         return '';
     }

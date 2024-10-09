@@ -160,6 +160,7 @@ export class Portkey extends ApiClient {
 	audio = new API.Audio(this);
 	uploads = new API.Uploads(this);
 	admin = new API.Admin(this);
+	virtualKeys = new API.VirtualKeys(this);
 	apiKeys = new API.ApiKeys(this);
 	configs = new API.Configs(this);
 	beta = {
