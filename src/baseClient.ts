@@ -120,10 +120,10 @@ export abstract class ApiClient {
     portkeyHeaders: Record<string, string>
 
     private fetch: Fetch;
-    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, huggingfaceBaseUrl, forwardHeaders, cacheNamespace, requestTimeout, strictOpenAiCompliance, anthropicBeta }: ApiClientInterface) {
+    constructor({ apiKey, baseURL, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, azureEndpointName, huggingfaceBaseUrl, forwardHeaders, cacheNamespace, requestTimeout, strictOpenAiCompliance, anthropicBeta, anthropicVersion, mistralFimCompletion }: ApiClientInterface) {
         this.apiKey = apiKey ?? "";
         this.baseURL = baseURL ?? "";
-        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, cacheNamespace, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, huggingfaceBaseUrl, forwardHeaders, requestTimeout, strictOpenAiCompliance, anthropicBeta })
+        this.customHeaders = createHeaders({ apiKey, config, virtualKey, traceID, metadata, provider, Authorization, cacheForceRefresh, debug, customHost, cacheNamespace, openaiProject, openaiOrganization, awsSecretAccessKey, awsAccessKeyId, awsSessionToken, awsRegion, vertexProjectId, vertexRegion, workersAiAccountId, azureResourceName, azureDeploymentId, azureApiVersion, azureEndpointName, huggingfaceBaseUrl, forwardHeaders, requestTimeout, strictOpenAiCompliance, anthropicBeta, anthropicVersion, mistralFimCompletion })
         this.portkeyHeaders = this.defaultHeaders()
         this.fetch = fetch;
         this.responseHeaders = {}
@@ -143,6 +143,14 @@ export abstract class ApiClient {
 
     _put<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
         return this.methodRequest("put", path, opts);
+    }
+
+    _get<Rsp extends APIResponseType>(path:string, opts?: RequestOptions): APIPromise<Rsp> {
+        return this.methodRequest("get", path, opts);
+    }
+
+    _delete<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
+        return this.methodRequest("delete", path, opts);
     }
 
     protected generateError(
@@ -192,12 +200,21 @@ export abstract class ApiClient {
             ...this.defaultHeaders(), ...this.customHeaders,
         };
         const httpAgent: Agent | undefined = defaultHttpAgent
-        const req: RequestInit = {
-            method,
-            body: JSON.stringify(parseBody(body)),
-            headers: reqHeaders,
-            ...(httpAgent && { agent: httpAgent })
-        }
+        let req: RequestInit; 
+        if (method === "get"){
+            req = {
+                method,
+                headers: reqHeaders,
+                ...(httpAgent && { agent: httpAgent })
+            }
+        } else {
+            req = {
+                method,
+                body: JSON.stringify(parseBody(body)),
+                headers: reqHeaders,
+                ...(httpAgent && { agent: httpAgent })
+            }
+        } 
         return { req: req, url: url.toString() }
     }
 
