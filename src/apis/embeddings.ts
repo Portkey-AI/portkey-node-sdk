@@ -7,7 +7,7 @@ import { overrideConfig } from "../utils";
 import { createHeaders } from "./createHeaders";
 
 export interface EmbeddingsBody extends ModelParams {
-    input: string;
+    input: string | number | (string | number)[] | (string | number)[][];
     model?: string;
     dimensions?: number;
     encoding_format?: string;

@@ -591,6 +591,7 @@ const OAIclient =  initOpenAIClient(this.client);
 export interface ThreadCreateParams {
     messages?: Array<Message>;
     metadata?: unknown | null;
+    [key: string]: any;
 }
 
 
@@ -604,6 +605,7 @@ export interface Message {
 
 export interface ThreadUpdateParams {
     metadata?: unknown | null;
+    [key: string]: any;
 }
 
 export interface MessageCreateParams {
@@ -611,6 +613,7 @@ export interface MessageCreateParams {
     role: string;
     file_ids?: Array<string>;
     metadata?: unknown | null;
+    [key: string]: any;
 }
 
 export interface MessageListParams extends CursorPageParams {
@@ -630,6 +633,7 @@ export interface FileListParams extends CursorPageParams {
 
 export interface MessageUpdateParams {
     metadata?: unknown | null;
+    [key: string]: any;
 }
 
 export interface RunCreateParams {
@@ -644,8 +648,8 @@ export interface RunCreateParams {
 export interface RunCreateParamsNonStreaming extends RunCreateParams {
     stream?: false | null;
 }
-export interface ThreadCreateAndRunParams {
 
+export interface ThreadCreateAndRunParams {
     assistant_id: string;
     instructions?: string | null;
     metadata?: unknown | null;
@@ -674,10 +678,12 @@ export interface StepListParams extends CursorPageParams {
 
 export interface RunUpdateParams {
     metadata?: unknown | null;
+    [key: string]: any;
 }
 
 export interface RunSubmitToolOutputsParams {
     tool_outputs: Array<ToolOutput>;
+    [key: string]: any;
 }
 
 

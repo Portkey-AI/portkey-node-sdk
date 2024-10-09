@@ -7,10 +7,12 @@ import { createHeaders } from "./createHeaders";
 export interface ModerationCreateParams {
     input: string | Array<string>;
     model?: any ;
+    [key: string]: any;
 }
 
 export class Moderations extends ApiResource{
-    async create(_body: ModerationCreateParams,
+    async create(
+        _body: ModerationCreateParams,
         params?: ApiClientInterface,
         opts?: RequestOptions
     ): Promise<any> {
