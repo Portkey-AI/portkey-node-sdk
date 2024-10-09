@@ -10,6 +10,7 @@ export { Assistants } from "./assistants";
 export { Threads } from "./threads";
 export { MainFiles } from "./files";
 export { Models } from "./models";
+export { Admin } from "./admin";
 export { Batches } from "./batches";
 export { FineTuning } from "./fineTuning"
 export { Moderations } from "./moderations"
