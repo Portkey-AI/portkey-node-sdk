@@ -30,15 +30,15 @@ export class Portkey extends ApiClient {
 	azureResourceName?: string | null | undefined;
 	azureDeploymentId?: string | null | undefined;
 	azureApiVersion?: string | null | undefined;
-  azureEndpointName?: string | null | undefined;
+  	azureEndpointName?: string | null | undefined;
 	huggingfaceBaseUrl?: string | null | undefined;
 	forwardHeaders?: Array<string> | null | undefined;
 	requestTimeout?: number | null | undefined;
 	cacheNamespace?: string | null | undefined;
 	strictOpenAiCompliance?: boolean | null | undefined;
 	anthropicBeta?: string | null | undefined;
-  anthropicVersion?: string | null | undefined;
-  mistralFimCompletion?: string | null | undefined;
+  	anthropicVersion?: string | null | undefined;
+  	mistralFimCompletion?: string | null | undefined;
 	constructor({
 		apiKey = readEnv("PORTKEY_API_KEY") ?? null,
 		baseURL = readEnv("PORTKEY_BASE_URL") ?? null,
@@ -63,15 +63,15 @@ export class Portkey extends ApiClient {
 		azureResourceName,
 		azureDeploymentId,
 		azureApiVersion,
-    azureEndpointName,
+    	azureEndpointName,
 		huggingfaceBaseUrl,
 		forwardHeaders,
 		cacheNamespace,
 		requestTimeout,
 		strictOpenAiCompliance,
 		anthropicBeta,
-    anthropicVersion,
-    mistralFimCompletion
+    	anthropicVersion,
+    	mistralFimCompletion
 	}: ApiClientInterface) {
 
 		super({
@@ -99,14 +99,14 @@ export class Portkey extends ApiClient {
 			azureResourceName,
 			azureDeploymentId,
 			azureApiVersion,
-      azureEndpointName,
+      		azureEndpointName,
 			huggingfaceBaseUrl,
 			forwardHeaders,
 			requestTimeout,
 			strictOpenAiCompliance,
 			anthropicBeta,
-      anthropicVersion,
-      mistralFimCompletion
+      		anthropicVersion,
+      		mistralFimCompletion
 		});
 
 		this.apiKey = apiKey;
@@ -135,14 +135,14 @@ export class Portkey extends ApiClient {
 		this.azureResourceName = azureResourceName;
 		this.azureDeploymentId = azureDeploymentId;
 		this.azureApiVersion = azureApiVersion;
-    this.azureEndpointName = azureEndpointName;
+    	this.azureEndpointName = azureEndpointName;
 		this.huggingfaceBaseUrl = huggingfaceBaseUrl;
 		this.forwardHeaders = forwardHeaders;
 		this.requestTimeout = requestTimeout;
 		this.strictOpenAiCompliance = strictOpenAiCompliance;
 		this.anthropicBeta = anthropicBeta;
-    this.anthropicVersion = anthropicVersion;
-    this.mistralFimCompletion = mistralFimCompletion;
+    	this.anthropicVersion = anthropicVersion;
+    	this.mistralFimCompletion = mistralFimCompletion;
 	}
 
 	completions: API.Completions = new API.Completions(this);
@@ -160,6 +160,7 @@ export class Portkey extends ApiClient {
 	audio = new API.Audio(this);
 	uploads = new API.Uploads(this);
 	admin = new API.Admin(this);
+	apiKeys = new API.ApiKeys(this);
 	configs = new API.Configs(this);
 	beta = {
 		assistants: new API.Assistants(this),
@@ -167,7 +168,6 @@ export class Portkey extends ApiClient {
 		vectorStores: new API.VectorStores(this),
 		chat: new API.BetaChat(this),
 	};
-
 
 	post = (
 		url: string,
