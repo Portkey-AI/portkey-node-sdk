@@ -9,8 +9,10 @@
   "scripts": {
     "test": "jest",
     "build": "bash ./build",
-    "lint": "eslint --ext ts,js .",
-    "fix": "eslint --fix --ext ts,js ."
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint:check": "eslint --ext ts,js .",
+    "lint:fix": "eslint --fix --ext ts,js ."
   },
   "imports": {
     "portkey-ai": ".",
