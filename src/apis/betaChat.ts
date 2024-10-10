@@ -11,8 +11,9 @@ import {
 import {
   ChatCompletionStreamingFunctionRunnerParams,
   ChatCompletionStreamingToolRunnerParams,
-} from 'openai/lib/ChatCompletionStreamingRunner';
-import { ChatCompletionParseParams } from 'openai/resources/beta/chat/completions';
+} from "openai/lib/ChatCompletionStreamingRunner";
+import { ChatCompletionParseParams } from "openai/resources/beta/chat/completions";
+
 
 export class BetaChat extends ApiResource {
   completions: Completions;

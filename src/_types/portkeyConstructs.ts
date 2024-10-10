@@ -4,9 +4,9 @@ export interface RetrySettings {
 }
 
 export interface FunctionInterface {
-  name: string;
-  description: string;
-  parameters: string;
+    name: string;
+    description: string;
+    parameters: string;
 }
 
 export interface ModelParams {
@@ -37,6 +37,7 @@ export interface ModelParams {
   parallel_tool_calls?: boolean;
   tools?: Array<Tool>;
   tool_choice?: any;
+  [key: string]: any;
 }
 
 export interface Message {

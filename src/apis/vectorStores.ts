@@ -512,12 +512,14 @@ export interface VectorStoreCreateParams {
   file_ids?: Array<string>;
   metadata?: unknown | null;
   name?: string;
+  [key: string]: any;
 }
 
 export interface VectorStoreUpdateParams {
   expires_after?: ExpiresAfter | null;
   metadata?: unknown | null;
   name?: string | null;
+  [key: string]: any;
 }
 
 export interface VectorStoreListParams extends CursorPageParams {
@@ -532,18 +534,21 @@ export interface CursorPageParams {
 }
 
 export interface FileCreateParams {
-  file_id: string;
+    file_id: string;
+    [key: string]: any;
 }
 
 export interface FileListParams extends CursorPageParams {
-  before?: string;
-  filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
-  order?: 'asc' | 'desc';
-}
+    before?: string;
+    filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
+    order?: 'asc' | 'desc';
+    [key: string]: any;
+  }
 
-export interface FileBatchCreateParams {
-  file_ids: Array<string>;
-}
+  export interface FileBatchCreateParams {
+    file_ids: Array<string>;
+    [key: string]: any;
+  }
 
 export interface FileBatchListFilesParams extends CursorPageParams {
   before?: string;

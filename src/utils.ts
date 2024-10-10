@@ -2,6 +2,10 @@ import { OPEN_AI_API_KEY, PORTKEY_HEADER_PREFIX } from './constants';
 import { createResponseHeaders } from './streaming';
 import OpenAI from 'openai';
 import type { Portkey } from './index';
+import { UserInviteListParams, UsersListParams, WorkspaceMemberListParams, WorkspacesListParams } from "./apis/admin";
+import { VirtualKeysListParams } from "./apis/virtualKeys";
+import { ApiKeysListParams } from "./apis/apiKeys";
+import { CongfigsListParams } from "./apis/configs";
 
 type PlatformProperties = {
   'x-portkey-runtime'?: string;
@@ -137,4 +141,15 @@ export function initOpenAIClient(client: Portkey) {
     defaultHeaders: defaultHeadersBuilder(client),
     maxRetries: 0,
   });
+}
+export function toQueryParams(params?: (UsersListParams | UserInviteListParams | WorkspacesListParams | WorkspaceMemberListParams |VirtualKeysListParams | ApiKeysListParams | CongfigsListParams)): string {
+    if (!params) {
+        return '';
+    }
+    const queryParams = Object.entries(params)
+        .filter(([, value]) => value !== undefined && value !== null)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&');
+    
+    return queryParams ? `?${queryParams}` : '';
 }

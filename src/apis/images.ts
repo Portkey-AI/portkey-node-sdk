@@ -13,26 +13,29 @@ export interface ImagesBody {
   size?: string | null;
   style?: string | null;
   user?: string;
+  [key: string]: any;
 }
 
 export interface ImageEditParams {
-  image: any;
-  prompt: string;
-  mask?: any;
-  model?: string | null;
-  n?: number | null;
-  response_format?: string | null;
-  size?: string | null;
-  user?: string;
+    image: any;
+    prompt: string;
+    mask?: any;
+    model?: string | null;
+    n?: number | null;
+    response_format?: string | null;
+    size?: string | null;
+    user?: string;
+    [key: string]: any;
 }
 
 export interface ImageCreateVariationParams {
-  image: any;
-  model?: string | null;
-  n?: number | null;
-  response_format?: string | null;
-  size?: string | null;
-  user?: string;
+    image: any;
+    model?: string | null;
+    n?: number | null;
+    response_format?: string | null;
+    size?: string | null;
+    user?: string;
+    [key: string]: any;
 }
 
 export interface ImagesResponse {
@@ -40,6 +43,7 @@ export interface ImagesResponse {
 
   data: Array<Image>;
 }
+
 export interface Image {
   b64_json?: string;
   revised_prompt?: string;

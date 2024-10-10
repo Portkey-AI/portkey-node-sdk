@@ -161,13 +161,15 @@ export abstract class ApiClient {
     azureResourceName,
     azureDeploymentId,
     azureApiVersion,
+    azureEndpointName, 
     huggingfaceBaseUrl,
     forwardHeaders,
     cacheNamespace,
     requestTimeout,
     strictOpenAiCompliance,
-    anthropicBeta,
-  }: ApiClientInterface) {
+    anthropicBeta, 
+    anthropicVersion, 
+    mistralFimCompletion }: ApiClientInterface) {
     this.apiKey = apiKey ?? '';
     this.baseURL = baseURL ?? '';
     this.customHeaders = createHeaders({
@@ -194,10 +196,10 @@ export abstract class ApiClient {
       azureResourceName,
       azureDeploymentId,
       azureApiVersion,
-      huggingfaceBaseUrl,
+      azureEndpointName, huggingfaceBaseUrl,
       forwardHeaders,
       requestTimeout,
-      strictOpenAiCompliance,
+      strictOpenAiCompliance, anthropicVersion, mistralFimCompletion,
       anthropicBeta,
     });
     this.portkeyHeaders = this.defaultHeaders();
@@ -226,6 +228,14 @@ export abstract class ApiClient {
   ): APIPromise<Rsp> {
     return this.methodRequest('put', path, opts);
   }
+
+    _get<Rsp extends APIResponseType>(path:string, opts?: RequestOptions): APIPromise<Rsp> {
+        return this.methodRequest("get", path, opts);
+    }
+
+    _delete<Rsp extends APIResponseType>(path: string, opts?: RequestOptions): APIPromise<Rsp> {
+        return this.methodRequest("delete", path, opts);
+    }
 
   protected generateError(
     status: number | undefined,
@@ -264,23 +274,30 @@ export abstract class ApiClient {
     return { response, options: opts, responseHeaders: response.headers };
   }
 
-  buildRequest(opts: FinalRequestOptions): { req: RequestInit; url: string } {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const url = new URL(this.baseURL + opts.path!);
-    const { method, body } = opts;
-    const reqHeaders: Record<string, string> = {
-      ...this.defaultHeaders(),
-      ...this.customHeaders,
-    };
-    const httpAgent: Agent | undefined = defaultHttpAgent;
-    const req: RequestInit = {
-      method,
-      body: JSON.stringify(parseBody(body)),
-      headers: reqHeaders,
-      ...(httpAgent && { agent: httpAgent }),
-    };
-    return { req: req, url: url.toString() };
-  }
+    buildRequest(opts: FinalRequestOptions): { req: RequestInit, url: string } {
+        const url = new URL(this.baseURL + opts.path!)
+        const { method, body } = opts;
+        const reqHeaders: Record<string, string> = {
+            ...this.defaultHeaders(), ...this.customHeaders,
+        };
+        const httpAgent: Agent | undefined = defaultHttpAgent
+        let req: RequestInit;
+        if (method === "get"){
+          req = {
+              method,
+              headers: reqHeaders,
+              ...(httpAgent && { agent: httpAgent })
+          }
+      } else {
+          req = {
+              method,
+              body: JSON.stringify(parseBody(body)),
+              headers: reqHeaders,
+              ...(httpAgent && { agent: httpAgent })
+          }
+      } 
+        return { req: req, url: url.toString() }
+    }
 
   methodRequest<Rsp>(
     method: HTTPMethod,

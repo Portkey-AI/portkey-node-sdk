@@ -5,16 +5,17 @@ import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 
 export interface AssistantCreateParams {
-  model: string;
-  description?: string | null;
-  instructions?: string | null;
-  metadata?: unknown | null;
-  name?: string | null;
-  tools?: Array<any>;
-  response_format?: any | null;
-  temperature?: number | null;
-  tool_resources?: any | null;
-  top_p?: number | null;
+    model: string;
+    description?: string | null;
+    instructions?: string | null;
+    metadata?: unknown | null;
+    name?: string | null;
+    tools?: Array<any>;
+    response_format?: any | null;
+    temperature?: number | null;
+    tool_resources?: any | null;
+    top_p?: number | null;
+    [key: string]: any;
 }
 
 export interface FileCreateParams {
@@ -27,8 +28,9 @@ export interface FileListParams extends CursorPageParams {
 }
 
 export interface CursorPageParams {
-  after?: string;
-  limit?: number;
+    after?: string;
+    limit?: number;
+    [key: string]: any;
 }
 
 export interface AssistantListParams extends CursorPageParams {
@@ -37,13 +39,14 @@ export interface AssistantListParams extends CursorPageParams {
 }
 
 export interface AssistantUpdateParams {
-  description?: string | null;
-  file_ids?: Array<string>;
-  instructions?: string | null;
-  metadata?: unknown | null;
-  model?: string;
-  name?: string | null;
-  tools?: Array<any>;
+    description?: string | null;
+    file_ids?: Array<string>;
+    instructions?: string | null;
+    metadata?: unknown | null;
+    model?: string;
+    name?: string | null;
+    tools?: Array<any>;
+    [key: string]: any;
 }
 
 export class Assistants extends ApiResource {
