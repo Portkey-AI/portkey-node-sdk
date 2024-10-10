@@ -5,25 +5,25 @@ import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 
 export interface ModerationCreateParams {
-    input: string | Array<string>;
-    model?: any ;
-    [key: string]: any;
+  input: string | Array<string>;
+  model?: any;
+  [key: string]: any;
 }
 
-export class Moderations extends ApiResource{
-    async create(
-        _body: ModerationCreateParams,
-        params?: ApiClientInterface,
-        opts?: RequestOptions
-    ): Promise<any> {
-        const body: ModerationCreateParams = _body;
-        if (params) {
-            const config = overrideConfig(this.client.config, params.config);
-            this.client.customHeaders = {
-                ...this.client.customHeaders,
-                ...createHeaders({ ...params, config }),
-            };
-        }
+export class Moderations extends ApiResource {
+  async create(
+    _body: ModerationCreateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: ModerationCreateParams = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
 
     const OAIclient = initOpenAIClient(this.client);
 

@@ -633,9 +633,9 @@ export class Steps extends ApiResource {
 }
 
 export interface ThreadCreateParams {
-    messages?: Array<Message>;
-    metadata?: unknown | null;
-    [key: string]: any;
+  messages?: Array<Message>;
+  metadata?: unknown | null;
+  [key: string]: any;
 }
 
 export interface Message {
@@ -646,16 +646,16 @@ export interface Message {
 }
 
 export interface ThreadUpdateParams {
-    metadata?: unknown | null;
-    [key: string]: any;
+  metadata?: unknown | null;
+  [key: string]: any;
 }
 
 export interface MessageCreateParams {
-    content: string;
-    role: string;
-    file_ids?: Array<string>;
-    metadata?: unknown | null;
-    [key: string]: any;
+  content: string;
+  role: string;
+  file_ids?: Array<string>;
+  metadata?: unknown | null;
+  [key: string]: any;
 }
 
 export interface MessageListParams extends CursorPageParams {
@@ -674,8 +674,8 @@ export interface FileListParams extends CursorPageParams {
 }
 
 export interface MessageUpdateParams {
-    metadata?: unknown | null;
-    [key: string]: any;
+  metadata?: unknown | null;
+  [key: string]: any;
 }
 
 export interface RunCreateParams {
@@ -723,13 +723,13 @@ export interface StepListParams extends CursorPageParams {
 }
 
 export interface RunUpdateParams {
-    metadata?: unknown | null;
-    [key: string]: any;
+  metadata?: unknown | null;
+  [key: string]: any;
 }
 
 export interface RunSubmitToolOutputsParams {
-    tool_outputs: Array<ToolOutput>;
-    [key: string]: any;
+  tool_outputs: Array<ToolOutput>;
+  [key: string]: any;
 }
 
 export interface ToolOutput {

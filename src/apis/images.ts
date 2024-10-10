@@ -17,25 +17,25 @@ export interface ImagesBody {
 }
 
 export interface ImageEditParams {
-    image: any;
-    prompt: string;
-    mask?: any;
-    model?: string | null;
-    n?: number | null;
-    response_format?: string | null;
-    size?: string | null;
-    user?: string;
-    [key: string]: any;
+  image: any;
+  prompt: string;
+  mask?: any;
+  model?: string | null;
+  n?: number | null;
+  response_format?: string | null;
+  size?: string | null;
+  user?: string;
+  [key: string]: any;
 }
 
 export interface ImageCreateVariationParams {
-    image: any;
-    model?: string | null;
-    n?: number | null;
-    response_format?: string | null;
-    size?: string | null;
-    user?: string;
-    [key: string]: any;
+  image: any;
+  model?: string | null;
+  n?: number | null;
+  response_format?: string | null;
+  size?: string | null;
+  user?: string;
+  [key: string]: any;
 }
 
 export interface ImagesResponse {

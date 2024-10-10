@@ -4,9 +4,9 @@ export interface RetrySettings {
 }
 
 export interface FunctionInterface {
-    name: string;
-    description: string;
-    parameters: string;
+  name: string;
+  description: string;
+  parameters: string;
 }
 
 export interface ModelParams {

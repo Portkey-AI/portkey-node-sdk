@@ -131,9 +131,9 @@ export class MainFiles extends ApiResource {
 }
 
 export interface FileCreateParams {
-    file: any;
-    purpose?: string;
-    [key: string]: any;
+  file: any;
+  purpose?: string;
+  [key: string]: any;
 }
 
 export interface FileObject {
@@ -148,6 +148,6 @@ export interface FileObject {
 }
 
 export interface FileListParams {
-    purpose?: string;
-    [key: string]: any;
-  }
+  purpose?: string;
+  [key: string]: any;
+}

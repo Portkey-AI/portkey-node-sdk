@@ -534,21 +534,21 @@ export interface CursorPageParams {
 }
 
 export interface FileCreateParams {
-    file_id: string;
-    [key: string]: any;
+  file_id: string;
+  [key: string]: any;
 }
 
 export interface FileListParams extends CursorPageParams {
-    before?: string;
-    filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
-    order?: 'asc' | 'desc';
-    [key: string]: any;
-  }
+  before?: string;
+  filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
+  order?: 'asc' | 'desc';
+  [key: string]: any;
+}
 
-  export interface FileBatchCreateParams {
-    file_ids: Array<string>;
-    [key: string]: any;
-  }
+export interface FileBatchCreateParams {
+  file_ids: Array<string>;
+  [key: string]: any;
+}
 
 export interface FileBatchListFilesParams extends CursorPageParams {
   before?: string;
