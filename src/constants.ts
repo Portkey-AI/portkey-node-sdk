@@ -20,10 +20,18 @@ export const INVALID_PORTKEY_MODE = `Argument of type '{}' cannot be assigned to
 type "ModesLiteral | Modes | None"
 `;
 
+export const LOCALHOST_CONNECTION_ERROR = `Could not instantiate the Portkey client. \
+You can either add a valid 'apiKey' parameter (from https://app.portkey.ai/api-keys) \
+or set the 'baseURL' parameter to your AI Gateway's instance's URL.`
+
+export const CUSTOM_HOST_CONNECTION_ERROR = `We could not connect to the AI Gateway's instance. \
+Please check the 'baseURL' parameter in the Portkey client.`
+
 export const DEFAULT_MAX_RETRIES = 2;
 export const DEFAULT_TIMEOUT = 60;
 export const PORTKEY_HEADER_PREFIX = 'x-portkey-';
 export const PORTKEY_BASE_URL = 'https://api.portkey.ai/v1';
+export const LOCAL_BASE_URL = 'http://localhost:8787';
 export const PORTKEY_GATEWAY_URL = PORTKEY_BASE_URL;
 
 export const PORTKEY_API_KEY_ENV = 'PORTKEY_API_KEY';
