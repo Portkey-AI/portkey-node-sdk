@@ -169,7 +169,7 @@ export class Portkey extends ApiClient {
     vectorStores: new API.VectorStores(this),
     chat: new API.BetaChat(this),
   };
-  
+
   post = (
     url: string,
     _body: PostBodyParams,
