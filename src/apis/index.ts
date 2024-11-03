@@ -21,4 +21,4 @@ export { VectorStores } from './vectorStores';
 export { BetaChat } from './betaChat';
 export { Uploads } from './uploads';
 export { ApiKeys } from './apiKeys';
-export { LogsExport } from './logsExport';
+export { Logs } from './logsExport';

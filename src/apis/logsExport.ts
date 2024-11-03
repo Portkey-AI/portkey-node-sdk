@@ -4,6 +4,7 @@ import { APIPromise, RequestOptions } from '../baseClient';
 import { createHeaders } from './createHeaders';
 import { toQueryParams } from '../utils';
 
+
 export interface LogsExportCreateParams {
   filters?: Record<string, any>;
   workspace_id?: string;
@@ -71,8 +72,14 @@ export interface LogsExportDownloadParams {
 export interface LogsExportDownloadResponse extends APIResponseType {
   signed_url?: string;
 }
-
-export class LogsExport extends ApiResource {
+export class Logs extends ApiResource {
+    exports: Exports;
+    constructor(client:any){
+      super(client);
+      this.exports = new Exports(client);
+    }
+}
+export class Exports extends ApiResource {
   create(
     _body: LogsExportCreateParams,
     params?: ApiClientInterface,

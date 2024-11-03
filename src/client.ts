@@ -162,7 +162,7 @@ export class Portkey extends ApiClient {
   virtualKeys = new API.VirtualKeys(this);
   apiKeys = new API.ApiKeys(this);
   configs = new API.Configs(this);
-  logsExport = new API.LogsExport(this);
+  logs = new API.Logs(this);
   beta = {
     assistants: new API.Assistants(this),
     threads: new API.Threads(this),
