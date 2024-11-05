@@ -4,12 +4,11 @@ import { APIPromise, RequestOptions } from '../baseClient';
 import { createHeaders } from './createHeaders';
 import { toQueryParams } from '../utils';
 
-
 export interface LogsExportCreateParams {
   filters?: Record<string, any>;
-  workspace_id?: string;
+  workspaceId?: string;
   description?: string;
-  requested_data?: string[];
+  requestedData?: string[];
 }
 export interface LogsExportCreateResponse extends APIResponseType {
   id?: string;
@@ -17,7 +16,7 @@ export interface LogsExportCreateResponse extends APIResponseType {
   object?: string;
 }
 export interface LogsExportListParams {
-  workspace_id?: string;
+  workspaceId?: string;
 }
 export interface LogsExportListResponse extends APIResponseType {
   object?: string;
@@ -26,9 +25,9 @@ export interface LogsExportListResponse extends APIResponseType {
 }
 export interface LogsExportUpdateParams {
   exportId?: string;
-  workspace_id?: string;
+  workspaceId?: string;
   filters?: Record<string, any>;
-  requested_data?: string[];
+  requestedData?: string[];
 }
 export interface LogsExportUpdateResponse extends APIResponseType {
   id?: string;
@@ -73,11 +72,11 @@ export interface LogsExportDownloadResponse extends APIResponseType {
   signed_url?: string;
 }
 export class Logs extends ApiResource {
-    exports: Exports;
-    constructor(client:any){
-      super(client);
-      this.exports = new Exports(client);
-    }
+  exports: Exports;
+  constructor(client: any) {
+    super(client);
+    this.exports = new Exports(client);
+  }
 }
 export class Exports extends ApiResource {
   create(
@@ -85,7 +84,12 @@ export class Exports extends ApiResource {
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<LogsExportCreateResponse> {
-    const body = _body;
+    const { workspaceId, requestedData, ...rest } = _body;
+    const body = {
+      ...rest,
+      workspace_id: workspaceId,
+      requested_data: requestedData,
+    };
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -122,7 +126,11 @@ export class Exports extends ApiResource {
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<LogsExportListResponse> {
-    const body = _body;
+    const { workspaceId, ...rest } = _body;
+    const body = {
+      ...rest,
+      workspace_id: workspaceId,
+    };
     const query = toQueryParams(body);
     if (params) {
       this.client.customHeaders = {
@@ -141,7 +149,12 @@ export class Exports extends ApiResource {
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<LogsExportUpdateResponse> {
-    const body = _body;
+    const { workspaceId, requestedData, ...rest } = _body;
+    const body = {
+      ...rest,
+      workspace_id: workspaceId,
+      requested_data: requestedData,
+    };
     const exportId = body.exportId;
     if (params) {
       this.client.customHeaders = {
