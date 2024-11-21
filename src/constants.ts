@@ -1,12 +1,9 @@
-export const MISSING_API_KEY_ERROR_MESSAGE = `No API key found for Portkey.
-Please set either the PORTKEY_API_KEY environment variable or \
-pass the api_key in the to initialization of Portkey.
-API keys can be found or created at Portkey Dashboard \
+export const MISSING_API_KEY_ERROR_MESSAGE = `Portkey API Key Not Found
+Resolution: \
 
-Here's how you get it:
-1. Visit https://app.portkey.ai/
-1. Click on your profile icon on the top left
-2. From the dropdown menu, click on "Copy API Key"
+1. Get your Portkey API key from https://app.portkey.ai/api-keys \
+
+2. Pass it while instantiating the Portkey client with apiKey param, or set it as an environment variable with export PORTKEY_API_KEY=YOUR_API_KEY
 `;
 
 export const MISSING_BASE_URL = `No Base url provided. Please provide a valid base url.
@@ -23,10 +20,18 @@ export const INVALID_PORTKEY_MODE = `Argument of type '{}' cannot be assigned to
 type "ModesLiteral | Modes | None"
 `;
 
+export const LOCALHOST_CONNECTION_ERROR = `Could not instantiate the Portkey client. \
+You can either add a valid 'apiKey' parameter (from https://app.portkey.ai/api-keys) \
+or set the 'baseURL' parameter to your AI Gateway's instance's URL.`;
+
+export const CUSTOM_HOST_CONNECTION_ERROR = `We could not connect to the AI Gateway's instance. \
+Please check the 'baseURL' parameter in the Portkey client.`;
+
 export const DEFAULT_MAX_RETRIES = 2;
 export const DEFAULT_TIMEOUT = 60;
 export const PORTKEY_HEADER_PREFIX = 'x-portkey-';
 export const PORTKEY_BASE_URL = 'https://api.portkey.ai/v1';
+export const LOCAL_BASE_URL = 'http://localhost:8787/v1';
 export const PORTKEY_GATEWAY_URL = PORTKEY_BASE_URL;
 
 export const PORTKEY_API_KEY_ENV = 'PORTKEY_API_KEY';

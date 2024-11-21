@@ -2,9 +2,8 @@ import { ApiClientInterface } from './_types/generalTypes';
 import * as API from './apis';
 import { PostBodyParams, PostResponse } from './apis/postMethod';
 import { ApiClient, APIPromise, RequestOptions } from './baseClient';
-import { MISSING_API_KEY_ERROR_MESSAGE, PORTKEY_BASE_URL } from './constants';
 import { Stream } from './streaming';
-import { castToError, readEnv } from './utils';
+import { readEnv, setApiKey, setBaseURL } from './utils';
 
 export class Portkey extends ApiClient {
   declare apiKey: string | null;
@@ -107,14 +106,10 @@ export class Portkey extends ApiClient {
       anthropicVersion,
       mistralFimCompletion,
     });
-
-    this.apiKey = apiKey;
-    if (!this.apiKey) {
-      throw castToError(MISSING_API_KEY_ERROR_MESSAGE);
-    }
+    this.baseURL = setBaseURL(baseURL, apiKey);
+    this.apiKey = setApiKey(this.baseURL, apiKey);
     this.virtualKey = virtualKey || null;
     this.config = config || null;
-    this.baseURL = baseURL || PORTKEY_BASE_URL;
     this.provider = provider;
     this.traceID = traceID;
     this.metadata = metadata;

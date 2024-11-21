@@ -94,7 +94,16 @@ export class APIConnectionError extends APIError {
     message?: string;
     cause?: Error | undefined;
   }) {
-    super(undefined, undefined, message || 'Connection error.', undefined);
+    const LOCALHOST_CONNECTION_ERROR = `Could not instantiate the Portkey client. 
+    You can either add a valid 'apiKey' parameter (from https://app.portkey.ai/api-keys)
+    or check the 'baseURL' parameter in the Portkey client,
+    for your AI Gateway's instance's URL.`;
+    super(
+      undefined,
+      undefined,
+      message || LOCALHOST_CONNECTION_ERROR,
+      undefined
+    );
     // in some environments the 'cause' property is already declared
     // @ts-ignore
     if (cause) this.cause = cause;
