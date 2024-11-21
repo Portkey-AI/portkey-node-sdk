@@ -1,4 +1,10 @@
-import { OPEN_AI_API_KEY, PORTKEY_HEADER_PREFIX } from './constants';
+import {
+  LOCAL_BASE_URL,
+  MISSING_API_KEY_ERROR_MESSAGE,
+  OPEN_AI_API_KEY,
+  PORTKEY_BASE_URL,
+  PORTKEY_HEADER_PREFIX,
+} from './constants';
 import { createResponseHeaders } from './streaming';
 import OpenAI from 'openai';
 import type { Portkey } from './index';
@@ -166,4 +172,20 @@ export function toQueryParams(
     .join('&');
 
   return queryParams ? `?${queryParams}` : '';
+}
+
+export function setBaseURL(baseURL: any, apiKey: any) {
+  if (baseURL) {
+    return baseURL;
+  }
+  return apiKey ? PORTKEY_BASE_URL : LOCAL_BASE_URL;
+}
+
+export function setApiKey(baseURL: any, apiKey: any) {
+  if (apiKey) {
+    return apiKey;
+  }
+  if (baseURL === PORTKEY_BASE_URL && !apiKey) {
+    throw castToError(MISSING_API_KEY_ERROR_MESSAGE);
+  }
 }
