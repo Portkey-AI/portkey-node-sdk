@@ -17,6 +17,7 @@ import {
 import { VirtualKeysListParams } from './apis/virtualKeys';
 import { ApiKeysListParams } from './apis/apiKeys';
 import { CongfigsListParams } from './apis/configs';
+import { LogsExportListParams } from './apis/logsExport';
 
 type PlatformProperties = {
   'x-portkey-runtime'?: string;
@@ -162,6 +163,7 @@ export function toQueryParams(
     | VirtualKeysListParams
     | ApiKeysListParams
     | CongfigsListParams
+    | LogsExportListParams|any
 ): string {
   if (!params) {
     return '';
