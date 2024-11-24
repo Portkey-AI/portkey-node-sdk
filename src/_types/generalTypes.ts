@@ -33,6 +33,7 @@ export interface ApiClientInterface {
   anthropicBeta?: string | null | undefined;
   anthropicVersion?: string | null | undefined;
   mistralFimCompletion?: string | null | undefined;
+  inputAudioLength?: number | null | undefined;
 }
 
 export interface APIResponseType {

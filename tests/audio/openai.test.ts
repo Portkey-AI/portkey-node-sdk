@@ -33,10 +33,32 @@ describe("Openai Audio APIs", () => {
     expect(transcription.text).toBeDefined();
   });
 
+  test("Transcription: with audio length", async () => {
+    const transcription = await client.audio.transcriptions.create({
+        file: fs.createReadStream("./speech.mp3"),
+        model: "whisper-1",
+      }, {
+        inputAudioLength: 30 // 30 seconds
+      });
+    expect(transcription).toBeDefined();
+    expect(transcription.text).toBeDefined();
+  });
+
   test("Translation: only required params", async () => {
     const transcription = await client.audio.translations.create({
         file: fs.createReadStream("./speech.mp3"),
         model: "whisper-1",
+      });
+    expect(transcription).toBeDefined();
+    expect(transcription.text).toBeDefined();
+  });
+
+  test("Translation: with audio length", async () => {
+    const transcription = await client.audio.translations.create({
+        file: fs.createReadStream("./speech.mp3"),
+        model: "whisper-1",
+      }, {
+        inputAudioLength: 45 // 45 seconds
       });
     expect(transcription).toBeDefined();
     expect(transcription.text).toBeDefined();

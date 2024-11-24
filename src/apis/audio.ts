@@ -23,7 +23,7 @@ export class Audio extends ApiResource {
 export class transcriptions extends ApiResource {
   async create(
     _body: TranscriptionCreateParams,
-    params?: ApiClientInterface,
+    params?: ApiClientInterface & { inputAudioLength?: number },
     opts?: RequestOptions
   ): Promise<any> {
     const body: TranscriptionCreateParams = _body;
@@ -45,7 +45,7 @@ export class transcriptions extends ApiResource {
 export class translations extends ApiResource {
   async create(
     _body: TranslationCreateParams,
-    params?: ApiClientInterface,
+    params?: ApiClientInterface & { inputAudioLength?: number },
     opts?: RequestOptions
   ): Promise<any> {
     const body: TranslationCreateParams = _body;
