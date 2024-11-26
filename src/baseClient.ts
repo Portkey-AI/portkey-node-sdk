@@ -57,7 +57,7 @@ async function defaultParseResponse<T>(props: APIResponseProps): Promise<T> {
   if (contentType?.includes('application/json')) {
     const headers = defaultParseHeaders(props);
     const json = {
-      ...(await response.json() as any),
+      ...((await response.json()) as any),
       getHeaders: () => headers,
     };
 

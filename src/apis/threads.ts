@@ -1,7 +1,6 @@
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
-
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 
@@ -113,6 +112,8 @@ export class Threads extends ApiResource {
     opts?: RequestOptions
   ): Promise<any> {
     const body: ThreadCreateAndRunParams = _body;
+    const { stream } = body;
+
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -123,11 +124,19 @@ export class Threads extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.threads
-      .createAndRun(body, opts)
-      .withResponse();
+    if (stream === true) {
+      const streamResponse = await OAIclient.beta.threads.createAndRunStream(
+        body as any,
+        opts
+      );
+      return streamResponse;
+    } else {
+      const result = await OAIclient.beta.threads
+        .createAndRun(body, opts)
+        .withResponse();
 
-    return finalResponse(result);
+      return finalResponse(result);
+    }
   }
 
   async createAndRunPoll(
@@ -286,6 +295,7 @@ export class Runs extends ApiResource {
     opts?: RequestOptions
   ): Promise<any> {
     const body: RunCreateParams = _body;
+    const { stream } = body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -296,11 +306,20 @@ export class Runs extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.threads.runs
-      .create(threadId, body, opts)
-      .withResponse();
+    if (stream === true) {
+      const streamResponse = await OAIclient.beta.threads.runs.stream(
+        threadId,
+        body as any,
+        opts
+      );
+      return streamResponse;
+    } else {
+      const result = await OAIclient.beta.threads.runs
+        .create(threadId, body, opts)
+        .withResponse();
 
-    return finalResponse(result);
+      return finalResponse(result);
+    }
   }
 
   async list(
@@ -685,6 +704,7 @@ export interface RunCreateParams {
   metadata?: unknown | null;
   model?: string | null;
   tools?: Array<any> | null;
+  stream?: boolean | null;
 }
 
 export interface RunCreateParamsNonStreaming extends RunCreateParams {
@@ -698,6 +718,7 @@ export interface ThreadCreateAndRunParams {
   model?: string | null;
   thread?: any;
   tools?: Array<any> | null;
+  stream?: boolean | null;
 }
 
 export interface ThreadCreateAndRunParamsNonStreaming
