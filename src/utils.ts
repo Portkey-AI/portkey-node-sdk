@@ -163,7 +163,8 @@ export function toQueryParams(
     | VirtualKeysListParams
     | ApiKeysListParams
     | CongfigsListParams
-    | LogsExportListParams|any
+    | LogsExportListParams
+    | any
 ): string {
   if (!params) {
     return '';

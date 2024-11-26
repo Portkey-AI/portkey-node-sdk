@@ -1,7 +1,6 @@
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
-import { EventEmitter } from 'events';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 
@@ -114,7 +113,7 @@ export class Threads extends ApiResource {
   ): Promise<any> {
     const body: ThreadCreateAndRunParams = _body;
     const { stream } = body;
-    
+
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -125,22 +124,17 @@ export class Threads extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    if(stream === true) {
-      const eventEmitter = new EventEmitter();
-        
-        (async ()=> {
-          const streamResponse = await OAIclient.beta.threads.createAndRun(body, opts)
-          for await (const chunk of streamResponse as AsyncIterable<any>) {
-            eventEmitter.emit('data', chunk);
-          }
-          eventEmitter.emit('end');
-        })();
-        return eventEmitter;
+    if (stream === true) {
+      const streamResponse = await OAIclient.beta.threads.createAndRunStream(
+        body as any,
+        opts
+      );
+      return streamResponse;
     } else {
       const result = await OAIclient.beta.threads
         .createAndRun(body, opts)
         .withResponse();
-  
+
       return finalResponse(result);
     }
   }
@@ -299,7 +293,7 @@ export class Runs extends ApiResource {
     _body: RunCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<any>{
+  ): Promise<any> {
     const body: RunCreateParams = _body;
     const { stream } = body;
     if (params) {
@@ -309,25 +303,21 @@ export class Runs extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    
-    const OAIclient = initOpenAIClient(this.client);
-    
-    if(stream === true) {
-      const eventEmitter = new EventEmitter();
 
-      (async ()=> {
-        const streamResponse = await OAIclient.beta.threads.runs.create(threadId, body, opts)
-        for await (const chunk of streamResponse as AsyncIterable<any>) {
-          eventEmitter.emit('data', chunk);
-        }
-        eventEmitter.emit('end');
-      })();
-      return eventEmitter;
+    const OAIclient = initOpenAIClient(this.client);
+
+    if (stream === true) {
+      const streamResponse = await OAIclient.beta.threads.runs.stream(
+        threadId,
+        body as any,
+        opts
+      );
+      return streamResponse;
     } else {
       const result = await OAIclient.beta.threads.runs
         .create(threadId, body, opts)
         .withResponse();
-  
+
       return finalResponse(result);
     }
   }
