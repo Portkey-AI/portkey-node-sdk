@@ -1,7 +1,7 @@
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
-
+import { EventEmitter } from 'events';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 
@@ -113,6 +113,8 @@ export class Threads extends ApiResource {
     opts?: RequestOptions
   ): Promise<any> {
     const body: ThreadCreateAndRunParams = _body;
+    const { stream } = body;
+    
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -123,11 +125,24 @@ export class Threads extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.threads
-      .createAndRun(body, opts)
-      .withResponse();
-
-    return finalResponse(result);
+    if(stream === true) {
+      const eventEmitter = new EventEmitter();
+        
+        (async ()=> {
+          const streamResponse = await OAIclient.beta.threads.createAndRun(body, opts)
+          for await (const chunk of streamResponse as AsyncIterable<any>) {
+            eventEmitter.emit('data', chunk);
+          }
+          eventEmitter.emit('end');
+        })();
+        return eventEmitter;
+    } else {
+      const result = await OAIclient.beta.threads
+        .createAndRun(body, opts)
+        .withResponse();
+  
+      return finalResponse(result);
+    }
   }
 
   async createAndRunPoll(
@@ -284,8 +299,9 @@ export class Runs extends ApiResource {
     _body: RunCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<any> {
+  ): Promise<any>{
     const body: RunCreateParams = _body;
+    const { stream } = body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -293,14 +309,27 @@ export class Runs extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
+    
     const OAIclient = initOpenAIClient(this.client);
+    
+    if(stream === true) {
+      const eventEmitter = new EventEmitter();
 
-    const result = await OAIclient.beta.threads.runs
-      .create(threadId, body, opts)
-      .withResponse();
-
-    return finalResponse(result);
+      (async ()=> {
+        const streamResponse = await OAIclient.beta.threads.runs.create(threadId, body, opts)
+        for await (const chunk of streamResponse as AsyncIterable<any>) {
+          eventEmitter.emit('data', chunk);
+        }
+        eventEmitter.emit('end');
+      })();
+      return eventEmitter;
+    } else {
+      const result = await OAIclient.beta.threads.runs
+        .create(threadId, body, opts)
+        .withResponse();
+  
+      return finalResponse(result);
+    }
   }
 
   async list(
@@ -685,6 +714,7 @@ export interface RunCreateParams {
   metadata?: unknown | null;
   model?: string | null;
   tools?: Array<any> | null;
+  stream?: boolean | null;
 }
 
 export interface RunCreateParamsNonStreaming extends RunCreateParams {
@@ -698,6 +728,7 @@ export interface ThreadCreateAndRunParams {
   model?: string | null;
   thread?: any;
   tools?: Array<any> | null;
+  stream?: boolean | null;
 }
 
 export interface ThreadCreateAndRunParamsNonStreaming
