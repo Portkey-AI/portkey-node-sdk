@@ -45,3 +45,4 @@ export const TEXT_COMPLETE_API = '/completions';
 export const PROMPT_API = '/prompt/complete';
 export const FEEDBACK_API = '/feedback';
 export const EMBEDDINGS_API = '/embeddings';
+export const LOGS_API = '/logs';

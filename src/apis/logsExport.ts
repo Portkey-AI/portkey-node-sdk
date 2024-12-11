@@ -2,7 +2,8 @@ import { ApiResource } from '../apiResource';
 import { APIResponseType, ApiClientInterface } from '../_types/generalTypes';
 import { APIPromise, RequestOptions } from '../baseClient';
 import { createHeaders } from './createHeaders';
-import { toQueryParams } from '../utils';
+import { overrideConfig, toQueryParams } from '../utils';
+import { LOGS_API } from '../constants';
 
 export interface LogsExportCreateParams {
   filters?: Record<string, any>;
@@ -71,11 +72,37 @@ export interface LogsExportDownloadParams {
 export interface LogsExportDownloadResponse extends APIResponseType {
   signed_url?: string;
 }
+
+export interface LogInsertBody {
+  request?: Record<string, any>;
+  response?: Record<string, any>;
+  metadata?: Record<string, any>;
+}
 export class Logs extends ApiResource {
   exports: Exports;
   constructor(client: any) {
     super(client);
     this.exports = new Exports(client);
+  }
+
+  create(
+    _body: LogInsertBody,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const body = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.post<APIResponseType>(LOGS_API, {
+      body,
+      ...opts,
+    });
+    return response;
   }
 }
 export class Exports extends ApiResource {
