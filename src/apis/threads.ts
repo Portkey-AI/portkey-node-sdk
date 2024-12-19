@@ -3,6 +3,12 @@ import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
+import {
+  ThreadCreateParams as oaiThreadCreateParams,
+  ThreadUpdateParams as oaiThreadUpdateParams,
+  ThreadCreateAndRunParams as oaiThreadCreateAndRunParams,
+  AssistantToolChoiceOption,
+} from 'openai/resources/beta/threads/threads';
 
 export class Threads extends ApiResource {
   messages: Messages;
@@ -274,6 +280,29 @@ export class Messages extends ApiResource {
 
     const result = await OAIclient.beta.threads.messages
       .update(threadId, messageId, body, opts)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+
+  async del(
+    threadId: string,
+    messageId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.beta.threads.messages
+      .del(threadId, messageId, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -654,6 +683,7 @@ export class Steps extends ApiResource {
 export interface ThreadCreateParams {
   messages?: Array<Message>;
   metadata?: unknown | null;
+  tool_resources?: oaiThreadCreateParams.ToolResources | null;
   [key: string]: any;
 }
 
@@ -666,6 +696,7 @@ export interface Message {
 
 export interface ThreadUpdateParams {
   metadata?: unknown | null;
+  tool_resources?: oaiThreadUpdateParams.ToolResources | null;
   [key: string]: any;
 }
 
@@ -673,12 +704,16 @@ export interface MessageCreateParams {
   content: string;
   role: string;
   file_ids?: Array<string>;
+  attachments?: Array<any> | null;
   metadata?: unknown | null;
   [key: string]: any;
 }
 
 export interface MessageListParams extends CursorPageParams {
   order?: string;
+  before?: string;
+  run_id?: string;
+  [key: string]: any;
 }
 
 export interface CursorPageParams {
@@ -705,6 +740,17 @@ export interface RunCreateParams {
   model?: string | null;
   tools?: Array<any> | null;
   stream?: boolean | null;
+  include?: Array<any>;
+  additional_messages?: Array<any> | null;
+  max_completion_tokens?: number | null;
+  max_prompt_tokens?: number | null;
+  parallel_tool_calls?: boolean;
+  response_format?: any | null;
+  temperature?: number | null;
+  tool_choice?: any | null;
+  top_p?: number | null;
+  truncation_strategy?: any | null;
+  [key: string]: any;
 }
 
 export interface RunCreateParamsNonStreaming extends RunCreateParams {
@@ -719,6 +765,16 @@ export interface ThreadCreateAndRunParams {
   thread?: any;
   tools?: Array<any> | null;
   stream?: boolean | null;
+  max_completion_tokens?: number | null;
+  max_prompt_tokens?: number | null;
+  parallel_tool_calls?: boolean;
+  response_format?: any | null;
+  temperature?: number | null;
+  tool_choice?: AssistantToolChoiceOption | null;
+  tool_resources?: oaiThreadCreateAndRunParams.ToolResources | null;
+  top_p?: number | null;
+  truncation_strategy?: oaiThreadCreateAndRunParams.TruncationStrategy | null;
+  [key: string]: any;
 }
 
 export interface ThreadCreateAndRunParamsNonStreaming
@@ -731,6 +787,7 @@ export type ThreadCreateAndRunParamsBaseStream = Omit<
   'stream'
 > & {
   stream?: true;
+  assistant_id: string;
 };
 
 export interface RunListParams extends CursorPageParams {
@@ -741,6 +798,8 @@ export interface RunListParams extends CursorPageParams {
 export interface StepListParams extends CursorPageParams {
   before?: string;
   order?: string;
+  include?: Array<any>;
+  [key: string]: any;
 }
 
 export interface RunUpdateParams {
@@ -760,6 +819,7 @@ export interface ToolOutput {
 
 export type RunCreateParamsBaseStream = Omit<RunCreateParams, 'stream'> & {
   stream?: true;
+  assistant_id: string;
 };
 
 export interface RunSubmitToolOutputsParamsNonStreaming

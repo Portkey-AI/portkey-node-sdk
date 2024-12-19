@@ -4,6 +4,7 @@ import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
+import { FileChunkingStrategyParam } from 'openai/resources/beta/vector-stores/vector-stores';
 
 export class VectorStores extends ApiResource {
   files: Files;
@@ -86,11 +87,11 @@ export class VectorStores extends ApiResource {
   }
 
   async list(
-    _query?: VectorStoreListParams,
+    _query?: VectorStoreListParams | RequestOptions,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const query: VectorStoreListParams | undefined = _query;
+    const query: VectorStoreListParams | RequestOptions | undefined = _query;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -102,7 +103,7 @@ export class VectorStores extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.vectorStores
-      .list(query, opts)
+      .list(query as any, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -428,11 +429,11 @@ export class FileBatches extends ApiResource {
   async listFiles(
     vectorStoreId: string,
     batchId: string,
-    _query?: FileBatchListFilesParams,
+    _query?: FileBatchListFilesParams | RequestOptions,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const query: FileBatchListFilesParams | undefined = _query;
+    const query: FileBatchListFilesParams | RequestOptions | undefined = _query;
 
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
@@ -446,7 +447,7 @@ export class FileBatches extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.vectorStores.fileBatches
-      .listFiles(vectorStoreId, batchId, query, opts)
+      .listFiles(vectorStoreId, batchId, query as any, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -508,6 +509,7 @@ export interface ExpiresAfter {
 }
 
 export interface VectorStoreCreateParams {
+  chunking_strategy?: FileChunkingStrategyParam;
   expires_after?: ExpiresAfter;
   file_ids?: Array<string>;
   metadata?: unknown | null;
@@ -535,6 +537,7 @@ export interface CursorPageParams {
 
 export interface FileCreateParams {
   file_id: string;
+  chunking_strategy?: FileChunkingStrategyParam;
   [key: string]: any;
 }
 
@@ -547,6 +550,7 @@ export interface FileListParams extends CursorPageParams {
 
 export interface FileBatchCreateParams {
   file_ids: Array<string>;
+  chunking_strategy?: FileChunkingStrategyParam;
   [key: string]: any;
 }
 
