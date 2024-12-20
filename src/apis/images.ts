@@ -40,14 +40,15 @@ export interface ImageCreateVariationParams {
 
 export interface ImagesResponse {
   created: number;
-
   data: Array<Image>;
+  [key: string]: any;
 }
 
 export interface Image {
   b64_json?: string;
   revised_prompt?: string;
   url?: string;
+  [key: string]: any;
 }
 
 export class Images extends ApiResource {

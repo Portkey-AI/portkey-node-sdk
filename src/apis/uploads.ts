@@ -60,11 +60,11 @@ export class Uploads extends ApiResource {
 
   async complete(
     uploadId: string,
-    _body: any,
+    _body: UploadCompleteParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: any = _body;
+    const body: UploadCompleteParams = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {

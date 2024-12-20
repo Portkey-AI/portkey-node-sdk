@@ -128,6 +128,37 @@ export class MainFiles extends ApiResource {
 
     return finalResponse(result);
   }
+
+  async waitForProcessing(
+    id: string,
+    _body: PollOptions,
+    params?: ApiClientInterface
+  ): Promise<FileObject> {
+    const body: PollOptions = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.files.waitForProcessing(id, {
+      ...(body.pollInterval !== undefined && {
+        pollInterval: body.pollInterval,
+      }),
+      ...(body.maxWait !== undefined && { maxWait: body.maxWait }),
+    });
+
+    return result;
+  }
+}
+
+interface PollOptions {
+  pollInterval?: number | undefined;
+  maxWait?: number | undefined;
 }
 
 export interface FileCreateParams {
@@ -145,9 +176,11 @@ export interface FileObject {
   purpose?: string;
   status?: string;
   status_details?: string;
+  [key: string]: any;
 }
 
 export interface FileListParams {
   purpose?: string;
+  order?: 'asc' | 'desc';
   [key: string]: any;
 }

@@ -13,7 +13,26 @@ export interface EmbeddingsBody extends ModelParams {
   encoding_format?: string;
 }
 
-export type EmbeddingsResponse = Record<string, any> & APIResponseType;
+export interface EmbeddingArr {
+  embedding?: Array<number>;
+  index?: number;
+  object?: string;
+  [key: string]: any;
+}
+
+export interface Usage {
+  prompt_tokens?: number;
+  total_tokens?: number;
+  [key: string]: any;
+}
+
+interface EmbeddingsResponse extends APIResponseType {
+  data?: Array<EmbeddingArr>;
+  model?: string;
+  object?: string;
+  usage?: Usage;
+  [key: string]: any;
+}
 
 export class Embeddings extends ApiResource {
   create(

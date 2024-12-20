@@ -3,6 +3,7 @@ import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
+import { AssistantUpdateParams as oaiAssistantUpdateParams } from 'openai/resources/beta/assistants';
 
 export interface AssistantCreateParams {
   model: string;
@@ -46,6 +47,10 @@ export interface AssistantUpdateParams {
   model?: string;
   name?: string | null;
   tools?: Array<any>;
+  response_format?: any | null;
+  temperature?: number | null;
+  tool_resources?: oaiAssistantUpdateParams.ToolResources | null;
+  top_p?: number | null;
   [key: string]: any;
 }
 

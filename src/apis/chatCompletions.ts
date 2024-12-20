@@ -59,6 +59,13 @@ class ChatCompletions extends ApiResource {
 export interface ChatCompletionsBodyBase extends ModelParams {
   messages?: Array<Message>;
   response_format?: object;
+  audio?: any | null;
+  modalities?: Array<any> | null;
+  prediction?: any | null;
+  reasoning_effort?: any;
+  store?: boolean | null;
+  metadata?: Record<string, string> | null;
+  max_completion_tokens?: number | null;
 }
 
 export interface ChatCompletionsBodyStreaming extends ChatCompletionsBodyBase {
@@ -89,6 +96,7 @@ interface Message {
   function_call?: any;
   tool_calls?: Array<ChatCompletionMessageToolCall>;
   tool_call_id?: string;
+  [key: string]: any;
 }
 
 export interface Logprobs {
