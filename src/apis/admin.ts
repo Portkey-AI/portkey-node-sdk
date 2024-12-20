@@ -376,6 +376,26 @@ export class Invites extends ApiResource {
     );
     return response;
   }
+
+  resend(
+    _body: UserInviteGetParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const body = _body;
+    const inviteId = body.inviteId;
+    if (params) {
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params }),
+      };
+    }
+
+    const response = this.post<any>(`/admin/users/invites/${inviteId}/resend`, {
+      ...opts,
+    });
+    return response;
+  }
 }
 
 export class Workspaces extends ApiResource {
