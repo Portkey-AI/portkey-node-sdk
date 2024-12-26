@@ -166,7 +166,7 @@ export abstract class ApiClient {
     forwardHeaders,
     cacheNamespace,
     requestTimeout,
-    strictOpenAiCompliance,
+    strictOpenAiCompliance = false,
     anthropicBeta,
     anthropicVersion,
     mistralFimCompletion,
