@@ -72,9 +72,13 @@ export class Portkey extends ApiClient {
     anthropicVersion,
     mistralFimCompletion,
   }: ApiClientInterface) {
+    const options = {
+      baseURL: baseURL || setBaseURL(baseURL, apiKey),
+    };
+
     super({
       apiKey,
-      baseURL,
+      baseURL: options.baseURL,
       config,
       virtualKey,
       provider,
@@ -106,7 +110,7 @@ export class Portkey extends ApiClient {
       anthropicVersion,
       mistralFimCompletion,
     });
-    this.baseURL = setBaseURL(baseURL, apiKey);
+    this.baseURL = options.baseURL;
     this.apiKey = setApiKey(this.baseURL, apiKey);
     this.virtualKey = virtualKey || null;
     this.config = config || null;
