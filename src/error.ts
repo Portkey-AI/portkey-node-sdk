@@ -97,7 +97,11 @@ export class APIConnectionError extends APIError {
     const LOCALHOST_CONNECTION_ERROR = `Could not instantiate the Portkey client. 
     You can either add a valid 'apiKey' parameter (from https://app.portkey.ai/api-keys)
     or check the 'baseURL' parameter in the Portkey client,
-    for your AI Gateway's instance's URL.`;
+    for your AI Gateway's instance's URL. \
+
+    CAUSE: ${cause} \
+    
+    MESSAGE: ${message}`;
     super(
       undefined,
       undefined,
