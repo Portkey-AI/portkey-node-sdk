@@ -91,7 +91,7 @@ interface Usage {
 
 interface Message {
   role: string;
-  content: string;
+  content: string | Array<any>;
   refusal?: string;
   function_call?: any;
   tool_calls?: Array<ChatCompletionMessageToolCall>;

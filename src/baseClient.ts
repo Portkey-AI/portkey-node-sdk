@@ -166,7 +166,7 @@ export abstract class ApiClient {
     forwardHeaders,
     cacheNamespace,
     requestTimeout,
-    strictOpenAiCompliance,
+    strictOpenAiCompliance = false,
     anthropicBeta,
     anthropicVersion,
     mistralFimCompletion,
@@ -264,7 +264,9 @@ export abstract class ApiClient {
     // Parse the response and check for errors.
     if (response instanceof Error) {
       if (response.name === 'AbortError') {
-        throw new APIConnectionTimeoutError();
+        throw new APIConnectionTimeoutError({
+          message: `${response.message} \n STACK: ${response.stack}`,
+        });
       }
       throw new APIConnectionError({ cause: response });
     }
