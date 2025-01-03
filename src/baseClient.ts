@@ -287,7 +287,7 @@ export abstract class ApiClient {
   }
 
   buildRequest(opts: FinalRequestOptions): { req: RequestInit; url: string } {
-    const url = new URL(this.baseURL + opts.path!);
+    const url = new URL(this.baseURL + opts.path);
     const { method, body } = opts;
     const reqHeaders: Record<string, string> = {
       ...this.defaultHeaders(),

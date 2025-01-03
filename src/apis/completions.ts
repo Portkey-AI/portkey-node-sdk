@@ -50,8 +50,13 @@ export interface CompletionsBodyBase extends ModelParams {
   prompt: string;
 }
 
+export interface ChatCompletionStreamOptions {
+  include_usage?: boolean;
+}
+
 export interface CompletionsBodyStreaming extends CompletionsBodyBase {
   stream?: true;
+  stream_options?: ChatCompletionStreamOptions | null;
 }
 
 export interface CompletionsBodyNonStreaming extends CompletionsBodyBase {
@@ -66,16 +71,15 @@ interface Usage {
   prompt_tokens?: number;
   completion_tokens?: number;
   total_tokens?: number;
+  [key: string]: any;
 }
 
 interface Logprobs {
   text_offset?: Array<number>;
-
   token_logprobs?: Array<number>;
-
   tokens?: Array<string>;
-
   top_logprobs?: Array<Record<string, number>>;
+  [key: string]: any;
 }
 
 interface Choices {
@@ -83,6 +87,7 @@ interface Choices {
   text?: string;
   logprobs: Logprobs;
   finish_reason?: string;
+  [key: string]: any;
 }
 
 interface TextCompletion extends APIResponseType {
@@ -93,4 +98,5 @@ interface TextCompletion extends APIResponseType {
   choices: Array<Choices>;
   usage?: Usage;
   system_fingerprint?: string;
+  [key: string]: any;
 }
