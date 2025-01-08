@@ -170,6 +170,7 @@ export abstract class ApiClient {
     anthropicBeta,
     anthropicVersion,
     mistralFimCompletion,
+    ...rest
   }: ApiClientInterface) {
     this.apiKey = apiKey ?? '';
     this.baseURL = baseURL ?? '';
@@ -205,6 +206,7 @@ export abstract class ApiClient {
       anthropicVersion,
       mistralFimCompletion,
       anthropicBeta,
+      ...rest,
     });
     this.portkeyHeaders = this.defaultHeaders();
     this.fetch = fetch;
