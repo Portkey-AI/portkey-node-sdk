@@ -71,6 +71,7 @@ export class Portkey extends ApiClient {
     anthropicBeta,
     anthropicVersion,
     mistralFimCompletion,
+    ...rest
   }: ApiClientInterface) {
     super({
       apiKey,
@@ -105,6 +106,7 @@ export class Portkey extends ApiClient {
       anthropicBeta,
       anthropicVersion,
       mistralFimCompletion,
+      ...rest,
     });
     this.baseURL = setBaseURL(baseURL, apiKey);
     this.apiKey = setApiKey(this.baseURL, apiKey);

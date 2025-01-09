@@ -4,6 +4,16 @@ export const createHeaders = (
   config: Record<string, any>
 ): Record<string, string> => {
   const headers: Record<string, string> = {};
+  let forwardHeaders: string[] = [];
+
+  if (config['forwardHeaders']) {
+    // logic to convert forwardHeaders values to kebab-case
+    forwardHeaders = config['forwardHeaders'].map((header: string) => {
+      return header
+        .replace('ID', 'Id')
+        .replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
+    });
+  }
 
   for (let k in config) {
     let v = config[k];
@@ -31,7 +41,11 @@ export const createHeaders = (
     if (!isEmpty(v) && typeof v == 'object') {
       v = JSON.stringify(v);
     }
-    headers[getPortkeyHeader(k)] = v || '';
+    if (forwardHeaders && forwardHeaders.includes(k)) {
+      headers[k] = v || '';
+    } else {
+      headers[getPortkeyHeader(k)] = v || '';
+    }
   }
   return headers;
 };
