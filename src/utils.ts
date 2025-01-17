@@ -152,6 +152,15 @@ export function initOpenAIClient(client: Portkey) {
     baseURL: client.baseURL,
     defaultHeaders: defaultHeadersBuilder(client),
     maxRetries: 0,
+    fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
+      const response = await fetch(url, init);
+      if (!response.ok && client._shouldRetry(response)) {
+        const response = await fetch(url, init);
+        return response;
+      } else {
+        return response;
+      }
+    },
   });
 }
 export function toQueryParams(

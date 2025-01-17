@@ -261,7 +261,7 @@ export abstract class ApiClient {
     return APIError.generate(status, errorResponse, message, headers);
   }
 
-  private shouldRetry(response: Response): boolean {
+  _shouldRetry(response: Response): boolean {
     const retryStatusCode = response.status;
     const retryTraceId = response.headers.get('x-portkey-trace-id');
     const retryRequestId = response.headers.get('x-portkey-request-id');
@@ -306,7 +306,7 @@ export abstract class ApiClient {
     }
     this.responseHeaders = createResponseHeaders(response.headers);
     if (!response.ok) {
-      if (retryCount < this.maxRetries && this.shouldRetry(response)) {
+      if (retryCount < this.maxRetries && this._shouldRetry(response)) {
         return this.request(opts, retryCount + 1);
       }
       const errText = await response.text().catch(() => 'Unknown');
