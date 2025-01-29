@@ -310,8 +310,9 @@ export abstract class ApiClient {
       ...this.customHeaders,
     };
 
-    const agentConfig = typeof window === 'undefined' ? { agent: defaultHttpAgent } : {};
-  
+    const agentConfig =
+      typeof window === 'undefined' ? { agent: defaultHttpAgent } : {};
+
     const req: RequestInit = {
       method,
       headers: reqHeaders,
