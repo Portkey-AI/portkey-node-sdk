@@ -18,6 +18,7 @@ import { VirtualKeysListParams } from './apis/virtualKeys';
 import { ApiKeysListParams } from './apis/apiKeys';
 import { CongfigsListParams } from './apis/configs';
 import { LogsExportListParams } from './apis/logsExport';
+import { getBrowserInfo } from './core';
 
 type PlatformProperties = {
   'x-portkey-runtime'?: string;
@@ -32,6 +33,14 @@ export const getPlatformProperties = (): PlatformProperties => {
     return {
       [`${PORTKEY_HEADER_PREFIX}runtime`]: 'node',
       [`${PORTKEY_HEADER_PREFIX}runtime-version`]: process.version,
+    };
+  }
+
+  const browserInfo = getBrowserInfo();
+  if (browserInfo) {
+    return {
+      [`${PORTKEY_HEADER_PREFIX}runtime`]: `browser: ${browserInfo.browser}`,
+      [`${PORTKEY_HEADER_PREFIX}runtime-version`]: browserInfo.version,
     };
   }
   return {};
