@@ -184,6 +184,7 @@ export abstract class ApiClient {
     anthropicBeta,
     anthropicVersion,
     mistralFimCompletion,
+    dangerouslyAllowBrowser,
     ...rest
   }: ApiClientInterface) {
     this.apiKey = apiKey ?? '';
@@ -220,6 +221,7 @@ export abstract class ApiClient {
       anthropicVersion,
       mistralFimCompletion,
       anthropicBeta,
+      dangerouslyAllowBrowser,
       ...rest,
     });
     this.portkeyHeaders = this.defaultHeaders();

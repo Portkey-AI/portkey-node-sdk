@@ -161,6 +161,7 @@ export function initOpenAIClient(client: Portkey) {
     baseURL: client.baseURL,
     defaultHeaders: defaultHeadersBuilder(client),
     maxRetries: 0,
+    dangerouslyAllowBrowser: client.dangerouslyAllowBrowser ?? false,
   });
 }
 export function toQueryParams(

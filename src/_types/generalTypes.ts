@@ -33,6 +33,7 @@ export interface ApiClientInterface {
   anthropicBeta?: string | null | undefined;
   anthropicVersion?: string | null | undefined;
   mistralFimCompletion?: string | null | undefined;
+  dangerouslyAllowBrowser?: boolean | null | undefined;
   [key: string]: any;
 }
 
