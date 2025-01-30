@@ -11,6 +11,7 @@ import {
   APIConnectionError,
   APIConnectionTimeoutError,
   APIError,
+  APIUserAbortError,
 } from './error';
 import { Stream, createResponseHeaders, safeJSON } from './streaming';
 import { castToError, getPlatformProperties, parseBody } from './utils';
@@ -51,6 +52,7 @@ export type RequestOptions = {
   headers?: Headers | undefined;
   httpAgent?: Agent;
   stream?: boolean | undefined;
+  signal?: AbortSignal | undefined | null;
 };
 
 type APIResponseProps = {
@@ -149,6 +151,7 @@ export abstract class ApiClient {
   customHeaders: Record<string, string>;
   responseHeaders: Record<string, string>;
   portkeyHeaders: Record<string, string>;
+  maxRetries = 1;
 
   private fetch: Fetch;
   constructor({
@@ -274,13 +277,42 @@ export abstract class ApiClient {
     return APIError.generate(status, errorResponse, message, headers);
   }
 
-  async request(opts: FinalRequestOptions): Promise<APIResponseProps> {
+  _shouldRetry(response: Response): boolean {
+    const retryStatusCode = response.status;
+    const retryTraceId = response.headers.get('x-portkey-trace-id');
+    const retryRequestId = response.headers.get('x-portkey-request-id');
+    const retryGatewayException = response.headers.get(
+      'x-portkey-gateway-exception'
+    );
+
+    if (
+      retryStatusCode < 500 ||
+      retryTraceId ||
+      retryRequestId ||
+      retryGatewayException
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async request(
+    opts: FinalRequestOptions,
+    retryCount = 0
+  ): Promise<APIResponseProps> {
     // Build the request.
     const { req, url } = this.buildRequest(opts);
     // Make the call to rubeus.
     const response = await this.fetch(url, req).catch(castToError);
     // Parse the response and check for errors.
     if (response instanceof Error) {
+      if (opts.signal?.aborted) {
+        throw new APIUserAbortError();
+      }
+      if (retryCount < this.maxRetries) {
+        return this.request(opts, retryCount + 1);
+      }
       if (response.name === 'AbortError') {
         throw new APIConnectionTimeoutError({
           message: `${response.message} \n STACK: ${response.stack}`,
@@ -290,6 +322,9 @@ export abstract class ApiClient {
     }
     this.responseHeaders = createResponseHeaders(response.headers);
     if (!response.ok) {
+      if (retryCount < this.maxRetries && this._shouldRetry(response)) {
+        return this.request(opts, retryCount + 1);
+      }
       const errText = await response.text().catch(() => 'Unknown');
       const errJSON = safeJSON(errText);
       const errMessage = errJSON ? undefined : errText;
