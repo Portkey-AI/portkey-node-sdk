@@ -73,6 +73,7 @@ export class ApiKeys extends ApiResource {
     opts?: RequestOptions
   ): APIPromise<ApiKeysAddResponse> {
     const body = _body;
+    body.defaults = body.defaults || { config_id: null, metadata: null };
     const type = body.type;
     const subType = body['sub-type'];
     if (params) {
@@ -113,6 +114,7 @@ export class ApiKeys extends ApiResource {
     opts?: RequestOptions
   ): APIPromise<any> {
     const body = _body;
+    body.defaults = body.defaults || { config_id: null, metadata: null };
     const id = body.id;
     if (params) {
       this.client.customHeaders = {
