@@ -163,7 +163,7 @@ export function initOpenAIClient(client: Portkey) {
     maxRetries: 0,
     dangerouslyAllowBrowser: client.dangerouslyAllowBrowser ?? false,
     fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
-      // For adding duplex option only when body is a Readable stream
+      // NOTE: For adding duplex option only when body is a Readable stream
       const fetchOptions: RequestInit = {
         ...init,
         ...(init?.body &&

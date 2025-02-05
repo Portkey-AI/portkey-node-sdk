@@ -21,7 +21,6 @@ const defaultHttpAgent: Agent = new KeepAliveAgent({
   timeout: 5 * 60 * 1000,
 });
 
-// Add this helper function at the top level
 function getFetch(): Fetch {
   if (typeof window !== 'undefined' && window.fetch) {
     return window.fetch.bind(window);
