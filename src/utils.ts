@@ -163,10 +163,17 @@ export function initOpenAIClient(client: Portkey) {
     maxRetries: 0,
     dangerouslyAllowBrowser: client.dangerouslyAllowBrowser ?? false,
     fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
+      // For adding duplex option only when body is a Readable stream
+      const fetchOptions: RequestInit = {
+        ...init,
+        ...(init?.body &&
+          typeof (init.body as any)?.pipe === 'function' && { duplex: 'half' }),
+      };
+
       let isRetrying = false;
       let response: Response | undefined;
       try {
-        response = await fetch(url, init);
+        response = await fetch(url, fetchOptions);
       } catch (error) {
         isRetrying = true;
       }
@@ -174,7 +181,7 @@ export function initOpenAIClient(client: Portkey) {
         isRetrying ||
         (response && !response.ok && client._shouldRetry(response))
       ) {
-        return await fetch(url, init);
+        return await fetch(url, fetchOptions);
       } else if (response) {
         return response;
       } else {
