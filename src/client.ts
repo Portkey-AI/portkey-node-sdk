@@ -2,6 +2,7 @@ import { ApiClientInterface } from './_types/generalTypes';
 import * as API from './apis';
 import { PostBodyParams, PostResponse } from './apis/postMethod';
 import { ApiClient, APIPromise, RequestOptions } from './baseClient';
+import { isRunningInBrowser } from './core';
 import { Stream } from './streaming';
 import { readEnv, setApiKey, setBaseURL } from './utils';
 
@@ -38,6 +39,7 @@ export class Portkey extends ApiClient {
   anthropicBeta?: string | null | undefined;
   anthropicVersion?: string | null | undefined;
   mistralFimCompletion?: string | null | undefined;
+  dangerouslyAllowBrowser?: boolean | null | undefined;
   constructor({
     apiKey = readEnv('PORTKEY_API_KEY') ?? null,
     baseURL = readEnv('PORTKEY_BASE_URL') ?? null,
@@ -71,8 +73,14 @@ export class Portkey extends ApiClient {
     anthropicBeta,
     anthropicVersion,
     mistralFimCompletion,
+    dangerouslyAllowBrowser,
     ...rest
   }: ApiClientInterface) {
+    if (isRunningInBrowser() && !dangerouslyAllowBrowser) {
+      throw new Error(
+        "It looks like you're running in a browser-like environment.\n\nThis is disabled by default, as it risks exposing your secret API credentials to attackers.\nIf you understand the risks and have appropriate mitigations in place,\nyou can set the `dangerouslyAllowBrowser` option to `true`, e.g.,\n\nnew Portkey({ ..., dangerouslyAllowBrowser: true, ... });"
+      );
+    }
     super({
       apiKey,
       baseURL,
@@ -106,6 +114,7 @@ export class Portkey extends ApiClient {
       anthropicBeta,
       anthropicVersion,
       mistralFimCompletion,
+      dangerouslyAllowBrowser,
       ...rest,
     });
     this.baseURL = setBaseURL(baseURL, apiKey);
@@ -139,6 +148,7 @@ export class Portkey extends ApiClient {
     this.anthropicBeta = anthropicBeta;
     this.anthropicVersion = anthropicVersion;
     this.mistralFimCompletion = mistralFimCompletion;
+    this.dangerouslyAllowBrowser = dangerouslyAllowBrowser ?? false;
   }
 
   completions: API.Completions = new API.Completions(this);

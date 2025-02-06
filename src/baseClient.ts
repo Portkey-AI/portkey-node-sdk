@@ -16,11 +16,24 @@ import {
 import { Stream, createResponseHeaders, safeJSON } from './streaming';
 import { castToError, getPlatformProperties, parseBody } from './utils';
 import { VERSION } from './version';
-fetch;
 const defaultHttpAgent: Agent = new KeepAliveAgent({
   keepAlive: true,
   timeout: 5 * 60 * 1000,
 });
+
+function getFetch(): Fetch {
+  if (typeof window !== 'undefined' && window.fetch) {
+    return window.fetch.bind(window);
+  }
+  if (typeof global !== 'undefined' && global.fetch) {
+    return global.fetch;
+  }
+  if (typeof fetch !== 'undefined') {
+    return fetch;
+  }
+  throw new Error('Fetch is not available in this environment');
+}
+
 export type Fetch = (url: string, init?: RequestInit) => Promise<Response>;
 
 export type HTTPMethod = 'post' | 'get' | 'put' | 'delete';
@@ -173,6 +186,7 @@ export abstract class ApiClient {
     anthropicBeta,
     anthropicVersion,
     mistralFimCompletion,
+    dangerouslyAllowBrowser,
     ...rest
   }: ApiClientInterface) {
     this.apiKey = apiKey ?? '';
@@ -209,10 +223,11 @@ export abstract class ApiClient {
       anthropicVersion,
       mistralFimCompletion,
       anthropicBeta,
+      dangerouslyAllowBrowser,
       ...rest,
     });
     this.portkeyHeaders = this.defaultHeaders();
-    this.fetch = fetch;
+    this.fetch = getFetch();
     this.responseHeaders = {};
   }
 
@@ -330,21 +345,18 @@ export abstract class ApiClient {
       ...this.defaultHeaders(),
       ...this.customHeaders,
     };
-    const httpAgent: Agent | undefined = defaultHttpAgent;
-    let req: RequestInit;
-    if (method === 'get') {
-      req = {
-        method,
-        headers: reqHeaders,
-        ...(httpAgent && { agent: httpAgent }),
-      };
-    } else {
-      req = {
-        method,
-        body: JSON.stringify(parseBody(body)),
-        headers: reqHeaders,
-        ...(httpAgent && { agent: httpAgent }),
-      };
+
+    const agentConfig =
+      typeof window === 'undefined' ? { agent: defaultHttpAgent } : {};
+
+    const req: RequestInit = {
+      method,
+      headers: reqHeaders,
+      ...agentConfig,
+    };
+
+    if (method !== 'get' && body !== undefined) {
+      req.body = JSON.stringify(parseBody(body));
     }
     return { req: req, url: url.toString() };
   }
