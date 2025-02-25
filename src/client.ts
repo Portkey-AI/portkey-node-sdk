@@ -175,6 +175,7 @@ export class Portkey extends ApiClient {
     threads: new API.Threads(this),
     vectorStores: new API.VectorStores(this),
     chat: new API.BetaChat(this),
+    realtime: new API.Realtime(this),
   };
 
   post = (

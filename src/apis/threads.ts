@@ -1,3 +1,4 @@
+import { Metadata } from '../_types/sharedTypes';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
@@ -695,7 +696,7 @@ export interface Message {
 }
 
 export interface ThreadUpdateParams {
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   tool_resources?: oaiThreadUpdateParams.ToolResources | null;
   [key: string]: any;
 }
@@ -728,7 +729,7 @@ export interface FileListParams extends CursorPageParams {
 }
 
 export interface MessageUpdateParams {
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   [key: string]: any;
 }
 
@@ -736,7 +737,7 @@ export interface RunCreateParams {
   assistant_id: string;
   additional_instructions?: string | null;
   instructions?: string | null;
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   model?: string | null;
   tools?: Array<any> | null;
   stream?: boolean | null;
@@ -760,7 +761,7 @@ export interface RunCreateParamsNonStreaming extends RunCreateParams {
 export interface ThreadCreateAndRunParams {
   assistant_id: string;
   instructions?: string | null;
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   model?: string | null;
   thread?: any;
   tools?: Array<any> | null;
@@ -803,7 +804,7 @@ export interface StepListParams extends CursorPageParams {
 }
 
 export interface RunUpdateParams {
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   [key: string]: any;
 }
 
