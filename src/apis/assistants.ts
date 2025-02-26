@@ -1,3 +1,4 @@
+import { Metadata } from '../_types/sharedTypes';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
@@ -9,7 +10,7 @@ export interface AssistantCreateParams {
   model: string;
   description?: string | null;
   instructions?: string | null;
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   name?: string | null;
   tools?: Array<any>;
   response_format?: any | null;
@@ -43,7 +44,7 @@ export interface AssistantUpdateParams {
   description?: string | null;
   file_ids?: Array<string>;
   instructions?: string | null;
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   model?: string;
   name?: string | null;
   tools?: Array<any>;

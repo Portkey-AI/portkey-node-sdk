@@ -5,6 +5,7 @@ import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 import { FileChunkingStrategyParam } from 'openai/resources/beta/vector-stores/vector-stores';
+import { Metadata } from '../_types/sharedTypes';
 
 export class VectorStores extends ApiResource {
   files: Files;
@@ -512,14 +513,14 @@ export interface VectorStoreCreateParams {
   chunking_strategy?: FileChunkingStrategyParam;
   expires_after?: ExpiresAfter;
   file_ids?: Array<string>;
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   name?: string;
   [key: string]: any;
 }
 
 export interface VectorStoreUpdateParams {
   expires_after?: ExpiresAfter | null;
-  metadata?: unknown | null;
+  metadata?: Metadata | null;
   name?: string | null;
   [key: string]: any;
 }
