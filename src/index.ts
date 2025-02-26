@@ -1,11 +1,14 @@
 import * as apis from './apis';
 import * as client from './client';
 import * as consts from './constants';
-import { PortkeyAIRealtimeWS } from './beta/realtime';
+import {
+  PortkeyAIRealtimeWS,
+  PortkeyAIRealtimeWebSocket,
+} from './beta/realtime';
 
 export import Portkey = client.Portkey;
 export import PORTKEY_GATEWAY_URL = consts.PORTKEY_GATEWAY_URL;
 export import createHeaders = apis.createHeaders;
-export { PortkeyAIRealtimeWS };
+export { PortkeyAIRealtimeWS, PortkeyAIRealtimeWebSocket };
 
 export default Portkey;
