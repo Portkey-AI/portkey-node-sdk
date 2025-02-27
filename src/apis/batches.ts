@@ -89,4 +89,20 @@ export class Batches extends ApiResource {
       .withResponse();
     return finalResponse(result);
   }
+
+  output(
+    batchId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.getMethod<any>(`/batches/${batchId}/output`, opts);
+    return response;
+  }
 }
