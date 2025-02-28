@@ -1,6 +1,6 @@
 {
   "name": "portkey-ai",
-  "version": "1.6.4",
+  "version": "1.7.0",
   "description": "Node client library for the Portkey API",
   "types": "dist/src/index.d.ts",
   "main": "dist/src/index.js",
