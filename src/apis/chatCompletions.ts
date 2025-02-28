@@ -11,12 +11,15 @@ import { CHAT_COMPLETE_API } from '../constants';
 import { Stream } from '../streaming';
 import { overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
+import { Metadata, CursorPageParams } from '../_types/sharedTypes';
 
 export class Chat extends ApiResource {
   completions: ChatCompletions = new ChatCompletions(this.client);
 }
 
 class ChatCompletions extends ApiResource {
+  messages = new ChatCompletionsMessages(this.client);
+
   create(
     _body: ChatCompletionsBodyNonStreaming,
     params?: ApiClientInterface,
@@ -53,6 +56,108 @@ class ChatCompletions extends ApiResource {
       ...opts,
       stream,
     }) as APIPromise<ChatCompletion> | APIPromise<Stream<ChatCompletion>>;
+  }
+
+  retrieve(
+    completionId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<ChatCompletion> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    return this.getMethod<ChatCompletion>(
+      `${CHAT_COMPLETE_API}/${completionId}`,
+      {
+        ...opts,
+      }
+    );
+  }
+
+  update(
+    completionId: string,
+    _body: ChatCompletionUpdateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<ChatCompletion> {
+    const body = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    return this.post<ChatCompletion>(`${CHAT_COMPLETE_API}/${completionId}`, {
+      body,
+      ...opts,
+    });
+  }
+
+  list(
+    query?: ChatCompletionListParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<ChatCompletionListResponse> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    return this.getMethod<ChatCompletionListResponse>(`${CHAT_COMPLETE_API}`, {
+      ...opts,
+      ...query,
+    });
+  }
+
+  del(
+    completionId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<ChatCompletion> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    return this.deleteMethod<ChatCompletion>(
+      `${CHAT_COMPLETE_API}/${completionId}`,
+      {
+        ...opts,
+      }
+    );
+  }
+}
+
+export class ChatCompletionsMessages extends ApiResource {
+  list(
+    completionId: string,
+    query?: MessageListParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    return this.getMethod<any>(
+      `${CHAT_COMPLETE_API}/${completionId}/messages`,
+      {
+        ...opts,
+        ...query,
+      }
+    );
   }
 }
 
@@ -124,4 +229,23 @@ interface ChatCompletion extends APIResponseType {
   service_tier?: string;
   system_fingerprint?: string;
   [key: string]: any;
+}
+
+export interface ChatCompletionUpdateParams {
+  metadata: Metadata | null;
+}
+
+export interface ChatCompletionListParams extends CursorPageParams {
+  metadata?: Metadata | null;
+  model?: string;
+  order?: 'asc' | 'desc';
+}
+
+export interface ChatCompletionListResponse extends APIResponseType {
+  data: Array<ChatCompletion>;
+  object: string;
+}
+
+export interface MessageListParams extends CursorPageParams {
+  order?: 'asc' | 'desc';
 }
