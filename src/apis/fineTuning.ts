@@ -26,11 +26,11 @@ export class Jobs extends ApiResource {
   }
 
   async create(
-    _body: JobCreateParams,
+    _body: JobCreateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: JobCreateParams = _body;
+    const body: JobCreateBody = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -160,4 +160,13 @@ export class Checkpoints extends ApiResource {
       .withResponse();
     return finalResponse(result);
   }
+}
+
+export interface JobCreateBody extends JobCreateParams {
+  role_arn: string;
+  job_name: string;
+  output_file: string;
+  provider_options: Record<string, any>;
+  portkey_options: Record<string, any>;
+  [key: string]: any;
 }

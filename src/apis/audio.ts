@@ -22,11 +22,11 @@ export class Audio extends ApiResource {
 
 export class transcriptions extends ApiResource {
   async create(
-    _body: TranscriptionCreateParams,
+    _body: TranscriptionCreateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: TranscriptionCreateParams = _body;
+    const body: TranscriptionCreateBody = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -44,11 +44,11 @@ export class transcriptions extends ApiResource {
 
 export class translations extends ApiResource {
   async create(
-    _body: TranslationCreateParams,
+    _body: TranslationCreateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: TranslationCreateParams = _body;
+    const body: TranslationCreateBody = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -66,11 +66,11 @@ export class translations extends ApiResource {
 
 export class speech extends ApiResource {
   async create(
-    _body: SpeechCreateParams,
+    _body: SpeechCreateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: SpeechCreateParams = _body;
+    const body: SpeechCreateBody = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -82,4 +82,16 @@ export class speech extends ApiResource {
     const response = await OAIclient.audio.speech.create(body, opts);
     return response;
   }
+}
+
+export interface TranscriptionCreateBody extends TranscriptionCreateParams {
+  [key: string]: any;
+}
+
+export interface TranslationCreateBody extends TranslationCreateParams {
+  [key: string]: any;
+}
+
+export interface SpeechCreateBody extends SpeechCreateParams {
+  [key: string]: any;
 }
