@@ -11,10 +11,9 @@ node scripts/check-version.cjs
 
 rm -rf dist; mkdir dist
 
-# Copy src to dist/src and build from dist/src into dist, so that
-# the source map for index.js.map will refer to ./src/index.ts etc
-cp -rp src README.md dist
-# Copy the changelog and license files tp dist
+# Copy only necessary non-source files to dist
+cp README.md dist/
+# Copy the changelog and license files to dist
 for file in LICENSE CHANGELOG.md; do
   if [ -e "${file}" ]; then cp "${file}" dist; fi
 done
