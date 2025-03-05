@@ -34,6 +34,12 @@ export interface ApiClientInterface {
   anthropicVersion?: string | null | undefined;
   mistralFimCompletion?: string | null | undefined;
   dangerouslyAllowBrowser?: boolean | null | undefined;
+  vertexStorageBucketName?: string | null | undefined;
+  providerFileName?: string | null | undefined;
+  providerModel?: string | null | undefined;
+  awsS3Bucket?: string | null | undefined;
+  awsS3ObjectKey?: string | null | undefined;
+  awsBedrockModel?: string | null | undefined;
   [key: string]: any;
 }
 

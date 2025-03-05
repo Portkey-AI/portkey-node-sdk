@@ -187,6 +187,12 @@ export abstract class ApiClient {
     anthropicVersion,
     mistralFimCompletion,
     dangerouslyAllowBrowser,
+    vertexStorageBucketName,
+    providerFileName,
+    providerModel,
+    awsS3Bucket,
+    awsS3ObjectKey,
+    awsBedrockModel,
     ...rest
   }: ApiClientInterface) {
     this.apiKey = apiKey ?? '';
@@ -224,6 +230,12 @@ export abstract class ApiClient {
       mistralFimCompletion,
       anthropicBeta,
       dangerouslyAllowBrowser,
+      vertexStorageBucketName,
+      providerFileName,
+      providerModel,
+      awsS3Bucket,
+      awsS3ObjectKey,
+      awsBedrockModel,
       ...rest,
     });
     this.portkeyHeaders = this.defaultHeaders();

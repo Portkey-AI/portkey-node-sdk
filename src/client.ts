@@ -40,6 +40,12 @@ export class Portkey extends ApiClient {
   anthropicVersion?: string | null | undefined;
   mistralFimCompletion?: string | null | undefined;
   dangerouslyAllowBrowser?: boolean | null | undefined;
+  vertexStorageBucketName?: string | null | undefined;
+  providerFileName?: string | null | undefined;
+  providerModel?: string | null | undefined;
+  awsS3Bucket?: string | null | undefined;
+  awsS3ObjectKey?: string | null | undefined;
+  awsBedrockModel?: string | null | undefined;
   constructor({
     apiKey = readEnv('PORTKEY_API_KEY') ?? null,
     baseURL = readEnv('PORTKEY_BASE_URL') ?? null,
@@ -74,6 +80,12 @@ export class Portkey extends ApiClient {
     anthropicVersion,
     mistralFimCompletion,
     dangerouslyAllowBrowser,
+    vertexStorageBucketName,
+    providerFileName,
+    providerModel,
+    awsS3Bucket,
+    awsS3ObjectKey,
+    awsBedrockModel,
     ...rest
   }: ApiClientInterface) {
     if (isRunningInBrowser() && !dangerouslyAllowBrowser) {
@@ -115,6 +127,12 @@ export class Portkey extends ApiClient {
       anthropicVersion,
       mistralFimCompletion,
       dangerouslyAllowBrowser,
+      vertexStorageBucketName,
+      providerFileName,
+      providerModel,
+      awsS3Bucket,
+      awsS3ObjectKey,
+      awsBedrockModel,
       ...rest,
     });
     this.baseURL = setBaseURL(baseURL, apiKey);
@@ -149,6 +167,12 @@ export class Portkey extends ApiClient {
     this.anthropicVersion = anthropicVersion;
     this.mistralFimCompletion = mistralFimCompletion;
     this.dangerouslyAllowBrowser = dangerouslyAllowBrowser ?? false;
+    this.vertexStorageBucketName = vertexStorageBucketName;
+    this.providerFileName = providerFileName;
+    this.providerModel = providerModel;
+    this.awsS3Bucket = awsS3Bucket;
+    this.awsS3ObjectKey = awsS3ObjectKey;
+    this.awsBedrockModel = awsBedrockModel;
   }
 
   completions: API.Completions = new API.Completions(this);
