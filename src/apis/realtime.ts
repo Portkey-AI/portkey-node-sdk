@@ -15,11 +15,11 @@ export class Realtime extends ApiResource {
 
 export class Sessions extends ApiResource {
   async create(
-    _body: SessionCreateParams,
+    _body: SessionCreateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: SessionCreateParams = _body;
+    const body: SessionCreateBody = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -35,4 +35,8 @@ export class Sessions extends ApiResource {
 
     return finalResponse(result);
   }
+}
+
+export interface SessionCreateBody extends SessionCreateParams {
+  [key: string]: any;
 }

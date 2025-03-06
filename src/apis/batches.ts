@@ -7,11 +7,11 @@ import { createHeaders } from './createHeaders';
 
 export class Batches extends ApiResource {
   async create(
-    _body: BatchCreateParams,
+    _body: BatchCreateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: BatchCreateParams = _body;
+    const body: BatchCreateBody = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -105,4 +105,8 @@ export class Batches extends ApiResource {
     const response = this.getMethod<any>(`/batches/${batchId}/output`, opts);
     return response;
   }
+}
+
+export interface BatchCreateBody extends BatchCreateParams {
+  [key: string]: any;
 }
