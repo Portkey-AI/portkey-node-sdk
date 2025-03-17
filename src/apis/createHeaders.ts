@@ -9,9 +9,20 @@ export const createHeaders = (
   if (config['forwardHeaders']) {
     // logic to convert forwardHeaders values to kebab-case
     forwardHeaders = config['forwardHeaders'].map((header: string) => {
-      return header
-        .replace('ID', 'Id')
-        .replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
+      return (
+        header
+          .replace('ID', 'Id')
+          // Handle consecutive capitals (acronyms)
+          .replace(
+            /([A-Z]+)([A-Z][a-z])/g,
+            (_, group1, group2) =>
+              `${group1.toLowerCase()}-${group2.toLowerCase()}`
+          )
+          // Handle first letter
+          .replace(/^[A-Z]/, (letter) => letter.toLowerCase())
+          // Handle remaining capital letters
+          .replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
+      );
     });
   }
 
@@ -37,6 +48,14 @@ export const createHeaders = (
 
     k = k
       .replace('ID', 'Id')
+      // Handle consecutive capitals (acronyms)
+      .replace(
+        /([A-Z]+)([A-Z][a-z])/g,
+        (_, group1, group2) => `${group1.toLowerCase()}-${group2.toLowerCase()}`
+      )
+      // Handle first letter
+      .replace(/^[A-Z]/, (letter) => letter.toLowerCase())
+      // Handle remaining capital letters
       .replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
     if (!isEmpty(v) && typeof v == 'object') {
       v = JSON.stringify(v);
