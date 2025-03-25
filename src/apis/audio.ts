@@ -6,6 +6,7 @@ import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 import { TranslationCreateParams } from 'openai/resources/audio/translations';
 import { SpeechCreateParams } from 'openai/resources/audio/speech';
+import { getAudioDurationInSeconds } from "get-audio-duration";
 
 export class Audio extends ApiResource {
   transcriptions: transcriptions;
@@ -26,7 +27,13 @@ export class transcriptions extends ApiResource {
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: TranscriptionCreateBody = _body;
+    const body: any = _body;
+    const path = body.file?.path;
+    console.log('path', path);
+    if (path) {
+      const duration = await getAudioDurationInSeconds(path);
+      console.log('duration', duration);
+    }
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -48,7 +55,14 @@ export class translations extends ApiResource {
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const body: TranslationCreateBody = _body;
+    const body: any = _body;
+    const path = body.file?.path;
+  let duration: number | undefined;
+    console.log('path', path);
+    if (path) {
+      duration = await getAudioDurationInSeconds(path);
+    }
+    console.log('duration', duration);
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
