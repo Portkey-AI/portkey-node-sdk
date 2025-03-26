@@ -357,7 +357,7 @@ export abstract class ApiClient {
     const reqHeaders: Record<string, string> = {
       ...this.defaultHeaders(),
       ...this.customHeaders,
-      ...(extraHeaders as Record<string, string>),
+      ...extraHeaders,
     };
 
     const agentConfig =
