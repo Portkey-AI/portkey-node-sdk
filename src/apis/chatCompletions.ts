@@ -187,14 +187,14 @@ export type ChatCompletionCreateParams =
   | ChatCompletionsBodyNonStreaming
   | ChatCompletionsBodyStreaming;
 
-interface Usage {
+export interface Usage {
   prompt_tokens?: number;
   completion_tokens?: number;
   total_tokens?: number;
   [key: string]: any;
 }
 
-interface Message {
+export interface Message {
   role: string;
   content: string | Array<any>;
   refusal?: string;
@@ -210,7 +210,7 @@ export interface Logprobs {
   [key: string]: any;
 }
 
-interface Choices {
+export interface Choices {
   index?: number;
   message?: Message;
   delta?: Message;
@@ -219,7 +219,19 @@ interface Choices {
   [key: string]: any;
 }
 
-interface ChatCompletion extends APIResponseType {
+export interface ChatCompletion extends APIResponseType {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: Array<Choices>;
+  usage: Usage;
+  service_tier?: string;
+  system_fingerprint?: string;
+  [key: string]: any;
+}
+
+export interface ChatCompletionResponse {
   id: string;
   object: string;
   created: number;
