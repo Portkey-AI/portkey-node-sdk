@@ -5,7 +5,7 @@ import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 import { FileChunkingStrategyParam } from 'openai/resources/vector-stores/vector-stores';
-import { Metadata } from '../_types/sharedTypes';
+import { CursorPageParams, Metadata } from '../_types/sharedTypes';
 
 export class VectorStores extends ApiResource {
   files: Files;
@@ -528,12 +528,6 @@ export interface VectorStoreUpdateParams {
 export interface VectorStoreListParams extends CursorPageParams {
   before?: string;
   order?: 'asc' | 'desc';
-}
-
-export interface CursorPageParams {
-  after?: string;
-
-  limit?: number;
 }
 
 export interface FileCreateParams {
