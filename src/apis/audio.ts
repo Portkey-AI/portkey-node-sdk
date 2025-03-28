@@ -127,10 +127,6 @@ export class speech extends ApiResource {
   }
 }
 
-// export interface TranscriptionCreateBody extends TranscriptionCreateParams {
-//   [key: string]: any;
-// }
-
 export interface TranslationCreateBody extends TranslationCreateParams {
   [key: string]: any;
 }
