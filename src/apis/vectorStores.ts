@@ -4,7 +4,7 @@ import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
-import { FileChunkingStrategyParam } from 'openai/resources/beta/vector-stores/vector-stores';
+import { FileChunkingStrategyParam } from 'openai/resources/vector-stores/vector-stores';
 import { Metadata } from '../_types/sharedTypes';
 
 export class VectorStores extends ApiResource {
@@ -34,7 +34,7 @@ export class VectorStores extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const result = await OAIclient.beta.vectorStores
+    const result = await OAIclient.vectorStores
       .create(body, opts)
       .withResponse();
 
@@ -56,7 +56,7 @@ export class VectorStores extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores
+    const result = await OAIclient.vectorStores
       .retrieve(vectorStoreId, opts)
       .withResponse();
 
@@ -80,7 +80,7 @@ export class VectorStores extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores
+    const result = await OAIclient.vectorStores
       .update(vectorStoreId, body, opts)
       .withResponse();
 
@@ -103,7 +103,7 @@ export class VectorStores extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores
+    const result = await OAIclient.vectorStores
       .list(query as any, opts)
       .withResponse();
     return finalResponse(result);
@@ -124,7 +124,7 @@ export class VectorStores extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores
+    const result = await OAIclient.vectorStores
       .del(vectorStoreId, opts)
       .withResponse();
 
@@ -150,7 +150,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.files
+    const result = await OAIclient.vectorStores.files
       .create(vectorStoreId, body, opts)
       .withResponse();
 
@@ -173,7 +173,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.files
+    const result = await OAIclient.vectorStores.files
       .retrieve(vectorStoreId, fileId, opts)
       .withResponse();
 
@@ -196,7 +196,7 @@ export class Files extends ApiResource {
     }
 
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.beta.vectorStores.files
+    const result = await OAIclient.vectorStores.files
       .list(vectorStoreId, query as any, opts)
       .withResponse();
 
@@ -219,7 +219,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.files
+    const result = await OAIclient.vectorStores.files
       .del(vectorStoreId, fileId, opts)
       .withResponse();
 
@@ -243,7 +243,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.files.createAndPoll(
+    const result = await OAIclient.vectorStores.files.createAndPoll(
       vectorStoreId,
       body,
       opts
@@ -268,7 +268,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.files.poll(
+    const result = await OAIclient.vectorStores.files.poll(
       vectorStoreId,
       fileId,
       opts
@@ -293,7 +293,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.files.upload(
+    const result = await OAIclient.vectorStores.files.upload(
       vectorStoreId,
       file,
       opts
@@ -318,7 +318,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.files.uploadAndPoll(
+    const result = await OAIclient.vectorStores.files.uploadAndPoll(
       vectorStoreId,
       file,
       opts
@@ -346,7 +346,7 @@ export class FileBatches extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.fileBatches
+    const result = await OAIclient.vectorStores.fileBatches
       .create(vectorStoreId, body, opts)
       .withResponse();
 
@@ -369,7 +369,7 @@ export class FileBatches extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.fileBatches
+    const result = await OAIclient.vectorStores.fileBatches
       .retrieve(vectorStoreId, batchId, opts)
       .withResponse();
 
@@ -394,7 +394,7 @@ export class FileBatches extends ApiResource {
     const body = {};
     const options = { body, ...opts };
 
-    const result = await OAIclient.beta.vectorStores.fileBatches
+    const result = await OAIclient.vectorStores.fileBatches
       .cancel(vectorStoreId, batchId, options)
       .withResponse();
 
@@ -418,7 +418,7 @@ export class FileBatches extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.fileBatches.createAndPoll(
+    const result = await OAIclient.vectorStores.fileBatches.createAndPoll(
       vectorStoreId,
       body,
       opts
@@ -447,7 +447,7 @@ export class FileBatches extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const result = await OAIclient.beta.vectorStores.fileBatches
+    const result = await OAIclient.vectorStores.fileBatches
       .listFiles(vectorStoreId, batchId, query as any, opts)
       .withResponse();
 
@@ -470,7 +470,7 @@ export class FileBatches extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.fileBatches.poll(
+    const result = await OAIclient.vectorStores.fileBatches.poll(
       vectorStoreId,
       batchId,
       opts
@@ -495,7 +495,7 @@ export class FileBatches extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.beta.vectorStores.fileBatches.uploadAndPoll(
+    const result = await OAIclient.vectorStores.fileBatches.uploadAndPoll(
       vectorStoreId,
       { files, fileIds },
       opts

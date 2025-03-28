@@ -186,6 +186,7 @@ export class Portkey extends ApiClient {
   feedback = new API.Feedback(this);
   batches = new API.Batches(this);
   fineTuning = new API.FineTuning(this);
+  vectorStores = new API.VectorStores(this);
   moderations = new API.Moderations(this);
   audio = new API.Audio(this);
   uploads = new API.Uploads(this);
@@ -197,7 +198,6 @@ export class Portkey extends ApiClient {
   beta = {
     assistants: new API.Assistants(this),
     threads: new API.Threads(this),
-    vectorStores: new API.VectorStores(this),
     chat: new API.BetaChat(this),
     realtime: new API.Realtime(this),
   };
