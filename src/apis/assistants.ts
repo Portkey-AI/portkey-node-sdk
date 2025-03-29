@@ -1,4 +1,4 @@
-import { Metadata } from '../_types/sharedTypes';
+import { CursorPageParams, Metadata } from '../_types/sharedTypes';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
@@ -27,12 +27,6 @@ export interface FileCreateParams {
 export interface FileListParams extends CursorPageParams {
   before?: string;
   order?: string;
-}
-
-export interface CursorPageParams {
-  after?: string;
-  limit?: number;
-  [key: string]: any;
 }
 
 export interface AssistantListParams extends CursorPageParams {

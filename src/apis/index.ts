@@ -23,3 +23,4 @@ export { Uploads } from './uploads';
 export { ApiKeys } from './apiKeys';
 export { Logs } from './logsExport';
 export { Realtime } from './realtime';
+export { Responses } from './responses';
