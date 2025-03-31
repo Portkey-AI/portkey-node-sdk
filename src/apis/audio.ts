@@ -6,7 +6,8 @@ import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 import { TranslationCreateParams } from 'openai/resources/audio/translations';
 import { SpeechCreateParams } from 'openai/resources/audio/speech';
-import { getAudioDurationInSeconds } from "get-audio-duration";
+import { getAudioDurationInSeconds } from 'get-audio-duration';
+import { AUDIO_FILE_DURATION_HEADER } from '../constants';
 
 export class Audio extends ApiResource {
   transcriptions: transcriptions;
@@ -29,10 +30,14 @@ export class transcriptions extends ApiResource {
   ): Promise<any> {
     const body: any = _body;
     const path = body.file?.path;
-    console.log('path', path);
     if (path) {
       const duration = await getAudioDurationInSeconds(path);
-      console.log('duration', duration);
+      if (duration) {
+        params = {
+          ...params,
+          [AUDIO_FILE_DURATION_HEADER]: duration.toFixed(2),
+        };
+      }
     }
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
@@ -57,12 +62,16 @@ export class translations extends ApiResource {
   ): Promise<any> {
     const body: any = _body;
     const path = body.file?.path;
-  let duration: number | undefined;
-    console.log('path', path);
+    let duration: number | undefined;
     if (path) {
       duration = await getAudioDurationInSeconds(path);
+      if (duration) {
+        params = {
+          ...params,
+          [AUDIO_FILE_DURATION_HEADER]: duration.toFixed(2),
+        };
+      }
     }
-    console.log('duration', duration);
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {

@@ -46,3 +46,4 @@ export const PROMPT_API = '/prompt/complete';
 export const FEEDBACK_API = '/feedback';
 export const EMBEDDINGS_API = '/embeddings';
 export const LOGS_API = '/logs';
+export const AUDIO_FILE_DURATION_HEADER = 'audio-file-duration';
