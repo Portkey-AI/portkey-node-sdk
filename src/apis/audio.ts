@@ -2,11 +2,15 @@ import { TranscriptionCreateParams } from 'openai/resources/audio/transcriptions
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
-import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
+import {
+  finalResponse,
+  getAudioDuration,
+  initOpenAIClient,
+  overrideConfig,
+} from '../utils';
 import { createHeaders } from './createHeaders';
 import { TranslationCreateParams } from 'openai/resources/audio/translations';
 import { SpeechCreateParams } from 'openai/resources/audio/speech';
-import { getAudioDurationInSeconds } from 'get-audio-duration';
 import { AUDIO_FILE_DURATION_HEADER } from '../constants';
 
 export class Audio extends ApiResource {
@@ -31,11 +35,11 @@ export class transcriptions extends ApiResource {
     const body: any = _body;
     const path = body.file?.path;
     if (path) {
-      const duration = await getAudioDurationInSeconds(path);
+      const duration = await getAudioDuration(path);
       if (duration) {
         params = {
           ...params,
-          [AUDIO_FILE_DURATION_HEADER]: duration.toFixed(2),
+          [AUDIO_FILE_DURATION_HEADER]: duration,
         };
       }
     }
@@ -62,13 +66,12 @@ export class translations extends ApiResource {
   ): Promise<any> {
     const body: any = _body;
     const path = body.file?.path;
-    let duration: number | undefined;
     if (path) {
-      duration = await getAudioDurationInSeconds(path);
+      const duration = await getAudioDuration(path);
       if (duration) {
         params = {
           ...params,
-          [AUDIO_FILE_DURATION_HEADER]: duration.toFixed(2),
+          [AUDIO_FILE_DURATION_HEADER]: duration,
         };
       }
     }
