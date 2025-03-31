@@ -52,6 +52,7 @@ export type RequestOptions = {
   httpAgent?: Agent;
   stream?: boolean | undefined;
   signal?: AbortSignal | undefined | null;
+  extraHeaders?: Record<string, string>;
 };
 
 type APIResponseProps = {
@@ -352,10 +353,11 @@ export abstract class ApiClient {
 
   buildRequest(opts: FinalRequestOptions): { req: RequestInit; url: string } {
     const url = new URL(this.baseURL + opts.path);
-    const { method, body } = opts;
+    const { method, body, extraHeaders } = opts;
     const reqHeaders: Record<string, string> = {
       ...this.defaultHeaders(),
       ...this.customHeaders,
+      ...extraHeaders,
     };
 
     const agentConfig =
