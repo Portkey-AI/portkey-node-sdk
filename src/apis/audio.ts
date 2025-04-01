@@ -34,7 +34,7 @@ export class transcriptions extends ApiResource {
   ): Promise<any> {
     const body: any = _body;
     const path = body.file?.path;
-    if (path) {
+    if (path && this.client.calculateAudioDuration) {
       const duration = await getAudioDuration(path);
       if (duration) {
         params = {
@@ -66,7 +66,7 @@ export class translations extends ApiResource {
   ): Promise<any> {
     const body: any = _body;
     const path = body.file?.path;
-    if (path) {
+    if (path && this.client.calculateAudioDuration) {
       const duration = await getAudioDuration(path);
       if (duration) {
         params = {
