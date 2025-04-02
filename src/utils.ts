@@ -19,7 +19,6 @@ import { ApiKeysListParams } from './apis/apiKeys';
 import { CongfigsListParams } from './apis/configs';
 import { LogsExportListParams } from './apis/logsExport';
 import { getBrowserInfo } from './core';
-import { getAudioDurationInSeconds } from 'get-audio-duration';
 
 type PlatformProperties = {
   'x-portkey-runtime'?: string;
@@ -229,13 +228,4 @@ export function setApiKey(baseURL: any, apiKey: any) {
   if (baseURL === PORTKEY_BASE_URL && !apiKey) {
     throw castToError(MISSING_API_KEY_ERROR_MESSAGE);
   }
-}
-
-export async function getAudioDuration(path: string) {
-  const duration = await getAudioDurationInSeconds(path);
-  if (duration) {
-    const durationInMs = Math.round(duration * 1000);
-    return durationInMs.toString();
-  }
-  return undefined;
 }
