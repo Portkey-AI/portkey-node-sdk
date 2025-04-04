@@ -40,6 +40,7 @@ export interface ApiClientInterface {
   awsS3Bucket?: string | null | undefined;
   awsS3ObjectKey?: string | null | undefined;
   awsBedrockModel?: string | null | undefined;
+  fireworksAccountId?: string | null | undefined;
   [key: string]: any;
 }
 

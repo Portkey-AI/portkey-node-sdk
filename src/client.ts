@@ -46,6 +46,7 @@ export class Portkey extends ApiClient {
   awsS3Bucket?: string | null | undefined;
   awsS3ObjectKey?: string | null | undefined;
   awsBedrockModel?: string | null | undefined;
+  fireworksAccountId?: string | null | undefined;
   constructor({
     apiKey = readEnv('PORTKEY_API_KEY') ?? null,
     baseURL = readEnv('PORTKEY_BASE_URL') ?? null,
@@ -86,6 +87,7 @@ export class Portkey extends ApiClient {
     awsS3Bucket,
     awsS3ObjectKey,
     awsBedrockModel,
+    fireworksAccountId,
     ...rest
   }: ApiClientInterface) {
     if (isRunningInBrowser() && !dangerouslyAllowBrowser) {
@@ -133,6 +135,7 @@ export class Portkey extends ApiClient {
       awsS3Bucket,
       awsS3ObjectKey,
       awsBedrockModel,
+      fireworksAccountId,
       ...rest,
     });
     this.baseURL = setBaseURL(baseURL, apiKey);
@@ -173,6 +176,7 @@ export class Portkey extends ApiClient {
     this.awsS3Bucket = awsS3Bucket;
     this.awsS3ObjectKey = awsS3ObjectKey;
     this.awsBedrockModel = awsBedrockModel;
+    this.fireworksAccountId = fireworksAccountId;
   }
 
   completions: API.Completions = new API.Completions(this);
