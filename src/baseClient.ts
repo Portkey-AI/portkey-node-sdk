@@ -194,6 +194,7 @@ export abstract class ApiClient {
     awsS3Bucket,
     awsS3ObjectKey,
     awsBedrockModel,
+    fireworksAccountId,
     ...rest
   }: ApiClientInterface) {
     this.apiKey = apiKey ?? '';
@@ -237,6 +238,7 @@ export abstract class ApiClient {
       awsS3Bucket,
       awsS3ObjectKey,
       awsBedrockModel,
+      fireworksAccountId,
       ...rest,
     });
     this.portkeyHeaders = this.defaultHeaders();
