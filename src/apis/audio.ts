@@ -36,43 +36,46 @@ export class transcriptions extends ApiResource {
     body: TranscriptionCreateParamsNonStreaming<'json' | undefined>,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<Transcription>;
+  ): Promise<APIPromise<Transcription>>;
   create(
     body: TranscriptionCreateParamsNonStreaming<'verbose_json'>,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<TranscriptionVerbose>;
+  ): Promise<APIPromise<TranscriptionVerbose>>;
   create(
     body: TranscriptionCreateParamsNonStreaming<'srt' | 'vtt' | 'text'>,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<string>;
+  ): Promise<APIPromise<string>>;
   create(
     body: TranscriptionCreateParamsNonStreaming,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<Transcription>;
+  ): Promise<APIPromise<Transcription>>;
   create(
     body: TranscriptionCreateParamsStreaming,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<Stream<TranscriptionStreamEvent>>;
+  ): Promise<APIPromise<Stream<TranscriptionStreamEvent>>>;
   create(
     body: TranscriptionCreateParamsStreaming,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<
-    TranscriptionCreateResponse | string | Stream<TranscriptionStreamEvent>
+  ): Promise<
+    | APIPromise<TranscriptionCreateResponse>
+    | APIPromise<string>
+    | APIPromise<Stream<TranscriptionStreamEvent>>
   >;
-  create(
+  async create(
     body: TranscriptionCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ):
-  | APIPromise<TranscriptionCreateResponse>
-  | APIPromise<string>
-  | APIPromise<Stream<TranscriptionStreamEvent>> {
-    const body: any = _body;
+  ): Promise<
+    | APIPromise<TranscriptionCreateResponse>
+    | APIPromise<string>
+    | APIPromise<Stream<TranscriptionStreamEvent>>
+  > {
+    // @ts-ignore
     const path = body.file?.path;
     if (path && this.client.calculateAudioDuration) {
       const duration = await getAudioFileDuration(path);
