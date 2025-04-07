@@ -1,6 +1,6 @@
 {
   "name": "portkey-ai",
-  "version": "1.7.4",
+  "version": "1.8.0",
   "description": "Node client library for the Portkey API",
   "types": "dist/src/index.d.ts",
   "main": "dist/src/index.js",
@@ -45,7 +45,7 @@
   "dependencies": {
     "agentkeepalive": "^4.5.0",
     "dotenv": "^16.3.1",
-    "openai": "4.85.3",
+    "openai": "4.90.0",
     "ws": "^8.18.1"
   }
 }

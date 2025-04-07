@@ -46,6 +46,7 @@ export class Portkey extends ApiClient {
   awsS3Bucket?: string | null | undefined;
   awsS3ObjectKey?: string | null | undefined;
   awsBedrockModel?: string | null | undefined;
+  fireworksAccountId?: string | null | undefined;
   calculateAudioDuration: boolean | null | undefined;
   constructor({
     apiKey = readEnv('PORTKEY_API_KEY') ?? null,
@@ -87,6 +88,7 @@ export class Portkey extends ApiClient {
     awsS3Bucket,
     awsS3ObjectKey,
     awsBedrockModel,
+    fireworksAccountId,
     calculateAudioDuration,
     ...rest
   }: ApiClientInterface) {
@@ -135,6 +137,7 @@ export class Portkey extends ApiClient {
       awsS3Bucket,
       awsS3ObjectKey,
       awsBedrockModel,
+      fireworksAccountId,
       ...rest,
     });
     this.baseURL = setBaseURL(baseURL, apiKey);
@@ -175,6 +178,7 @@ export class Portkey extends ApiClient {
     this.awsS3Bucket = awsS3Bucket;
     this.awsS3ObjectKey = awsS3ObjectKey;
     this.awsBedrockModel = awsBedrockModel;
+    this.fireworksAccountId = fireworksAccountId;
     this.calculateAudioDuration = calculateAudioDuration ?? true;
   }
 
@@ -189,9 +193,11 @@ export class Portkey extends ApiClient {
   feedback = new API.Feedback(this);
   batches = new API.Batches(this);
   fineTuning = new API.FineTuning(this);
+  vectorStores = new API.VectorStores(this);
   moderations = new API.Moderations(this);
   audio = new API.Audio(this);
   uploads = new API.Uploads(this);
+  responses = new API.Responses(this);
   admin = new API.Admin(this);
   virtualKeys = new API.VirtualKeys(this);
   apiKeys = new API.ApiKeys(this);
@@ -200,7 +206,6 @@ export class Portkey extends ApiClient {
   beta = {
     assistants: new API.Assistants(this),
     threads: new API.Threads(this),
-    vectorStores: new API.VectorStores(this),
     chat: new API.BetaChat(this),
     realtime: new API.Realtime(this),
   };
