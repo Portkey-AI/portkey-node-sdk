@@ -1,4 +1,4 @@
-import { Metadata } from '../_types/sharedTypes';
+import { CursorPageParams, Metadata } from '../_types/sharedTypes';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
@@ -715,12 +715,6 @@ export interface MessageListParams extends CursorPageParams {
   before?: string;
   run_id?: string;
   [key: string]: any;
-}
-
-export interface CursorPageParams {
-  after?: string;
-
-  limit?: number;
 }
 
 export interface FileListParams extends CursorPageParams {
