@@ -1,9 +1,10 @@
+import { PROMPTS_API } from '../constants';
 import { APIResponseType, ApiClientInterface } from '../_types/generalTypes';
 import { ModelParams } from '../_types/portkeyConstructs';
 import { ApiResource } from '../apiResource';
 import { APIPromise, RequestOptions } from '../baseClient';
 import { Stream } from '../streaming';
-import { overrideConfig } from '../utils';
+import { overrideConfig, toQueryParams } from '../utils';
 import { createHeaders } from './createHeaders';
 
 export class Generations extends ApiResource {
@@ -100,8 +101,37 @@ type PromptRenderResponse = {
   };
 } & APIResponseType;
 
+export interface PromptsCreateBody {
+  name: string;
+  collection_id: string;
+  string: string;
+  parameters: object;
+  functions?: any[];
+  tools?: any[];
+  tool_choice?: object;
+  model?: string;
+  virtual_key?: string;
+  version_description?: string;
+  template_metadata?: object;
+}
+
+export interface PromptsListQuery {
+  collection_id?: string;
+  workspace_id?: string;
+  current_page?: number;
+  page_size?: number;
+  search?: string;
+}
+
 export class Prompt extends ApiResource {
-  completions: PromptCompletions = new PromptCompletions(this.client);
+  completions: PromptCompletions;
+  versions: PromptVersions;
+
+  constructor(client: any) {
+    super(client);
+    this.completions = new PromptCompletions(client);
+    this.versions = new PromptVersions(client);
+  }
 
   render(
     _body: PromptsCreateParams,
@@ -112,13 +142,198 @@ export class Prompt extends ApiResource {
     const promptId = _body.promptID;
 
     if (params) {
+      const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
         ...this.client.customHeaders,
-        ...createHeaders({ ...params }),
+        ...createHeaders({ ...params, config }),
       };
     }
     const response = this.post<PromptRenderResponse>(
       `/prompts/${promptId}/render`,
+      { body, ...opts }
+    );
+    return response;
+  }
+
+  create(
+    _body: PromptsCreateBody,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<PromptsResponse> {
+    const body = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.post<PromptsResponse>(PROMPTS_API, {
+      body,
+      ...opts,
+    });
+    return response;
+  }
+
+  list(
+    _query?: PromptsListQuery,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<PromptsResponse> {
+    const query = _query ? toQueryParams(_query) : '';
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const response = this.getMethod<PromptsResponse>(`${PROMPTS_API}${query}`, {
+      ...opts,
+    });
+    return response;
+  }
+
+  retrieve(
+    promptId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<PromptsResponse> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.getMethod<PromptsResponse>(
+      `${PROMPTS_API}/${promptId}`,
+      { ...opts }
+    );
+    return response;
+  }
+
+  update(
+    promptId: string,
+    _body: PromptsCreateBody,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<PromptsResponse> {
+    const body = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.put<PromptsResponse>(`${PROMPTS_API}/${promptId}`, {
+      body,
+      ...opts,
+    });
+    return response;
+  }
+
+  delete(
+    promptId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.deleteMethod<any>(`${PROMPTS_API}/${promptId}`, {
+      ...opts,
+    });
+    return response;
+  }
+
+  publish(
+    promptId: string,
+    body: {
+      version: number;
+    },
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.post<any>(`${PROMPTS_API}/${promptId}/makedefault`, {
+      body,
+      ...opts,
+    });
+    return response;
+  }
+}
+
+export class PromptVersions extends ApiResource {
+  list(
+    promptId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.getMethod<any>(
+      `${PROMPTS_API}/${promptId}/versions`,
+      { ...opts }
+    );
+    return response;
+  }
+
+  retrieve(
+    promptId: string,
+    versionId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.getMethod<any>(
+      `${PROMPTS_API}/${promptId}/versions/${versionId}`,
+      { ...opts }
+    );
+    return response;
+  }
+
+  update(
+    promptId: string,
+    versionId: string,
+    body?: {
+      label_id?: string;
+    },
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.put<any>(
+      `${PROMPTS_API}/${promptId}/versions/${versionId}`,
       { body, ...opts }
     );
     return response;
