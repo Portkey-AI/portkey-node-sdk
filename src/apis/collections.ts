@@ -1,29 +1,26 @@
-import { LABELS_API } from '../constants';
+import { COLLECTIONS_API } from '../constants';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { APIPromise, RequestOptions } from '../baseClient';
 import { overrideConfig, toQueryParams } from '../utils';
 import { createHeaders } from './createHeaders';
 
-export interface LabelBody {
+export interface CollectionBody {
   name: string;
-  organisation_id?: string;
   workspace_id?: string;
-  description?: string;
-  color_code?: string;
+  parent_collection_id?: string;
 }
 
-export interface LabelsQuery {
-  organisation_id?: string;
+export interface CollectionsListQuery {
   workspace_id?: string;
-  search?: string;
   current_page?: number;
   page_size?: number;
+  search?: string;
 }
 
-export class Labels extends ApiResource {
+export class Collections extends ApiResource {
   create(
-    _body: LabelBody,
+    _body: CollectionBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -35,7 +32,7 @@ export class Labels extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.post<any>(`${LABELS_API}`, {
+    const response = this.post<any>(`${COLLECTIONS_API}`, {
       body,
       ...opts,
     });
@@ -43,7 +40,7 @@ export class Labels extends ApiResource {
   }
 
   list(
-    _query?: LabelsQuery,
+    _query?: CollectionsListQuery,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -55,14 +52,14 @@ export class Labels extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.getMethod<any>(`${LABELS_API}${query}`, {
+    const response = this.getMethod<any>(`${COLLECTIONS_API}${query}`, {
       ...opts,
     });
     return response;
   }
 
   retrieve(
-    labelId: string,
+    collectionId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -73,23 +70,20 @@ export class Labels extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.getMethod<any>(`${LABELS_API}/${labelId}`, {
+    const response = this.getMethod<any>(`${COLLECTIONS_API}/${collectionId}`, {
       ...opts,
     });
     return response;
   }
 
   update(
-    labelId: string,
-    _body?: {
+    collectionId: string,
+    body: {
       name?: string;
-      description?: string;
-      color_code?: string;
     },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const body = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -97,7 +91,7 @@ export class Labels extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.put<any>(`${LABELS_API}/${labelId}`, {
+    const response = this.put<any>(`${COLLECTIONS_API}/${collectionId}`, {
       body,
       ...opts,
     });
@@ -105,7 +99,7 @@ export class Labels extends ApiResource {
   }
 
   delete(
-    labelId: string,
+    collectionId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -116,9 +110,12 @@ export class Labels extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.deleteMethod<any>(`${LABELS_API}/${labelId}`, {
-      ...opts,
-    });
+    const response = this.deleteMethod<any>(
+      `${COLLECTIONS_API}/${collectionId}`,
+      {
+        ...opts,
+      }
+    );
     return response;
   }
 }

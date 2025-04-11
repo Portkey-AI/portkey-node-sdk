@@ -1,4 +1,4 @@
-import { PROMPTS_API } from '../constants';
+import { PROMPT_PARTIALS_API, PROMPTS_API } from '../constants';
 import { APIResponseType, ApiClientInterface } from '../_types/generalTypes';
 import { ModelParams } from '../_types/portkeyConstructs';
 import { ApiResource } from '../apiResource';
@@ -123,14 +123,34 @@ export interface PromptsListQuery {
   search?: string;
 }
 
+export interface PromptsPartialsCreateBody {
+  name: string;
+  string: string;
+  workspace_id?: string;
+  version_description?: string;
+}
+
+export interface PromptsPartialUpdateBody {
+  name?: string;
+  string?: string;
+  description?: string;
+  status?: string;
+}
+
+export interface PromptsPartialsListQuery {
+  collection_id?: string;
+}
+
 export class Prompt extends ApiResource {
   completions: PromptCompletions;
   versions: PromptVersions;
+  partials: Partials;
 
   constructor(client: any) {
     super(client);
     this.completions = new PromptCompletions(client);
     this.versions = new PromptVersions(client);
+    this.partials = new Partials(client);
   }
 
   render(
@@ -335,6 +355,157 @@ export class PromptVersions extends ApiResource {
     const response = this.put<any>(
       `${PROMPTS_API}/${promptId}/versions/${versionId}`,
       { body, ...opts }
+    );
+    return response;
+  }
+}
+
+export class Partials extends ApiResource {
+  versions: PromptPartialsVersions;
+
+  constructor(client: any) {
+    super(client);
+    this.versions = new PromptPartialsVersions(client);
+  }
+
+  create(
+    _body: PromptsPartialsCreateBody,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<PromptsResponse> {
+    const body = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.post<PromptsResponse>(`${PROMPT_PARTIALS_API}`, {
+      body,
+      ...opts,
+    });
+    return response;
+  }
+
+  list(
+    _query?: PromptsPartialsListQuery,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const query = _query ? toQueryParams(_query) : '';
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.getMethod<any>(`${PROMPT_PARTIALS_API}${query}`, {
+      ...opts,
+    });
+    return response;
+  }
+
+  retrieve(
+    promptPartialId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.getMethod<any>(
+      `${PROMPT_PARTIALS_API}/${promptPartialId}`,
+      {
+        ...opts,
+      }
+    );
+    return response;
+  }
+
+  update(
+    promptPartialId: string,
+    body: PromptsPartialUpdateBody,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.put<any>(
+      `${PROMPT_PARTIALS_API}/${promptPartialId}`,
+      { body, ...opts }
+    );
+    return response;
+  }
+
+  delete(
+    promptPartialId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.deleteMethod<any>(
+      `${PROMPT_PARTIALS_API}/${promptPartialId}`,
+      { ...opts }
+    );
+    return response;
+  }
+
+  publish(
+    promptPartialId: string,
+    body: {
+      version: number;
+    },
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.post<any>(
+      `${PROMPT_PARTIALS_API}/${promptPartialId}/makedefault`,
+      { body, ...opts }
+    );
+    return response;
+  }
+}
+
+export class PromptPartialsVersions extends ApiResource {
+  list(
+    promptPartialId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const response = this.getMethod<any>(
+      `${PROMPT_PARTIALS_API}/${promptPartialId}/versions`,
+      { ...opts }
     );
     return response;
   }

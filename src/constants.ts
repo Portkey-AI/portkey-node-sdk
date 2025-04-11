@@ -47,4 +47,6 @@ export const FEEDBACK_API = '/feedback';
 export const EMBEDDINGS_API = '/embeddings';
 export const LOGS_API = '/logs';
 export const PROMPTS_API = '/prompts';
+export const PROMPT_PARTIALS_API = '/prompts/partials';
 export const LABELS_API = '/labels';
+export const COLLECTIONS_API = '/collections';
