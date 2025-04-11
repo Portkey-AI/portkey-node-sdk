@@ -106,18 +106,32 @@ export interface PromptsCreateBody {
   collection_id: string;
   string: string;
   parameters: object;
+  virtual_key?: string;
+  model?: string;
   functions?: any[];
   tools?: any[];
   tool_choice?: object;
-  model?: string;
+  version_description?: string;
+  template_metadata?: object;
+}
+
+export interface PromptsUpdateBody {
+  name?: string;
+  collection_id?: string;
+  string?: string;
+  parameters?: object;
   virtual_key?: string;
+  model?: string;
+  functions?: any[];
+  tools?: any[];
+  tool_choice?: object;
   version_description?: string;
   template_metadata?: object;
 }
 
 export interface PromptsListQuery {
   collection_id?: string;
-  workspace_id?: string;
+  workspace_slug?: string;
   current_page?: number;
   page_size?: number;
   search?: string;
@@ -216,7 +230,7 @@ export class Prompt extends ApiResource {
   }
 
   retrieve(
-    promptId: string,
+    promptSlug: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<PromptsResponse> {
@@ -228,15 +242,15 @@ export class Prompt extends ApiResource {
       };
     }
     const response = this.getMethod<PromptsResponse>(
-      `${PROMPTS_API}/${promptId}`,
+      `${PROMPTS_API}/${promptSlug}`,
       { ...opts }
     );
     return response;
   }
 
   update(
-    promptId: string,
-    _body: PromptsCreateBody,
+    promptSlug: string,
+    _body: PromptsUpdateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<PromptsResponse> {
@@ -248,7 +262,7 @@ export class Prompt extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.put<PromptsResponse>(`${PROMPTS_API}/${promptId}`, {
+    const response = this.put<PromptsResponse>(`${PROMPTS_API}/${promptSlug}`, {
       body,
       ...opts,
     });
@@ -256,7 +270,7 @@ export class Prompt extends ApiResource {
   }
 
   delete(
-    promptId: string,
+    promptSlug: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -267,14 +281,14 @@ export class Prompt extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.deleteMethod<any>(`${PROMPTS_API}/${promptId}`, {
+    const response = this.deleteMethod<any>(`${PROMPTS_API}/${promptSlug}`, {
       ...opts,
     });
     return response;
   }
 
   publish(
-    promptId: string,
+    promptSlug: string,
     body: {
       version: number;
     },
@@ -288,17 +302,20 @@ export class Prompt extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.post<any>(`${PROMPTS_API}/${promptId}/makedefault`, {
-      body,
-      ...opts,
-    });
+    const response = this.post<any>(
+      `${PROMPTS_API}/${promptSlug}/makedefault`,
+      {
+        body,
+        ...opts,
+      }
+    );
     return response;
   }
 }
 
 export class PromptVersions extends ApiResource {
   list(
-    promptId: string,
+    promptSlug: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -310,14 +327,14 @@ export class PromptVersions extends ApiResource {
       };
     }
     const response = this.getMethod<any>(
-      `${PROMPTS_API}/${promptId}/versions`,
+      `${PROMPTS_API}/${promptSlug}/versions`,
       { ...opts }
     );
     return response;
   }
 
   retrieve(
-    promptId: string,
+    promptSlug: string,
     versionId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -330,14 +347,14 @@ export class PromptVersions extends ApiResource {
       };
     }
     const response = this.getMethod<any>(
-      `${PROMPTS_API}/${promptId}/versions/${versionId}`,
+      `${PROMPTS_API}/${promptSlug}/versions/${versionId}`,
       { ...opts }
     );
     return response;
   }
 
   update(
-    promptId: string,
+    promptSlug: string,
     versionId: string,
     body?: {
       label_id?: string;
@@ -353,7 +370,7 @@ export class PromptVersions extends ApiResource {
       };
     }
     const response = this.put<any>(
-      `${PROMPTS_API}/${promptId}/versions/${versionId}`,
+      `${PROMPTS_API}/${promptSlug}/versions/${versionId}`,
       { body, ...opts }
     );
     return response;
@@ -408,7 +425,7 @@ export class Partials extends ApiResource {
   }
 
   retrieve(
-    promptPartialId: string,
+    promptPartialSlug: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -420,7 +437,7 @@ export class Partials extends ApiResource {
       };
     }
     const response = this.getMethod<any>(
-      `${PROMPT_PARTIALS_API}/${promptPartialId}`,
+      `${PROMPT_PARTIALS_API}/${promptPartialSlug}`,
       {
         ...opts,
       }
@@ -429,7 +446,7 @@ export class Partials extends ApiResource {
   }
 
   update(
-    promptPartialId: string,
+    promptPartialSlug: string,
     body: PromptsPartialUpdateBody,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -442,14 +459,14 @@ export class Partials extends ApiResource {
       };
     }
     const response = this.put<any>(
-      `${PROMPT_PARTIALS_API}/${promptPartialId}`,
+      `${PROMPT_PARTIALS_API}/${promptPartialSlug}`,
       { body, ...opts }
     );
     return response;
   }
 
   delete(
-    promptPartialId: string,
+    promptPartialSlug: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -461,14 +478,14 @@ export class Partials extends ApiResource {
       };
     }
     const response = this.deleteMethod<any>(
-      `${PROMPT_PARTIALS_API}/${promptPartialId}`,
+      `${PROMPT_PARTIALS_API}/${promptPartialSlug}`,
       { ...opts }
     );
     return response;
   }
 
   publish(
-    promptPartialId: string,
+    promptPartialSlug: string,
     body: {
       version: number;
     },
@@ -483,7 +500,7 @@ export class Partials extends ApiResource {
       };
     }
     const response = this.post<any>(
-      `${PROMPT_PARTIALS_API}/${promptPartialId}/makedefault`,
+      `${PROMPT_PARTIALS_API}/${promptPartialSlug}/makedefault`,
       { body, ...opts }
     );
     return response;
@@ -492,7 +509,7 @@ export class Partials extends ApiResource {
 
 export class PromptPartialsVersions extends ApiResource {
   list(
-    promptPartialId: string,
+    promptPartialSlug: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
@@ -504,7 +521,7 @@ export class PromptPartialsVersions extends ApiResource {
       };
     }
     const response = this.getMethod<any>(
-      `${PROMPT_PARTIALS_API}/${promptPartialId}/versions`,
+      `${PROMPT_PARTIALS_API}/${promptPartialSlug}/versions`,
       { ...opts }
     );
     return response;
