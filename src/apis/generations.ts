@@ -302,13 +302,10 @@ export class Prompt extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.post<any>(
-      `${PROMPTS_API}/${promptSlug}/makedefault`,
-      {
-        body,
-        ...opts,
-      }
-    );
+    const response = this.put<any>(`${PROMPTS_API}/${promptSlug}/makeDefault`, {
+      body,
+      ...opts,
+    });
     return response;
   }
 }
@@ -499,8 +496,8 @@ export class Partials extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const response = this.post<any>(
-      `${PROMPT_PARTIALS_API}/${promptPartialSlug}/makedefault`,
+    const response = this.put<any>(
+      `${PROMPT_PARTIALS_API}/${promptPartialSlug}/makeDefault`,
       { body, ...opts }
     );
     return response;
