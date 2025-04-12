@@ -57,6 +57,7 @@ export interface ConfigsUpdateResponse extends APIResponseType {
 }
 export interface ConfigsDeleteParams {
   id?: string;
+  slug?: string;
 }
 export class Configs extends ApiResource {
   constructor(client: any) {
@@ -143,14 +144,23 @@ export class Configs extends ApiResource {
     opts?: RequestOptions
   ): APIPromise<any> {
     const body = _body;
-    const configId = body.id;
+    let configSlug = '';
+    if (body.id) {
+      configSlug = body.id;
+      /* eslint-disable-next-line no-console */
+      console.warn(
+        'You are using "id" to delete a config. This will be deprecated in the future. Please use "slug" instead.'
+      );
+    } else if (body.slug) {
+      configSlug = body.slug;
+    }
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
         ...createHeaders({ ...params }),
       };
     }
-    const response = this.deleteMethod<any>(`/configs/${configId}`, {
+    const response = this.deleteMethod<any>(`/configs/${configSlug}`, {
       ...opts,
     });
     return response;
