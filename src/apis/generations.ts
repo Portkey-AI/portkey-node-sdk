@@ -131,7 +131,7 @@ export interface PromptsUpdateBody {
 
 export interface PromptsListQuery {
   collection_id?: string;
-  workspace_slug?: string;
+  workspace_id?: string;
   current_page?: number;
   page_size?: number;
   search?: string;
