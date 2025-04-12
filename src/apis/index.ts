@@ -24,3 +24,5 @@ export { ApiKeys } from './apiKeys';
 export { Logs } from './logsExport';
 export { Realtime } from './realtime';
 export { Responses } from './responses';
+export { Labels } from './labels';
+export { Collections } from './collections';
