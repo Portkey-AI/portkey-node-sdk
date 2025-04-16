@@ -17,6 +17,7 @@ import {
   RunListParams,
   RunRetrieveResponse,
 } from 'openai/resources/evals/runs/runs';
+import { OutputItemListParams } from 'openai/resources/evals/runs/output-items';
 
 export class Evals extends ApiResource {
   runs: EvalsRuns;
@@ -115,8 +116,10 @@ export class Evals extends ApiResource {
 }
 
 export class EvalsRuns extends ApiResource {
+  outputItems: OutputItems;
   constructor(client: any) {
     super(client);
+    this.outputItems = new OutputItems(client);
   }
 
   async create(
@@ -215,6 +218,53 @@ export class EvalsRuns extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.evals.runs
       .cancel(evalId, runId, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+}
+
+export class OutputItems extends ApiResource {
+  constructor(client: any) {
+    super(client);
+  }
+  async retrieve(
+    evalId: string,
+    runId: string,
+    outputItemId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.evals.runs.outputItems
+      .retrieve(evalId, runId, outputItemId, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+
+  async list(
+    evalId: string,
+    runId: string,
+    query?: OutputItemListParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.evals.runs.outputItems
+      .list(evalId, runId, query, opts)
       .withResponse();
     return finalResponse(result);
   }
