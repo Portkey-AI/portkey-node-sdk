@@ -224,9 +224,6 @@ export class EvalsRuns extends ApiResource {
 }
 
 export class OutputItems extends ApiResource {
-  constructor(client: any) {
-    super(client);
-  }
   async retrieve(
     evalId: string,
     runId: string,

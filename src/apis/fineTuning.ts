@@ -9,12 +9,18 @@ import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 import { CheckpointListParams } from 'openai/resources/fine-tuning/jobs/checkpoints';
+import {
+  PermissionCreateParams,
+  PermissionRetrieveParams,
+} from 'openai/resources/fine-tuning/checkpoints/permissions';
 
 export class FineTuning extends ApiResource {
   jobs: Jobs;
+  checkpoints: FineTuningCheckpoints;
   constructor(client: any) {
     super(client);
     this.jobs = new Jobs(client);
+    this.checkpoints = new FineTuningCheckpoints(client);
   }
 }
 
@@ -169,4 +175,74 @@ export interface JobCreateBody extends JobCreateParams {
   provider_options: Record<string, any>;
   portkey_options: Record<string, any>;
   [key: string]: any;
+}
+
+export class FineTuningCheckpoints extends ApiResource {
+  permissions: Permissions;
+
+  constructor(client: any) {
+    super(client);
+    this.permissions = new Permissions(client);
+  }
+}
+
+export class Permissions extends ApiResource {
+  async create(
+    fineTunedModelCheckpoint: string,
+    body: PermissionCreateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.fineTuning.checkpoints.permissions
+      .create(fineTunedModelCheckpoint, body, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+
+  async retrieve(
+    fineTunedModelCheckpoint: string,
+    query?: PermissionRetrieveParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.fineTuning.checkpoints.permissions
+      .retrieve(fineTunedModelCheckpoint, query, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+
+  async del(
+    fineTunedModelCheckpoint: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.fineTuning.checkpoints.permissions
+      .del(fineTunedModelCheckpoint, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
 }
