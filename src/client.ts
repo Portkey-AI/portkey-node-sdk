@@ -190,6 +190,8 @@ export class Portkey extends ApiClient {
   models = new API.Models(this);
   generations = new API.Generations(this);
   prompts = new API.Prompt(this);
+  labels = new API.Labels(this);
+  collections = new API.Collections(this);
   feedback = new API.Feedback(this);
   batches = new API.Batches(this);
   fineTuning = new API.FineTuning(this);
