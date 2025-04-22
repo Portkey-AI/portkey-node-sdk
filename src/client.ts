@@ -47,6 +47,7 @@ export class Portkey extends ApiClient {
   awsS3ObjectKey?: string | null | undefined;
   awsBedrockModel?: string | null | undefined;
   fireworksAccountId?: string | null | undefined;
+  calculateAudioDuration: boolean | null | undefined;
   constructor({
     apiKey = readEnv('PORTKEY_API_KEY') ?? null,
     baseURL = readEnv('PORTKEY_BASE_URL') ?? null,
@@ -88,6 +89,7 @@ export class Portkey extends ApiClient {
     awsS3ObjectKey,
     awsBedrockModel,
     fireworksAccountId,
+    calculateAudioDuration,
     ...rest
   }: ApiClientInterface) {
     if (isRunningInBrowser() && !dangerouslyAllowBrowser) {
@@ -177,6 +179,7 @@ export class Portkey extends ApiClient {
     this.awsS3ObjectKey = awsS3ObjectKey;
     this.awsBedrockModel = awsBedrockModel;
     this.fireworksAccountId = fireworksAccountId;
+    this.calculateAudioDuration = calculateAudioDuration ?? true;
   }
 
   completions: API.Completions = new API.Completions(this);

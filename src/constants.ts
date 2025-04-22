@@ -50,3 +50,4 @@ export const PROMPTS_API = '/prompts';
 export const PROMPT_PARTIALS_API = '/prompts/partials';
 export const LABELS_API = '/labels';
 export const COLLECTIONS_API = '/collections';
+export const AUDIO_FILE_DURATION_HEADER = 'audio-file-duration';
