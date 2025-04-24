@@ -15,6 +15,8 @@ export interface ApiKeysAddParams {
   usage_limits?: Record<string, any>;
   scopes: string[];
   defaults?: Record<string, any>;
+  expires_at?: any;
+  [key: string]: any;
 }
 export interface ApiKeysAddResponse extends APIResponseType {
   id?: string;
@@ -52,6 +54,8 @@ export interface ApiKeysUpdateParams {
   usage_limits?: Record<string, any>;
   scopes?: string[];
   defaults?: Record<string, any>;
+  expires_at?: any;
+  [key: string]: any;
 }
 export interface ApiKeysListParams {
   page_size?: number;
