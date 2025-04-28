@@ -1,36 +1,60 @@
-import fs from 'fs';
-import { promisify } from 'util';
+import { isRunningInBrowser } from './core';
 
-const open = promisify(fs.open);
-const read = promisify(fs.read);
-const stat = promisify(fs.stat);
-const close = promisify(fs.close);
+const isBrowser = isRunningInBrowser();
+
+let fs: any;
+let open: any;
+let read: any;
+let stat: any;
+let close: any;
+
+if (!isBrowser) {
+  try {
+    fs = require('fs');
+    const { promisify } = require('util');
+    open = promisify(fs.open);
+    read = promisify(fs.read);
+    stat = promisify(fs.stat);
+    close = promisify(fs.close);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('File system operations not available in this environment');
+  }
+}
 
 /**
  * Get audio file duration in milliseconds
  * Uses optimized file reading to avoid loading entire files into memory
  */
 async function getAudioFileDuration(filePath: string): Promise<string | null> {
-  const extension = filePath.split('.').pop()?.toLowerCase();
-  const fileStats = await stat(filePath);
-  const fileSize = fileStats.size;
+  if (isBrowser || !fs) {
+    return null;
+  }
 
-  switch (extension) {
-    case 'wav':
-      return calculateWavDuration(filePath);
-    case 'mp3':
-      return calculateMp3Duration(filePath, fileSize);
-    case 'mpga':
-      return calculateMpgaDuration(filePath, fileSize);
-    case 'flac':
-      return calculateFlacDuration(filePath);
-    case 'ogg':
-      return calculateOggDuration(filePath, fileSize);
-    case 'mp4':
-    case 'm4a':
-      return calculateMp4Duration(filePath);
-    default:
-      return null;
+  try {
+    const extension = filePath.split('.').pop()?.toLowerCase();
+    const fileStats = await stat(filePath);
+    const fileSize = fileStats.size;
+
+    switch (extension) {
+      case 'wav':
+        return calculateWavDuration(filePath);
+      case 'mp3':
+        return calculateMp3Duration(filePath, fileSize);
+      case 'mpga':
+        return calculateMpgaDuration(filePath, fileSize);
+      case 'flac':
+        return calculateFlacDuration(filePath);
+      case 'ogg':
+        return calculateOggDuration(filePath, fileSize);
+      case 'mp4':
+      case 'm4a':
+        return calculateMp4Duration(filePath);
+      default:
+        return null;
+    }
+  } catch (error) {
+    return null;
   }
 }
 
