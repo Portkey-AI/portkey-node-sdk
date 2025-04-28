@@ -17,6 +17,7 @@ import { SpeechCreateParams } from 'openai/resources/audio/speech';
 import { Stream } from '../streaming';
 import { AUDIO_FILE_DURATION_HEADER } from '../constants';
 import getAudioFileDuration from '../getAudioDuration';
+import { isRunningInBrowser } from '../core';
 
 export class Audio extends ApiResource {
   transcriptions: transcriptions;
@@ -77,7 +78,7 @@ export class transcriptions extends ApiResource {
   > {
     // @ts-ignore
     const path = body.file?.path;
-    if (path && this.client.calculateAudioDuration) {
+    if (path && this.client.calculateAudioDuration && !isRunningInBrowser()) {
       const duration = await getAudioFileDuration(path);
       if (duration) {
         params = {
@@ -109,7 +110,7 @@ export class translations extends ApiResource {
   ): Promise<any> {
     const body: any = _body;
     const path = body.file?.path;
-    if (path && this.client.calculateAudioDuration) {
+    if (path && this.client.calculateAudioDuration && !isRunningInBrowser()) {
       const duration = await getAudioFileDuration(path);
       if (duration) {
         params = {
