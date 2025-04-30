@@ -53,6 +53,7 @@ export type RequestOptions = {
   stream?: boolean | undefined;
   signal?: AbortSignal | undefined | null;
   extraHeaders?: Record<string, string>;
+  isProxyPost?: boolean;
 };
 
 type APIResponseProps = {
@@ -372,7 +373,11 @@ export abstract class ApiClient {
     };
 
     if (method !== 'get' && body !== undefined) {
-      req.body = JSON.stringify(parseBody(body));
+      if (opts.isProxyPost) {
+        req.body = JSON.stringify(body);
+      } else {
+        req.body = JSON.stringify(parseBody(body));
+      }
     }
     return { req: req, url: url.toString() };
   }
