@@ -374,7 +374,7 @@ export abstract class ApiClient {
     if (method !== 'get' && body !== undefined) {
       /* eslint-disable-next-line no-console */
       console.warn(
-        'WARNING: Starting from the minor next version, request bodies will no longer be automatically converted to snake_case. Please ensure the correct format of the request body to avoid any breaking changes.'
+        'WARNING: Starting from the next minor version, request bodies will no longer be automatically converted to snake_case. Please ensure the correct format of the request body to avoid any breaking changes.'
       );
       const reqBody = {
         ...body,
