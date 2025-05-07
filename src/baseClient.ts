@@ -372,7 +372,15 @@ export abstract class ApiClient {
     };
 
     if (method !== 'get' && body !== undefined) {
-      req.body = JSON.stringify(parseBody(body));
+      /* eslint-disable-next-line no-console */
+      console.warn(
+        'WARNING: Starting from the next minor version, request bodies will no longer be automatically converted to snake_case. Please ensure the correct format of the request body to avoid any breaking changes.'
+      );
+      const reqBody = {
+        ...body,
+        ...parseBody(body),
+      };
+      req.body = JSON.stringify(reqBody);
     }
     return { req: req, url: url.toString() };
   }
