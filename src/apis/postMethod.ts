@@ -38,10 +38,6 @@ export class postMethod extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    opts = {
-      ...opts,
-      isProxyPost: true,
-    } as RequestOptions;
     const response = this.post<PostResponse>(url, { body, ...opts }) as
       | APIPromise<PostResponse>
       | APIPromise<Stream<PostResponse>>;

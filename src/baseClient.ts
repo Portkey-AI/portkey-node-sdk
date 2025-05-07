@@ -53,7 +53,6 @@ export type RequestOptions = {
   stream?: boolean | undefined;
   signal?: AbortSignal | undefined | null;
   extraHeaders?: Record<string, string>;
-  isProxyPost?: boolean;
 };
 
 type APIResponseProps = {
@@ -373,11 +372,15 @@ export abstract class ApiClient {
     };
 
     if (method !== 'get' && body !== undefined) {
-      if (opts.isProxyPost) {
-        req.body = JSON.stringify(body);
-      } else {
-        req.body = JSON.stringify(parseBody(body));
-      }
+      /* eslint-disable-next-line no-console */
+      console.warn(
+        'WARNING: Starting from the minor next version, request bodies will no longer be automatically converted to snake_case. Please ensure the correct format of the request body to avoid any breaking changes.'
+      );
+      const reqBody = {
+        ...body,
+        ...parseBody(body),
+      };
+      req.body = JSON.stringify(reqBody);
     }
     return { req: req, url: url.toString() };
   }
