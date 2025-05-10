@@ -13,14 +13,20 @@ import {
   PermissionCreateParams,
   PermissionRetrieveParams,
 } from 'openai/resources/fine-tuning/checkpoints/permissions';
+import {
+  GraderRunParams,
+  GraderValidateParams,
+} from 'openai/resources/fine-tuning/alpha/graders';
 
 export class FineTuning extends ApiResource {
   jobs: Jobs;
   checkpoints: FineTuningCheckpoints;
+  alpha: Alpha;
   constructor(client: any) {
     super(client);
     this.jobs = new Jobs(client);
     this.checkpoints = new FineTuningCheckpoints(client);
+    this.alpha = new Alpha(client);
   }
 }
 
@@ -168,6 +174,55 @@ export class Checkpoints extends ApiResource {
   }
 }
 
+export class Alpha extends ApiResource {
+  grader: Grader;
+  constructor(client: any) {
+    super(client);
+    this.grader = new Grader(client);
+  }
+}
+
+export class Grader extends ApiResource {
+  async run(
+    body: GraderRunParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.fineTuning.alpha.graders
+      .run(body, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+
+  async validate(
+    body: GraderValidateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.fineTuning.alpha.graders
+      .validate(body, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+}
+
 export interface JobCreateBody extends JobCreateParams {
   role_arn: string;
   job_name: string;
@@ -229,6 +284,7 @@ export class Permissions extends ApiResource {
 
   async del(
     fineTunedModelCheckpoint: string,
+    permissionId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -241,7 +297,7 @@ export class Permissions extends ApiResource {
     }
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.fineTuning.checkpoints.permissions
-      .del(fineTunedModelCheckpoint, opts)
+      .del(fineTunedModelCheckpoint, permissionId, opts)
       .withResponse();
     return finalResponse(result);
   }
