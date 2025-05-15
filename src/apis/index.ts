@@ -26,3 +26,4 @@ export { Realtime } from './realtime';
 export { Responses } from './responses';
 export { Labels } from './labels';
 export { Collections } from './collections';
+export { Evals } from './evals';

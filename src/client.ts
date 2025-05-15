@@ -200,6 +200,7 @@ export class Portkey extends ApiClient {
   audio = new API.Audio(this);
   uploads = new API.Uploads(this);
   responses = new API.Responses(this);
+  evals = new API.Evals(this);
   admin = new API.Admin(this);
   virtualKeys = new API.VirtualKeys(this);
   apiKeys = new API.ApiKeys(this);
