@@ -1,5 +1,6 @@
 import { ApiClientInterface } from './_types/generalTypes';
 import * as API from './apis';
+import { DeleteResponse } from './apis/deleteMethod';
 import { GetResponse } from './apis/getMethod';
 import { PostBodyParams, PostResponse } from './apis/postMethod';
 import { ApiClient, APIPromise, RequestOptions } from './baseClient';
@@ -229,5 +230,13 @@ export class Portkey extends ApiClient {
     opts?: RequestOptions
   ): APIPromise<GetResponse> => {
     return new API.getMethod(this).create(path, params, opts);
+  };
+
+  delete = (
+    path: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<DeleteResponse> => {
+    return new API.deleteMethod(this).create(path, params, opts);
   };
 }
