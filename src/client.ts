@@ -1,5 +1,6 @@
 import { ApiClientInterface } from './_types/generalTypes';
 import * as API from './apis';
+import { GetResponse } from './apis/getMethod';
 import { PostBodyParams, PostResponse } from './apis/postMethod';
 import { ApiClient, APIPromise, RequestOptions } from './baseClient';
 import { isRunningInBrowser } from './core';
@@ -220,5 +221,13 @@ export class Portkey extends ApiClient {
     opts?: RequestOptions
   ): APIPromise<Stream<PostResponse>> | APIPromise<PostResponse> => {
     return new API.postMethod(this).create(url, _body, params, opts);
+  };
+
+  get = (
+    path: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<GetResponse> => {
+    return new API.getMethod(this).create(path, params, opts);
   };
 }
