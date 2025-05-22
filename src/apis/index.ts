@@ -6,6 +6,7 @@ export { Generations, Prompt } from './generations';
 export { postMethod } from './postMethod';
 export { getMethod } from './getMethod';
 export { deleteMethod } from './deleteMethod';
+export { putMethod } from './putMethod';
 export { Embeddings } from './embeddings';
 export { Images } from './images';
 export { Assistants } from './assistants';

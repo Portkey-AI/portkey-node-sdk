@@ -3,6 +3,7 @@ import * as API from './apis';
 import { DeleteResponse } from './apis/deleteMethod';
 import { GetResponse } from './apis/getMethod';
 import { PostBodyParams, PostResponse } from './apis/postMethod';
+import { PutBodyParams, PutResponse } from './apis/putMethod';
 import { ApiClient, APIPromise, RequestOptions } from './baseClient';
 import { isRunningInBrowser } from './core';
 import { Stream } from './streaming';
@@ -238,5 +239,14 @@ export class Portkey extends ApiClient {
     opts?: RequestOptions
   ): APIPromise<DeleteResponse> => {
     return new API.deleteMethod(this).create(path, params, opts);
+  };
+
+  put = (
+    url: string,
+    _body: PutBodyParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<PutResponse> => {
+    return new API.putMethod(this).create(url, _body, params, opts);
   };
 }
