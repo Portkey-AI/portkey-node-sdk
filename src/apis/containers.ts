@@ -1,36 +1,35 @@
 import {
-  EvalCreateParams,
-  EvalCreateResponse,
-  EvalListParams,
-  EvalRetrieveResponse,
-  EvalUpdateParams,
-  EvalUpdateResponse,
-} from 'openai/resources/evals/evals';
+  ContainerCreateParams,
+  ContainerCreateResponse,
+  ContainerListParams,
+  ContainerRetrieveResponse,
+} from 'openai/resources/index';
 import { ApiResource } from '../apiResource';
 import { ApiClientInterface } from '../_types/generalTypes';
+import { createHeaders } from './createHeaders';
 import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
-import { createHeaders } from './createHeaders';
 import {
-  RunCreateParams,
-  RunCreateResponse,
-  RunListParams,
-  RunRetrieveResponse,
-} from 'openai/resources/evals/runs/runs';
-import { OutputItemListParams } from 'openai/resources/evals/runs/output-items';
+  FileCreateParams,
+  FileCreateResponse,
+  FileListParams,
+  FileRetrieveResponse,
+} from 'openai/resources/containers/files/files';
 
-export class Evals extends ApiResource {
-  runs: EvalsRuns;
+export class Containers extends ApiResource {
+  files: ContainersFiles;
+
   constructor(client: any) {
     super(client);
-    this.runs = new EvalsRuns(client);
+    this.files = new ContainersFiles(client);
   }
 
   async create(
-    body: EvalCreateParams,
+    _body: ContainerCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<EvalCreateResponse> {
+  ): Promise<ContainerCreateResponse> {
+    const body: ContainerCreateParams = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -38,34 +37,17 @@ export class Evals extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.create(body, opts);
-    return result;
-  }
 
-  async retrieve(
-    evalId: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<EvalRetrieveResponse> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.retrieve(evalId, opts).withResponse();
+    const result = await OAIclient.containers.create(body, opts).withResponse();
     return finalResponse(result);
   }
 
-  async update(
-    evalId: string,
-    body: EvalUpdateParams,
+  async retrieve(
+    containerId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<EvalUpdateResponse> {
+  ): Promise<ContainerRetrieveResponse> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -73,15 +55,16 @@ export class Evals extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
+
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals
-      .update(evalId, body, opts)
+    const result = await OAIclient.containers
+      .retrieve(containerId, opts)
       .withResponse();
     return finalResponse(result);
   }
 
   async list(
-    query?: EvalListParams,
+    query?: ContainerListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -92,13 +75,14 @@ export class Evals extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
+
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.list(query, opts).withResponse();
+    const result = await OAIclient.containers.list(query, opts).withResponse();
     return finalResponse(result);
   }
 
   async del(
-    evalId: string,
+    containerId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<void> {
@@ -109,130 +93,28 @@ export class Evals extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.del(evalId, opts).withResponse();
-    return finalResponse(result);
-  }
-}
 
-export class EvalsRuns extends ApiResource {
-  outputItems: OutputItems;
-  constructor(client: any) {
-    super(client);
-    this.outputItems = new OutputItems(client);
-  }
-
-  async create(
-    evalId: string,
-    body: RunCreateParams,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<RunCreateResponse> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.runs
-      .create(evalId, body, opts)
-      .withResponse();
-    return finalResponse(result);
-  }
-
-  async retrieve(
-    evalId: string,
-    runId: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<RunRetrieveResponse> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-    const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.runs
-      .retrieve(evalId, runId, opts)
-      .withResponse();
-    return finalResponse(result);
-  }
-
-  async list(
-    evalId: string,
-    query?: RunListParams,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<any> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-    const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.runs
-      .list(evalId, query, opts)
-      .withResponse();
-    return finalResponse(result);
-  }
-
-  async del(
-    evalId: string,
-    runId: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<void> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-    const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.runs
-      .del(evalId, runId, opts)
-      .withResponse();
-    return finalResponse(result);
-  }
-
-  async cancel(
-    evalId: string,
-    runId: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<void> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-    const OAIclient = initOpenAIClient(this.client);
-    const body = {};
-    const options = { body, ...opts };
-    const result = await OAIclient.evals.runs
-      .cancel(evalId, runId, options)
+    const result = await OAIclient.containers
+      .del(containerId, opts)
       .withResponse();
     return finalResponse(result);
   }
 }
 
-export class OutputItems extends ApiResource {
-  async retrieve(
-    evalId: string,
-    runId: string,
-    outputItemId: string,
+export class ContainersFiles extends ApiResource {
+  content: Content;
+  constructor(client: any) {
+    super(client);
+    this.content = new Content(client);
+  }
+
+  async create(
+    containerId: string,
+    body: FileCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<any> {
+  ): Promise<FileCreateResponse> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -240,17 +122,38 @@ export class OutputItems extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
+
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.runs.outputItems
-      .retrieve(evalId, runId, outputItemId, opts)
+    const result = await OAIclient.containers.files
+      .create(containerId, body, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+
+  async retrieve(
+    containerId: string,
+    fileId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<FileRetrieveResponse> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.containers.files
+      .retrieve(containerId, fileId, opts)
       .withResponse();
     return finalResponse(result);
   }
 
   async list(
-    evalId: string,
-    runId: string,
-    query?: OutputItemListParams,
+    containerId: string,
+    query?: FileListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -261,10 +164,57 @@ export class OutputItems extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
+
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.runs.outputItems
-      .list(evalId, runId, query, opts)
+    const result = await OAIclient.containers.files
+      .list(containerId, query, opts)
       .withResponse();
     return finalResponse(result);
+  }
+
+  async del(
+    containerId: string,
+    fileId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<void> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.containers.files
+      .del(containerId, fileId, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+}
+
+export class Content extends ApiResource {
+  async retrieve(
+    containerId: string,
+    fileId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.containers.files.content.retrieve(
+      containerId,
+      fileId,
+      opts
+    );
+    return await result.text();
   }
 }
