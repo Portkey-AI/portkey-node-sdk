@@ -216,8 +216,10 @@ export class EvalsRuns extends ApiResource {
       };
     }
     const OAIclient = initOpenAIClient(this.client);
+    const body = {};
+    const options = { body, ...opts };
     const result = await OAIclient.evals.runs
-      .cancel(evalId, runId, opts)
+      .cancel(evalId, runId, options)
       .withResponse();
     return finalResponse(result);
   }
