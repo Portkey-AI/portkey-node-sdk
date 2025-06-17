@@ -146,6 +146,27 @@ export class Responses extends ApiResource {
 
     return result;
   }
+
+  async cancel(
+    responseId: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<void> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const body = {};
+    const options = { body, ...opts };
+    const result = await OAIclient.responses
+      .cancel(responseId, options)
+      .withResponse();
+    return finalResponse(result);
+  }
 }
 
 export class InputItems extends ApiResource {
