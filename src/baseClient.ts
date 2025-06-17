@@ -26,10 +26,10 @@ function getFetch(): Fetch {
     return window.fetch.bind(window);
   }
   if (typeof global !== 'undefined' && global.fetch) {
-    return global.fetch;
+    return global.fetch.bind(global);
   }
   if (typeof fetch !== 'undefined') {
-    return fetch;
+    return fetch.bind(globalThis);
   }
   throw new Error('Fetch is not available in this environment');
 }
