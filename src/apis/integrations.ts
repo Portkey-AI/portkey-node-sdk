@@ -156,3 +156,49 @@ export class Integrations extends ApiResource {
     return response;
   }
 }
+
+export class Workspaces extends ApiResource {
+    constructor(client: any) {
+      super(client);
+    }
+  
+    update(
+      body: WorkspaceAccessUpdateParams,
+      params?: ApiClientInterface,
+      opts?: RequestOptions
+    ): APIPromise<any> {
+      const { provider_integration_id, ...restBody } = body;
+      if (params) {
+        this.client.customHeaders = {
+          ...this.client.customHeaders,
+          ...createHeaders({ ...params }),
+        };
+      }
+      const response = this.put<any>(
+        `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
+        { body: restBody, ...opts }
+      );
+      return response;
+    }
+  
+    list(
+      body: WorkspaceAccessListParams,
+      params?: ApiClientInterface,
+      opts?: RequestOptions
+    ): APIPromise<any> {
+      const { provider_integration_id } = body;
+      if (params) {
+        this.client.customHeaders = {
+          ...this.client.customHeaders,
+          ...createHeaders({ ...params }),
+        };
+      }
+      const response = this.getMethod<any>(
+        `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
+        {
+          ...opts,
+        }
+      );
+      return response;
+    }
+  }
