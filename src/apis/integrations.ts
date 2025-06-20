@@ -52,12 +52,24 @@ export interface WorkspaceAccessListParams {
   provider_integration_id: string;
 }
 
+export interface ModelUpdateParams {
+  provider_integration_id: string;
+  allow_all_models?: boolean;
+  models?: Record<string, any>[];
+}
+
+export interface ModelListParams {
+  provider_integration_id: string;
+}
+
 export class Integrations extends ApiResource {
   workspaces: Workspaces;
+  models: Models;
 
   constructor(client: any) {
     super(client);
     this.workspaces = new Workspaces(client);
+    this.models = new Models(client);
   }
 
   create(
@@ -158,47 +170,93 @@ export class Integrations extends ApiResource {
 }
 
 export class Workspaces extends ApiResource {
-    constructor(client: any) {
-      super(client);
-    }
-  
-    update(
-      body: WorkspaceAccessUpdateParams,
-      params?: ApiClientInterface,
-      opts?: RequestOptions
-    ): APIPromise<any> {
-      const { provider_integration_id, ...restBody } = body;
-      if (params) {
-        this.client.customHeaders = {
-          ...this.client.customHeaders,
-          ...createHeaders({ ...params }),
-        };
-      }
-      const response = this.put<any>(
-        `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
-        { body: restBody, ...opts }
-      );
-      return response;
-    }
-  
-    list(
-      body: WorkspaceAccessListParams,
-      params?: ApiClientInterface,
-      opts?: RequestOptions
-    ): APIPromise<any> {
-      const { provider_integration_id } = body;
-      if (params) {
-        this.client.customHeaders = {
-          ...this.client.customHeaders,
-          ...createHeaders({ ...params }),
-        };
-      }
-      const response = this.getMethod<any>(
-        `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
-        {
-          ...opts,
-        }
-      );
-      return response;
-    }
+  constructor(client: any) {
+    super(client);
   }
+
+  update(
+    body: WorkspaceAccessUpdateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const { provider_integration_id, ...restBody } = body;
+    if (params) {
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params }),
+      };
+    }
+    const response = this.put<any>(
+      `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
+      { body: restBody, ...opts }
+    );
+    return response;
+  }
+
+  list(
+    body: WorkspaceAccessListParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const { provider_integration_id } = body;
+    if (params) {
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params }),
+      };
+    }
+    const response = this.getMethod<any>(
+      `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
+      {
+        ...opts,
+      }
+    );
+    return response;
+  }
+}
+
+export class Models extends ApiResource {
+  constructor(client: any) {
+    super(client);
+  }
+
+  update(
+    body: ModelUpdateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const { provider_integration_id, ...restBody } = body;
+    if (params) {
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params }),
+      };
+    }
+    const response = this.put<any>(
+      `${INTEGRATIONS_API}/${provider_integration_id}/models`,
+      { body: restBody, ...opts }
+    );
+    return response;
+  }
+
+  list(
+    body: ModelListParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const { provider_integration_id } = body;
+    if (params) {
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params }),
+      };
+    }
+    const response = this.getMethod<any>(
+      `${INTEGRATIONS_API}/${provider_integration_id}/models`,
+      {
+        ...opts,
+      }
+    );
+    return response;
+  }
+}
