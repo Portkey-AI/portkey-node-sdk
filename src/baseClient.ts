@@ -29,7 +29,7 @@ function getFetch(): Fetch {
     return global.fetch;
   }
   if (typeof fetch !== 'undefined') {
-    return fetch;
+    return fetch.bind(globalThis);
   }
   throw new Error('Fetch is not available in this environment');
 }
