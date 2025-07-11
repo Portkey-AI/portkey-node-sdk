@@ -210,6 +210,7 @@ export class Portkey extends ApiClient {
   apiKeys = new API.ApiKeys(this);
   configs = new API.Configs(this);
   logs = new API.Logs(this);
+  guardrails = new API.Guardrails(this);
   beta = {
     assistants: new API.Assistants(this),
     threads: new API.Threads(this),
