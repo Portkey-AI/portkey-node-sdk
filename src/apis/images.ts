@@ -75,6 +75,28 @@ export class Images extends ApiResource {
     return finalResponse(result);
   }
 
+  async generateWithoutHeaders(
+    _body: ImagesBody,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: ImagesBody = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    // @ts-ignore
+    const result = await OAIclient.images.generate(body, opts);
+
+    return result;
+  }
+
   async edit(
     _body: ImageEditParams,
     params?: ApiClientInterface,
@@ -96,6 +118,28 @@ export class Images extends ApiResource {
     const result = await OAIclient.images.edit(body, opts).withResponse();
 
     return finalResponse(result);
+  }
+
+  async editWithoutHeaders(
+    _body: ImageEditParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: ImageEditParams = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    // @ts-ignore
+    const result = await OAIclient.images.edit(body, opts);
+
+    return result;
   }
 
   async createVariation(
