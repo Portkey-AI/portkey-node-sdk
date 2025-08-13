@@ -205,6 +205,7 @@ export class Portkey extends ApiClient {
   responses = new API.Responses(this);
   evals = new API.Evals(this);
   containers = new API.Containers(this);
+  webhooks = new API.Webhooks(this);
   admin = new API.Admin(this);
   virtualKeys = new API.VirtualKeys(this);
   apiKeys = new API.ApiKeys(this);
