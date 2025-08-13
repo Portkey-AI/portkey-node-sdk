@@ -81,8 +81,8 @@ export class Containers extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
-    containerId: string,
+  async delete(
+    containerID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<void> {
@@ -96,7 +96,7 @@ export class Containers extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.containers
-      .del(containerId, opts)
+      .delete(containerID, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -131,8 +131,8 @@ export class ContainersFiles extends ApiResource {
   }
 
   async retrieve(
-    containerId: string,
-    fileId: string,
+    fileID: string,
+    { container_id }: { container_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<FileRetrieveResponse> {
@@ -146,7 +146,7 @@ export class ContainersFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.containers.files
-      .retrieve(containerId, fileId, opts)
+      .retrieve(fileID, { container_id }, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -172,9 +172,9 @@ export class ContainersFiles extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
-    containerId: string,
-    fileId: string,
+  async delete(
+    fileID: string,
+    { container_id }: { container_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<void> {
@@ -188,7 +188,7 @@ export class ContainersFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.containers.files
-      .del(containerId, fileId, opts)
+      .delete(fileID, { container_id }, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -196,8 +196,8 @@ export class ContainersFiles extends ApiResource {
 
 export class Content extends ApiResource {
   async retrieve(
-    containerId: string,
-    fileId: string,
+    fileID: string,
+    { container_id }: { container_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -211,8 +211,8 @@ export class Content extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.containers.files.content.retrieve(
-      containerId,
-      fileId,
+      fileID,
+      { container_id },
       opts
     );
     return await result.text();

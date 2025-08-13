@@ -143,7 +143,7 @@ export class Assistants extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
+  async delete(
     assistantId: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -159,7 +159,7 @@ export class Assistants extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.assistants
-      .del(assistantId, opts)
+      .delete(assistantId, opts)
       .withResponse();
 
     return finalResponse(result);

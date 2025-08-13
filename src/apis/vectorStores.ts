@@ -109,8 +109,8 @@ export class VectorStores extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
-    vectorStoreId: string,
+  async delete(
+    vectorStoreID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -125,7 +125,7 @@ export class VectorStores extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores
-      .del(vectorStoreId, opts)
+      .delete(vectorStoreID, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -158,8 +158,8 @@ export class Files extends ApiResource {
   }
 
   async retrieve(
-    vectorStoreId: string,
-    fileId: string,
+    fileID: string,
+    { vector_store_id }: { vector_store_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -174,7 +174,7 @@ export class Files extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores.files
-      .retrieve(vectorStoreId, fileId, opts)
+      .retrieve(fileID, { vector_store_id }, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -204,8 +204,8 @@ export class Files extends ApiResource {
   }
 
   async del(
-    vectorStoreId: string,
-    fileId: string,
+    fileID: string,
+    { vector_store_id }: { vector_store_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -220,7 +220,7 @@ export class Files extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores.files
-      .del(vectorStoreId, fileId, opts)
+      .delete(fileID, { vector_store_id }, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -354,8 +354,8 @@ export class FileBatches extends ApiResource {
   }
 
   async retrieve(
-    vectorStoreId: string,
-    batchId: string,
+    batchID: string,
+    { vector_store_id }: { vector_store_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -370,15 +370,15 @@ export class FileBatches extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores.fileBatches
-      .retrieve(vectorStoreId, batchId, opts)
+      .retrieve(batchID, { vector_store_id }, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async cancel(
-    vectorStoreId: string,
-    batchId: string,
+    batchID: string,
+    { vector_store_id }: { vector_store_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -395,7 +395,7 @@ export class FileBatches extends ApiResource {
     const options = { body, ...opts };
 
     const result = await OAIclient.vectorStores.fileBatches
-      .cancel(vectorStoreId, batchId, options)
+      .cancel(batchID, { vector_store_id }, options)
       .withResponse();
 
     return finalResponse(result);
@@ -428,8 +428,7 @@ export class FileBatches extends ApiResource {
   }
 
   async listFiles(
-    vectorStoreId: string,
-    batchId: string,
+    batchID: string,
     _query?: FileBatchListFilesParams | RequestOptions,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -448,7 +447,7 @@ export class FileBatches extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.vectorStores.fileBatches
-      .listFiles(vectorStoreId, batchId, query as any, opts)
+      .listFiles(batchID, query as any, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -553,4 +552,6 @@ export interface FileBatchListFilesParams extends CursorPageParams {
   before?: string;
   filter?: 'in_progress' | 'completed' | 'failed' | 'cancelled';
   order?: 'asc' | 'desc';
+  vector_store_id: string;
+  [key: string]: any;
 }

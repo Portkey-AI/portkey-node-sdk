@@ -69,8 +69,8 @@ export class MainFiles extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
-    fileId: string,
+  async delete(
+    fileID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -84,7 +84,7 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.files.del(fileId, opts).withResponse();
+    const result = await OAIclient.files.delete(fileID, opts).withResponse();
 
     return finalResponse(result);
   }

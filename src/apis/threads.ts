@@ -107,7 +107,7 @@ export class Threads extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads
-      .del(threadId, opts)
+      .delete(threadId, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -239,8 +239,8 @@ export class Messages extends ApiResource {
   }
 
   async retrieve(
-    threadId: string,
-    messageId: string,
+    message_id: string,
+    { thread_id }: { thread_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -255,15 +255,14 @@ export class Messages extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.messages
-      .retrieve(threadId, messageId, opts)
+      .retrieve(message_id, { thread_id }, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async update(
-    threadId: string,
-    messageId: string,
+    message_id: string,
     _body: MessageUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -280,15 +279,15 @@ export class Messages extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.messages
-      .update(threadId, messageId, body, opts)
+      .update(message_id, body, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
-  async del(
-    threadId: string,
-    messageId: string,
+  async delete(
+    message_id: string,
+    { thread_id }: { thread_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -303,7 +302,7 @@ export class Messages extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.messages
-      .del(threadId, messageId, opts)
+      .delete(message_id, { thread_id }, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -378,8 +377,8 @@ export class Runs extends ApiResource {
   }
 
   async retrieve(
-    threadId: string,
-    runId: string,
+    runID: string,
+    { thread_id }: { thread_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -394,15 +393,14 @@ export class Runs extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.runs
-      .retrieve(threadId, runId, opts)
+      .retrieve(runID, { thread_id }, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async update(
-    threadId: string,
-    runId: string,
+    runID: string,
     _body: RunUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -419,15 +417,14 @@ export class Runs extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.runs
-      .update(threadId, runId, body, opts)
+      .update(runID, body, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async submitToolOutputs(
-    threadId: string,
-    runId: string,
+    runID: string,
     _body: RunSubmitToolOutputsParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -444,14 +441,13 @@ export class Runs extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.runs
-      .submitToolOutputs(threadId, runId, body, opts)
+      .submitToolOutputs(runID, body, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async submitToolOutputsAndPoll(
-    threadId: string,
     runId: string,
     _body: RunSubmitToolOutputsParamsNonStreaming,
     params?: ApiClientInterface,
@@ -469,7 +465,6 @@ export class Runs extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.runs.submitToolOutputsAndPoll(
-      threadId,
       runId,
       body,
       opts
@@ -478,7 +473,6 @@ export class Runs extends ApiResource {
   }
 
   async submitToolOutputsStream(
-    threadId: string,
     runId: string,
     _body: RunSubmitToolOutputsParamsStreaming,
     params?: ApiClientInterface,
@@ -496,7 +490,6 @@ export class Runs extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.runs.submitToolOutputsStream(
-      threadId,
       runId,
       body,
       opts
@@ -505,8 +498,8 @@ export class Runs extends ApiResource {
   }
 
   async cancel(
-    threadId: string,
-    runId: string,
+    runID: string,
+    { thread_id }: { thread_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -523,7 +516,7 @@ export class Runs extends ApiResource {
     const options = { body, ...opts };
 
     const result = await OAIclient.beta.threads.runs
-      .cancel(threadId, runId, options)
+      .cancel(runID, { thread_id }, options)
       .withResponse();
 
     return finalResponse(result);
@@ -580,8 +573,8 @@ export class Runs extends ApiResource {
   }
 
   async poll(
-    threadId: string,
     runId: string,
+    { thread_id }: { thread_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions & { pollIntervalMs?: number }
   ): Promise<any> {
@@ -596,8 +589,8 @@ export class Runs extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.runs.poll(
-      threadId,
       runId,
+      { thread_id },
       opts
     );
     return result;
@@ -631,8 +624,8 @@ export class Runs extends ApiResource {
 
 export class Steps extends ApiResource {
   async list(
-    threadId: string,
-    runId: string,
+    runID: string,
+
     _query?: StepListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -650,16 +643,21 @@ export class Steps extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.runs.steps
-      .list(threadId, runId, query as any, opts)
+      .list(runID, query as any, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async retrieve(
-    threadId: string,
-    runId: string,
-    stepId: string,
+    stepID: string,
+    {
+      thread_id,
+      run_id,
+    }: {
+      thread_id: string;
+      run_id: string;
+    },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -674,7 +672,7 @@ export class Steps extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.runs.steps
-      .retrieve(threadId, runId, stepId, opts)
+      .retrieve(stepID, { thread_id, run_id }, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -724,6 +722,7 @@ export interface FileListParams extends CursorPageParams {
 
 export interface MessageUpdateParams {
   metadata?: Metadata | null;
+  thread_id: string;
   [key: string]: any;
 }
 
@@ -794,16 +793,19 @@ export interface StepListParams extends CursorPageParams {
   before?: string;
   order?: string;
   include?: Array<any>;
+  thread_id: string;
   [key: string]: any;
 }
 
 export interface RunUpdateParams {
   metadata?: Metadata | null;
+  thread_id: string;
   [key: string]: any;
 }
 
 export interface RunSubmitToolOutputsParams {
   tool_outputs: Array<ToolOutput>;
+  thread_id: string;
   [key: string]: any;
 }
 
