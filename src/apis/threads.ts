@@ -91,7 +91,7 @@ export class Threads extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
+  async delete(
     threadID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions

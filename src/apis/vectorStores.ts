@@ -203,7 +203,7 @@ export class Files extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
+  async delete(
     fileID: string,
     { vector_store_id }: { vector_store_id: string },
     params?: ApiClientInterface,

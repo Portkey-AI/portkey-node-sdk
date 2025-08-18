@@ -116,7 +116,7 @@ class ChatCompletions extends ApiResource {
     });
   }
 
-  del(
+  delete(
     completionID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
