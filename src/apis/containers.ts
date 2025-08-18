@@ -44,7 +44,7 @@ export class Containers extends ApiResource {
   }
 
   async retrieve(
-    containerId: string,
+    containerID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<ContainerRetrieveResponse> {
@@ -58,7 +58,7 @@ export class Containers extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.containers
-      .retrieve(containerId, opts)
+      .retrieve(containerID, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -110,7 +110,7 @@ export class ContainersFiles extends ApiResource {
   }
 
   async create(
-    containerId: string,
+    containerID: string,
     body: FileCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -125,7 +125,7 @@ export class ContainersFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.containers.files
-      .create(containerId, body, opts)
+      .create(containerID, body, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -152,7 +152,7 @@ export class ContainersFiles extends ApiResource {
   }
 
   async list(
-    containerId: string,
+    containerID: string,
     query?: FileListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -167,7 +167,7 @@ export class ContainersFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.containers.files
-      .list(containerId, query, opts)
+      .list(containerID, query, opts)
       .withResponse();
     return finalResponse(result);
   }

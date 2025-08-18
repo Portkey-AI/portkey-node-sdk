@@ -42,7 +42,7 @@ export class VectorStores extends ApiResource {
   }
 
   async retrieve(
-    vectorStoreId: string,
+    vectorStoreID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -57,14 +57,14 @@ export class VectorStores extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores
-      .retrieve(vectorStoreId, opts)
+      .retrieve(vectorStoreID, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async update(
-    vectorStoreId: string,
+    vectorStoreID: string,
     _body: VectorStoreUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -81,7 +81,7 @@ export class VectorStores extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores
-      .update(vectorStoreId, body, opts)
+      .update(vectorStoreID, body, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -134,7 +134,7 @@ export class VectorStores extends ApiResource {
 
 export class Files extends ApiResource {
   async create(
-    vectorStoreId: string,
+    vectorStoreID: string,
     _body: FileCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -151,7 +151,7 @@ export class Files extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores.files
-      .create(vectorStoreId, body, opts)
+      .create(vectorStoreID, body, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -181,7 +181,7 @@ export class Files extends ApiResource {
   }
 
   async list(
-    vectorStoreId: string,
+    vectorStoreID: string,
     _query?: FileListParams | RequestOptions,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -197,7 +197,7 @@ export class Files extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.vectorStores.files
-      .list(vectorStoreId, query as any, opts)
+      .list(vectorStoreID, query as any, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -253,8 +253,8 @@ export class Files extends ApiResource {
   }
 
   async poll(
-    vectorStoreId: string,
-    fileId: string,
+    vectorStoreID: string,
+    fileID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions & { pollIntervalMs?: number }
   ): Promise<any> {
@@ -269,8 +269,8 @@ export class Files extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores.files.poll(
-      vectorStoreId,
-      fileId,
+      vectorStoreID,
+      fileID,
       opts
     );
 
@@ -330,7 +330,7 @@ export class Files extends ApiResource {
 
 export class FileBatches extends ApiResource {
   async create(
-    vectorStoreId: string,
+    vectorStoreID: string,
     _body: FileBatchCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -347,7 +347,7 @@ export class FileBatches extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores.fileBatches
-      .create(vectorStoreId, body, opts)
+      .create(vectorStoreID, body, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -454,8 +454,8 @@ export class FileBatches extends ApiResource {
   }
 
   async poll(
-    vectorStoreId: string,
-    batchId: string,
+    vectorStoreID: string,
+    batchID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions & { pollIntervalMs?: number }
   ): Promise<any> {
@@ -470,8 +470,8 @@ export class FileBatches extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.vectorStores.fileBatches.poll(
-      vectorStoreId,
-      batchId,
+      vectorStoreID,
+      batchID,
       opts
     );
 

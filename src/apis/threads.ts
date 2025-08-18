@@ -46,7 +46,7 @@ export class Threads extends ApiResource {
   }
 
   async retrieve(
-    threadId: string,
+    threadID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -61,14 +61,14 @@ export class Threads extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads
-      .retrieve(threadId, opts)
+      .retrieve(threadID, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async update(
-    threadId: string,
+    threadID: string,
     _body: ThreadUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -85,14 +85,14 @@ export class Threads extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads
-      .update(threadId, body, opts)
+      .update(threadID, body, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async del(
-    threadId: string,
+    threadID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -107,7 +107,7 @@ export class Threads extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads
-      .delete(threadId, opts)
+      .delete(threadID, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -189,7 +189,7 @@ export class Threads extends ApiResource {
 
 export class Messages extends ApiResource {
   async create(
-    threadId: string,
+    threadID: string,
     _body: MessageCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -207,14 +207,14 @@ export class Messages extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.messages
-      .create(threadId, body as any, opts)
+      .create(threadID, body as any, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async list(
-    threadId: string,
+    threadID: string,
     _query?: MessageListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -232,14 +232,14 @@ export class Messages extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.messages
-      .list(threadId, query as any, opts)
+      .list(threadID, query as any, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async retrieve(
-    message_id: string,
+    messageID: string,
     { thread_id }: { thread_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -255,14 +255,14 @@ export class Messages extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.messages
-      .retrieve(message_id, { thread_id }, opts)
+      .retrieve(messageID, { thread_id }, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async update(
-    message_id: string,
+    messageID: string,
     _body: MessageUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -279,14 +279,14 @@ export class Messages extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.messages
-      .update(message_id, body, opts)
+      .update(messageID, body, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async delete(
-    message_id: string,
+    messageID: string,
     { thread_id }: { thread_id: string },
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -302,7 +302,7 @@ export class Messages extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.threads.messages
-      .delete(message_id, { thread_id }, opts)
+      .delete(messageID, { thread_id }, opts)
       .withResponse();
 
     return finalResponse(result);
@@ -318,7 +318,7 @@ export class Runs extends ApiResource {
   }
 
   async create(
-    threadId: string,
+    threadID: string,
     _body: RunCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -337,14 +337,14 @@ export class Runs extends ApiResource {
 
     if (stream === true) {
       const streamResponse = await OAIclient.beta.threads.runs.stream(
-        threadId,
+        threadID,
         body as any,
         opts
       );
       return streamResponse;
     } else {
       const result = await OAIclient.beta.threads.runs
-        .create(threadId, body, opts)
+        .create(threadID, body, opts)
         .withResponse();
 
       return finalResponse(result);
@@ -352,7 +352,7 @@ export class Runs extends ApiResource {
   }
 
   async list(
-    threadId: string,
+    threadID: string,
     _query?: RunListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -370,7 +370,7 @@ export class Runs extends ApiResource {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const result = await OAIclient.beta.threads.runs
-      .list(threadId, query as any, opts)
+      .list(threadID, query as any, opts)
       .withResponse();
 
     return finalResponse(result);

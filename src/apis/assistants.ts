@@ -98,7 +98,7 @@ export class Assistants extends ApiResource {
   }
 
   async retrieve(
-    assistantId: string,
+    assistantID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -113,14 +113,14 @@ export class Assistants extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.assistants
-      .retrieve(assistantId, opts)
+      .retrieve(assistantID, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async update(
-    assistantId: string,
+    assistantID: string,
     _body: AssistantUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -137,14 +137,14 @@ export class Assistants extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.assistants
-      .update(assistantId, body, opts)
+      .update(assistantID, body, opts)
       .withResponse();
 
     return finalResponse(result);
   }
 
   async delete(
-    assistantId: string,
+    assistantID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -159,7 +159,7 @@ export class Assistants extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.beta.assistants
-      .delete(assistantId, opts)
+      .delete(assistantID, opts)
       .withResponse();
 
     return finalResponse(result);

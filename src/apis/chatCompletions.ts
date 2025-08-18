@@ -59,7 +59,7 @@ class ChatCompletions extends ApiResource {
   }
 
   retrieve(
-    completionId: string,
+    completionID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<ChatCompletion> {
@@ -71,7 +71,7 @@ class ChatCompletions extends ApiResource {
       };
     }
     return this.getMethod<ChatCompletion>(
-      `${CHAT_COMPLETE_API}/${completionId}`,
+      `${CHAT_COMPLETE_API}/${completionID}`,
       {
         ...opts,
       }
@@ -79,7 +79,7 @@ class ChatCompletions extends ApiResource {
   }
 
   update(
-    completionId: string,
+    completionID: string,
     _body: ChatCompletionUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -92,7 +92,7 @@ class ChatCompletions extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    return this.post<ChatCompletion>(`${CHAT_COMPLETE_API}/${completionId}`, {
+    return this.post<ChatCompletion>(`${CHAT_COMPLETE_API}/${completionID}`, {
       body,
       ...opts,
     });
@@ -117,7 +117,7 @@ class ChatCompletions extends ApiResource {
   }
 
   del(
-    completionId: string,
+    completionID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<ChatCompletion> {
@@ -129,7 +129,7 @@ class ChatCompletions extends ApiResource {
       };
     }
     return this.deleteMethod<ChatCompletion>(
-      `${CHAT_COMPLETE_API}/${completionId}`,
+      `${CHAT_COMPLETE_API}/${completionID}`,
       {
         ...opts,
       }
@@ -139,7 +139,7 @@ class ChatCompletions extends ApiResource {
 
 export class ChatCompletionsMessages extends ApiResource {
   list(
-    completionId: string,
+    completionID: string,
     query?: MessageListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -152,7 +152,7 @@ export class ChatCompletionsMessages extends ApiResource {
       };
     }
     return this.getMethod<any>(
-      `${CHAT_COMPLETE_API}/${completionId}/messages`,
+      `${CHAT_COMPLETE_API}/${completionID}/messages`,
       {
         ...opts,
         ...query,

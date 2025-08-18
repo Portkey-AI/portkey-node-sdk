@@ -44,7 +44,7 @@ export class Evals extends ApiResource {
   }
 
   async retrieve(
-    evalId: string,
+    evalID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<EvalRetrieveResponse> {
@@ -56,12 +56,12 @@ export class Evals extends ApiResource {
       };
     }
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.evals.retrieve(evalId, opts).withResponse();
+    const result = await OAIclient.evals.retrieve(evalID, opts).withResponse();
     return finalResponse(result);
   }
 
   async update(
-    evalId: string,
+    evalID: string,
     body: EvalUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -75,7 +75,7 @@ export class Evals extends ApiResource {
     }
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.evals
-      .update(evalId, body, opts)
+      .update(evalID, body, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -123,7 +123,7 @@ export class EvalsRuns extends ApiResource {
   }
 
   async create(
-    evalId: string,
+    evalID: string,
     body: RunCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -137,7 +137,7 @@ export class EvalsRuns extends ApiResource {
     }
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.evals.runs
-      .create(evalId, body, opts)
+      .create(evalID, body, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -163,7 +163,7 @@ export class EvalsRuns extends ApiResource {
   }
 
   async list(
-    evalId: string,
+    evalID: string,
     query?: RunListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -177,7 +177,7 @@ export class EvalsRuns extends ApiResource {
     }
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.evals.runs
-      .list(evalId, query, opts)
+      .list(evalID, query, opts)
       .withResponse();
     return finalResponse(result);
   }
