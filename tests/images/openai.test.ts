@@ -16,7 +16,7 @@ describe("Openai Images APIs", () => {
     });
     expect(response).toBeDefined();
     expect(response.data).toBeDefined();
-    expect(response.data.length).toBeGreaterThan(0);
+    expect(response.data?.length).toBeGreaterThan(0);
   }, 120000);
 
   test("generate: only required params with model", async () => {
@@ -26,7 +26,7 @@ describe("Openai Images APIs", () => {
     });
     expect(response).toBeDefined();
     expect(response.data).toBeDefined();
-    expect(response.data.length).toBeGreaterThan(0);
+    expect(response.data?.length).toBeGreaterThan(0);
   }, 120000);
 
   test("createVariation: only required params", async () => {
@@ -36,7 +36,7 @@ describe("Openai Images APIs", () => {
     });
     expect(response).toBeDefined();
     expect(response.data).toBeDefined();
-    expect(response.data.length).toBeGreaterThan(0);
+    expect(response.data?.length).toBeGreaterThan(0);
   }, 120000);
 
   test("edit: only required params", async () => {
@@ -49,7 +49,7 @@ describe("Openai Images APIs", () => {
     });
     expect(response).toBeDefined();
     expect(response.data).toBeDefined();
-    expect(response.data.length).toBeGreaterThan(0);
+    expect(response.data?.length).toBeGreaterThan(0);
   }, 120000);
 
 });
