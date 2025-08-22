@@ -171,11 +171,7 @@ class ChatCompletions extends ApiResource {
     return result;
   }
 
-  async runTools(
-    body: any,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<any> {
+  runTools(body: any, params?: ApiClientInterface, opts?: RequestOptions): any {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -184,7 +180,7 @@ class ChatCompletions extends ApiResource {
       };
     }
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.chat.completions.runTools(body, opts);
+    const result = OAIclient.chat.completions.runTools(body, opts);
     return result;
   }
 }
