@@ -38,7 +38,7 @@ export class Uploads extends ApiResource {
   }
 
   async cancel(
-    uploadId: string,
+    uploadID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -53,13 +53,13 @@ export class Uploads extends ApiResource {
     const body = {};
     const options = { body, ...opts };
     const response = await OAIclient.uploads
-      .cancel(uploadId, options)
+      .cancel(uploadID, options)
       .withResponse();
     return finalResponse(response);
   }
 
   async complete(
-    uploadId: string,
+    uploadID: string,
     _body: UploadCompleteParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -74,7 +74,7 @@ export class Uploads extends ApiResource {
     }
     const OAIclient = initOpenAIClient(this.client);
     const response = await OAIclient.uploads
-      .complete(uploadId, body, opts)
+      .complete(uploadID, body, opts)
       .withResponse();
     return finalResponse(response);
   }
@@ -82,7 +82,7 @@ export class Uploads extends ApiResource {
 
 export class Parts extends ApiResource {
   async create(
-    uploadId: string,
+    uploadID: string,
     _body: PartCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -97,7 +97,7 @@ export class Parts extends ApiResource {
     }
     const OAIclient = initOpenAIClient(this.client);
     const response = await OAIclient.uploads.parts
-      .create(uploadId, body, opts)
+      .create(uploadID, body, opts)
       .withResponse();
     return finalResponse(response);
   }
@@ -107,7 +107,13 @@ export interface UploadCreateParams {
   bytes: number;
   filename: string;
   mime_type: string;
-  purpose: 'assistants' | 'batch' | 'fine-tune' | 'vision';
+  purpose:
+    | 'assistants'
+    | 'batch'
+    | 'fine-tune'
+    | 'vision'
+    | 'user_data'
+    | 'evals';
   [key: string]: any;
 }
 

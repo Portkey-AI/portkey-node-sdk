@@ -27,7 +27,7 @@ export class Batches extends ApiResource {
   }
 
   async retrieve(
-    batchId: string,
+    batchID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -42,7 +42,7 @@ export class Batches extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.batches
-      .retrieve(batchId, opts)
+      .retrieve(batchID, opts)
       .withResponse();
     return finalResponse(result);
   }
@@ -68,7 +68,7 @@ export class Batches extends ApiResource {
   }
 
   async cancel(
-    batchId: string,
+    batchID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -85,7 +85,7 @@ export class Batches extends ApiResource {
     const options = { body, ...opts };
 
     const result = await OAIclient.batches
-      .cancel(batchId, options)
+      .cancel(batchID, options)
       .withResponse();
     return finalResponse(result);
   }

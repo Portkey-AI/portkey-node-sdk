@@ -50,7 +50,7 @@ export class MainFiles extends ApiResource {
   }
 
   async retrieve(
-    fileId: string,
+    fileID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -64,13 +64,13 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.files.retrieve(fileId, opts).withResponse();
+    const result = await OAIclient.files.retrieve(fileID, opts).withResponse();
 
     return finalResponse(result);
   }
 
-  async del(
-    fileId: string,
+  async delete(
+    fileID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -84,13 +84,13 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.files.del(fileId, opts).withResponse();
+    const result = await OAIclient.files.delete(fileID, opts).withResponse();
 
     return finalResponse(result);
   }
 
   async content(
-    fileId: string,
+    fileID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -104,13 +104,13 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.files.content(fileId, opts).withResponse();
+    const result = await OAIclient.files.content(fileID, opts).withResponse();
 
     return finalResponse(result);
   }
 
   async retrieveContent(
-    fileId: string,
+    fileID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -124,7 +124,7 @@ export class MainFiles extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.files.content(fileId, opts).withResponse();
+    const result = await OAIclient.files.content(fileID, opts).withResponse();
 
     return finalResponse(result);
   }

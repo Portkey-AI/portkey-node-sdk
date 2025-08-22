@@ -83,8 +83,8 @@ export class Responses extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
-    responseId: string,
+  async delete(
+    responseID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<void> {
@@ -99,7 +99,7 @@ export class Responses extends ApiResource {
     const OAIclient = initOpenAIClient(this.client);
 
     const result = await OAIclient.responses
-      .del(responseId, opts)
+      .delete(responseID, opts)
       .withResponse();
 
     return finalResponse(result);

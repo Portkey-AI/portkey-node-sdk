@@ -282,9 +282,13 @@ export class Permissions extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
-    fineTunedModelCheckpoint: string,
-    permissionId: string,
+  async delete(
+    permissionID: string,
+    {
+      fine_tuned_model_checkpoint,
+    }: {
+      fine_tuned_model_checkpoint: string;
+    },
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -297,7 +301,7 @@ export class Permissions extends ApiResource {
     }
     const OAIclient = initOpenAIClient(this.client);
     const result = await OAIclient.fineTuning.checkpoints.permissions
-      .del(fineTunedModelCheckpoint, permissionId, opts)
+      .delete(permissionID, { fine_tuned_model_checkpoint }, opts)
       .withResponse();
     return finalResponse(result);
   }

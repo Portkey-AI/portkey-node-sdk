@@ -41,7 +41,7 @@ export class Models extends ApiResource {
     return finalResponse(result);
   }
 
-  async del(
+  async delete(
     model: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -56,7 +56,7 @@ export class Models extends ApiResource {
 
     const OAIclient = initOpenAIClient(this.client);
 
-    const result = await OAIclient.models.del(model, opts).withResponse();
+    const result = await OAIclient.models.delete(model, opts).withResponse();
 
     return finalResponse(result);
   }
