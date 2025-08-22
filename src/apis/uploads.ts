@@ -107,7 +107,13 @@ export interface UploadCreateParams {
   bytes: number;
   filename: string;
   mime_type: string;
-  purpose: string;
+  purpose:
+    | 'assistants'
+    | 'batch'
+    | 'fine-tune'
+    | 'vision'
+    | 'user_data'
+    | 'evals';
   [key: string]: any;
 }
 
