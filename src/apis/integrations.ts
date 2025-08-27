@@ -22,26 +22,28 @@ export interface IntegrationListParams {
   workspace_id?: string;
   current_page?: number;
   page_size?: number;
+  type?: 'workspace' | 'organisation' | 'all';
 }
 
 export interface IntegrationGetParams {
-  integration_id?: string;
+  slug?: string;
 }
 
 export interface IntegrationDeleteParams {
-  integration_id?: string;
+  slug?: string;
 }
 
 export interface IntegrationUpdateParams {
-  integration_id?: string;
+  slug?: string;
   name?: string;
   description?: string;
   key?: string;
   configuration?: Record<string, any>;
+  note?: string;
 }
 
 export interface WorkspaceAccessUpdateParams {
-  provider_integration_id?: string;
+  slug?: string;
   global_workspace_access?: Record<string, any>;
   workspace_ids?: string[];
   override_existing_workspaces_access?: boolean;
@@ -49,17 +51,22 @@ export interface WorkspaceAccessUpdateParams {
 }
 
 export interface WorkspaceAccessListParams {
-  provider_integration_id: string;
+  slug: string;
 }
 
 export interface ModelUpdateParams {
-  provider_integration_id: string;
+  slug: string;
   allow_all_models?: boolean;
   models?: Record<string, any>[];
 }
 
 export interface ModelListParams {
-  provider_integration_id: string;
+  slug: string;
+}
+
+export interface ModelDeleteParams {
+  slug: string;
+  slugs?: string;
 }
 
 export class Integrations extends ApiResource {
@@ -73,10 +80,11 @@ export class Integrations extends ApiResource {
   }
 
   create(
-    body: IntegrationAddParams,
+    _body: IntegrationAddParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
+    const body = _body;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -110,37 +118,38 @@ export class Integrations extends ApiResource {
   }
 
   retrieve(
-    body: IntegrationGetParams,
+    _body: IntegrationGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const { integration_id } = body; // TODO: CSG: Check if ID or Slug
+    const body = _body;
+    const slug = body.slug;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
         ...createHeaders({ ...params }),
       };
     }
-    const response = this.getMethod<any>(
-      `${INTEGRATIONS_API}/${integration_id}`,
-      { ...opts }
-    );
+    const response = this.getMethod<any>(`${INTEGRATIONS_API}/${slug}`, {
+      ...opts,
+    });
     return response;
   }
 
   update(
-    body: IntegrationUpdateParams,
+    _body: IntegrationUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const { integration_id, ...restBody } = body; // TODO: CSG: Check if ID or Slug
+    const { slug, ...restBody } = _body;
+
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
         ...createHeaders({ ...params }),
       };
     }
-    const response = this.put<any>(`${INTEGRATIONS_API}/${integration_id}`, {
+    const response = this.put<any>(`${INTEGRATIONS_API}/${slug}`, {
       body: restBody,
       ...opts,
     });
@@ -148,23 +157,21 @@ export class Integrations extends ApiResource {
   }
 
   delete(
-    body: IntegrationDeleteParams,
+    _body: IntegrationDeleteParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const { integration_id } = body; // TODO: CSG: Check if ID or Slug
+    const body = _body;
+    const slug = body.slug;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
         ...createHeaders({ ...params }),
       };
     }
-    const response = this.deleteMethod<any>(
-      `${INTEGRATIONS_API}/${integration_id}`,
-      {
-        ...opts,
-      }
-    );
+    const response = this.deleteMethod<any>(`${INTEGRATIONS_API}/${slug}`, {
+      ...opts,
+    });
     return response;
   }
 }
@@ -175,30 +182,31 @@ export class Workspaces extends ApiResource {
   }
 
   update(
-    body: WorkspaceAccessUpdateParams,
+    _body: WorkspaceAccessUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const { provider_integration_id, ...restBody } = body;
+    const { slug, ...restBody } = _body;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
         ...createHeaders({ ...params }),
       };
     }
-    const response = this.put<any>(
-      `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
-      { body: restBody, ...opts }
-    );
+    const response = this.put<any>(`${INTEGRATIONS_API}/${slug}/workspaces`, {
+      body: restBody,
+      ...opts,
+    });
     return response;
   }
 
   list(
-    body: WorkspaceAccessListParams,
+    _body: WorkspaceAccessListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const { provider_integration_id } = body;
+    const body = _body;
+    const slug = body.slug;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -206,7 +214,7 @@ export class Workspaces extends ApiResource {
       };
     }
     const response = this.getMethod<any>(
-      `${INTEGRATIONS_API}/${provider_integration_id}/workspaces`,
+      `${INTEGRATIONS_API}/${slug}/workspaces`,
       {
         ...opts,
       }
@@ -221,38 +229,60 @@ export class Models extends ApiResource {
   }
 
   update(
-    body: ModelUpdateParams,
+    _body: ModelUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const { provider_integration_id, ...restBody } = body;
+    const { slug, ...restBody } = _body;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
         ...createHeaders({ ...params }),
       };
     }
-    const response = this.put<any>(
-      `${INTEGRATIONS_API}/${provider_integration_id}/models`,
-      { body: restBody, ...opts }
-    );
+    const response = this.put<any>(`${INTEGRATIONS_API}/${slug}/models`, {
+      body: restBody,
+      ...opts,
+    });
     return response;
   }
 
   list(
-    body: ModelListParams,
+    _body: ModelListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<any> {
-    const { provider_integration_id } = body;
+    const body = _body;
+    const slug = body.slug;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
         ...createHeaders({ ...params }),
       };
     }
-    const response = this.getMethod<any>(
-      `${INTEGRATIONS_API}/${provider_integration_id}/models`,
+    const response = this.getMethod<any>(`${INTEGRATIONS_API}/${slug}/models`, {
+      ...opts,
+    });
+    return response;
+  }
+
+  delete(
+    _body: ModelDeleteParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    const body = _body;
+    const slug = body.slug;
+    const slugs = body.slugs;
+    if (params) {
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params }),
+      };
+    }
+    const query = slugs ? `?slugs=${slugs}` : '';
+    const response = this.deleteMethod<any>(
+      `${INTEGRATIONS_API}/${slug}/models${query}`,
       {
         ...opts,
       }
