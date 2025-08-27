@@ -211,6 +211,7 @@ export class Portkey extends ApiClient {
   configs = new API.Configs(this);
   logs = new API.Logs(this);
   integrations = new API.Integrations(this);
+  providers = new API.Providers(this);
 
   beta = {
     assistants: new API.Assistants(this),
