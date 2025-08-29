@@ -12,8 +12,7 @@ export interface IntegrationAddParams {
   ai_provider_id?: string;
   workspace_id?: string;
   slug?: string;
-  note?: string;
-  configuration?: Record<string, any>;
+  configurations?: Record<string, any>;
 }
 
 export interface IntegrationListParams {
@@ -36,14 +35,12 @@ export interface IntegrationUpdateParams {
   name?: string;
   description?: string;
   key?: string;
-  configuration?: Record<string, any>;
-  note?: string;
+  configurations?: Record<string, any>;
 }
 
 export interface WorkspaceAccessUpdateParams {
   slug?: string;
   global_workspace_access?: Record<string, any>;
-  workspace_ids?: string[];
   override_existing_workspaces_access?: boolean;
   workspaces?: Record<string, any>[];
 }
