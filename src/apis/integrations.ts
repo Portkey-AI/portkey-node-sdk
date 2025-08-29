@@ -12,13 +12,11 @@ export interface IntegrationAddParams {
   ai_provider_id?: string;
   workspace_id?: string;
   slug?: string;
-  organisation_id?: string;
   note?: string;
   configuration?: Record<string, any>;
 }
 
 export interface IntegrationListParams {
-  organisation_id?: string;
   workspace_id?: string;
   current_page?: number;
   page_size?: number;
