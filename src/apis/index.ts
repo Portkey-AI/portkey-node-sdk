@@ -34,3 +34,4 @@ export { Integrations } from './integrations';
 export { Providers } from './providers';
 export { Webhooks } from './webhooks';
 export { MainRealtime } from './mainRealtime';
+export { Conversations } from './conversations';
