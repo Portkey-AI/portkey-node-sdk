@@ -30,4 +30,6 @@ export { Labels } from './labels';
 export { Collections } from './collections';
 export { Evals } from './evals';
 export { Containers } from './containers';
+export { Integrations } from './integrations';
+export { Providers } from './providers';
 export { Webhooks } from './webhooks';
