@@ -1,39 +1,32 @@
+import {
+  ItemCreateParams,
+  ItemDeleteParams,
+  ItemListParams,
+  ItemRetrieveParams,
+} from 'openai/resources/conversations/items';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
 import { RequestOptions } from '../baseClient';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
+import {
+  ConversationCreateParams,
+  ConversationUpdateParams,
+} from 'openai/resources/conversations/conversations';
 
-export class MainFiles extends ApiResource {
-  async create(
-    _body: FileCreateParams,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<FileObject> {
-    const body: FileCreateParams = _body;
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-
-    const OAIclient = initOpenAIClient(this.client);
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const result = await OAIclient.files.create(body, opts).withResponse();
-
-    return finalResponse(result);
+export class Conversations extends ApiResource {
+  items: Items;
+  constructor(client: any) {
+    super(client);
+    this.items = new Items(client);
   }
 
-  async list(
-    _query?: FileListParams,
+  async create(
+    _body: ConversationCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
-    const query: FileListParams | undefined = _query;
+    const body: ConversationCreateParams = _body;
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -41,16 +34,15 @@ export class MainFiles extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
     const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.list(query, opts).withResponse();
-
+    const result = await OAIclient.conversations
+      .create(body, opts)
+      .withResponse();
     return finalResponse(result);
   }
 
   async retrieve(
-    fileID: string,
+    conversationID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -61,16 +53,36 @@ export class MainFiles extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
     const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.conversations
+      .retrieve(conversationID, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
 
-    const result = await OAIclient.files.retrieve(fileID, opts).withResponse();
-
+  async update(
+    conversationID: string,
+    _body: ConversationUpdateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    const body: ConversationUpdateParams = _body;
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.conversations
+      .update(conversationID, body, opts)
+      .withResponse();
     return finalResponse(result);
   }
 
   async delete(
-    fileID: string,
+    conversationID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -81,16 +93,18 @@ export class MainFiles extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
     const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.delete(fileID, opts).withResponse();
-
+    const result = await OAIclient.conversations
+      .delete(conversationID, opts)
+      .withResponse();
     return finalResponse(result);
   }
+}
 
-  async content(
-    fileID: string,
+export class Items extends ApiResource {
+  async create(
+    conversationID: string,
+    itemsCreateParams: ItemCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -101,16 +115,16 @@ export class MainFiles extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
     const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.content(fileID, opts).withResponse();
-
+    const result = await OAIclient.conversations.items
+      .create(conversationID, itemsCreateParams, opts)
+      .withResponse();
     return finalResponse(result);
   }
 
-  async retrieveContent(
-    fileID: string,
+  async retrieve(
+    itemID: string,
+    itemsRetrieveParams: ItemRetrieveParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): Promise<any> {
@@ -121,20 +135,19 @@ export class MainFiles extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
     const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.content(fileID, opts).withResponse();
-
+    const result = await OAIclient.conversations.items
+      .retrieve(itemID, itemsRetrieveParams, opts)
+      .withResponse();
     return finalResponse(result);
   }
 
-  async waitForProcessing(
-    id: string,
-    _body: PollOptions,
-    params?: ApiClientInterface
-  ): Promise<FileObject> {
-    const body: PollOptions = _body;
+  async list(
+    conversationID: string,
+    query?: ItemListParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -142,45 +155,30 @@ export class MainFiles extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
     const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.waitForProcessing(id, {
-      ...(body.pollInterval !== undefined && {
-        pollInterval: body.pollInterval,
-      }),
-      ...(body.maxWait !== undefined && { maxWait: body.maxWait }),
-    });
-
-    return result;
+    const result = await OAIclient.conversations.items
+      .list(conversationID, query, opts)
+      .withResponse();
+    return finalResponse(result);
   }
-}
 
-interface PollOptions {
-  pollInterval?: number | undefined;
-  maxWait?: number | undefined;
-}
-
-export interface FileCreateParams {
-  file: any;
-  purpose?: string;
-  [key: string]: any;
-}
-
-export interface FileObject {
-  id: string;
-  bytes?: number;
-  created_at?: number;
-  filename?: string;
-  object?: string;
-  purpose?: string;
-  status?: string;
-  status_details?: string;
-  [key: string]: any;
-}
-
-export interface FileListParams {
-  purpose?: string;
-  order?: 'asc' | 'desc';
-  [key: string]: any;
+  async delete(
+    itemID: string,
+    itemsDeleteParams: ItemDeleteParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.conversations.items
+      .delete(itemID, itemsDeleteParams, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
 }
