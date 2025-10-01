@@ -88,7 +88,26 @@ export class Stream<Item> implements AsyncIterable<Item> {
         }
 
         if (sse.event === 'error') {
-          throw APIError;
+          let errorData: any;
+          try {
+            errorData = JSON.parse(sse.data);
+          } catch (e) {
+            console.error('Could not parse message into JSON:', sse.data);
+            console.error('From chunk:', sse.raw);
+            throw new APIError(
+              undefined,
+              undefined,
+              'Unknown error',
+              undefined
+            );
+          }
+
+          throw new APIError(
+            undefined,
+            errorData,
+            errorData.message,
+            undefined
+          );
         }
       }
     } catch (e) {
