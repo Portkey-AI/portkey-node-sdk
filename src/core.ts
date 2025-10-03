@@ -59,3 +59,28 @@ export const isRunningInBrowser = () => {
     typeof navigator !== 'undefined'
   );
 };
+
+/**
+ * Check if running in Node.js environment
+ * More reliable than isRunningInBrowser() when polyfills are present
+ */
+export const isNode = () => {
+  return (
+    typeof process !== 'undefined' &&
+    typeof process.versions !== 'undefined' &&
+    typeof process.versions.node !== 'undefined'
+  );
+};
+
+/**
+ * Check if fs module is available
+ * Useful for determining if file system operations are possible
+ */
+export const isFsModuleAvailable = () => {
+  try {
+    require('fs');
+    return true;
+  } catch (e) {
+    return false;
+  }
+};

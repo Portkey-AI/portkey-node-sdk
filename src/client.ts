@@ -95,6 +95,8 @@ export class Portkey extends ApiClient {
     calculateAudioDuration,
     ...rest
   }: ApiClientInterface) {
+    // Security check: Use isRunningInBrowser() to err on the side of caution
+    // This prevents API key exposure even in environments with browser-like polyfills
     if (isRunningInBrowser() && !dangerouslyAllowBrowser) {
       throw new Error(
         "It looks like you're running in a browser-like environment.\n\nThis is disabled by default, as it risks exposing your secret API credentials to attackers.\nIf you understand the risks and have appropriate mitigations in place,\nyou can set the `dangerouslyAllowBrowser` option to `true`, e.g.,\n\nnew Portkey({ ..., dangerouslyAllowBrowser: true, ... });"
