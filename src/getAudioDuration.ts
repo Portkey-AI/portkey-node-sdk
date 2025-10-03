@@ -1,6 +1,7 @@
-import { isRunningInBrowser } from './core';
+import { isNode, isFsModuleAvailable } from './core';
 
-const isBrowser = isRunningInBrowser();
+const isNodeEnv = isNode();
+const fsAvailable = isFsModuleAvailable();
 
 let fs: any;
 let open: any;
@@ -8,7 +9,9 @@ let read: any;
 let stat: any;
 let close: any;
 
-if (!isBrowser) {
+// Use more robust environment detection
+// Check if we're in Node.js AND fs module is available
+if (isNodeEnv && fsAvailable) {
   try {
     fs = require('fs');
     const { promisify } = require('util');
@@ -27,7 +30,9 @@ if (!isBrowser) {
  * Uses optimized file reading to avoid loading entire files into memory
  */
 async function getAudioFileDuration(filePath: string): Promise<string | null> {
-  if (isBrowser || !fs) {
+  // Use more robust environment detection
+  // Only proceed if we're in Node.js, fs is available, and fs module loaded successfully
+  if (!isNodeEnv || !fsAvailable || !fs) {
     return null;
   }
 
