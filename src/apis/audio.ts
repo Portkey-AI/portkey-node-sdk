@@ -78,7 +78,7 @@ export class transcriptions extends ApiResource {
   > {
     // @ts-ignore
     const path = body.file?.path;
-    // Use more robust environment detection for audio duration calculation
+
     if (
       path &&
       this.client.calculateAudioDuration &&
@@ -116,7 +116,7 @@ export class translations extends ApiResource {
   ): Promise<any> {
     const body: any = _body;
     const path = body.file?.path;
-    // Use more robust environment detection for audio duration calculation
+
     if (
       path &&
       this.client.calculateAudioDuration &&

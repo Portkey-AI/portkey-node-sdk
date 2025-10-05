@@ -9,7 +9,6 @@ let read: any;
 let stat: any;
 let close: any;
 
-// Use more robust environment detection
 // Check if we're in Node.js AND fs module is available
 if (isNodeEnv && fsAvailable) {
   try {
@@ -30,7 +29,6 @@ if (isNodeEnv && fsAvailable) {
  * Uses optimized file reading to avoid loading entire files into memory
  */
 async function getAudioFileDuration(filePath: string): Promise<string | null> {
-  // Use more robust environment detection
   // Only proceed if we're in Node.js, fs is available, and fs module loaded successfully
   if (!isNodeEnv || !fsAvailable || !fs) {
     return null;
