@@ -60,14 +60,6 @@ export const isRunningInBrowser = () => {
   );
 };
 
-export const isNode = () => {
-  return (
-    typeof process !== 'undefined' &&
-    typeof process.versions !== 'undefined' &&
-    typeof process.versions.node !== 'undefined'
-  );
-};
-
 export const isFsModuleAvailable = () => {
   try {
     require('fs');

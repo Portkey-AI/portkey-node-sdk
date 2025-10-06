@@ -1,6 +1,5 @@
-import { isNode, isFsModuleAvailable } from './core';
+import { isFsModuleAvailable } from './core';
 
-const isNodeEnv = isNode();
 const fsAvailable = isFsModuleAvailable();
 
 let fs: any;
@@ -10,7 +9,7 @@ let stat: any;
 let close: any;
 
 // Check if we're in Node.js AND fs module is available
-if (isNodeEnv && fsAvailable) {
+if (fsAvailable) {
   try {
     fs = require('fs');
     const { promisify } = require('util');
@@ -30,7 +29,7 @@ if (isNodeEnv && fsAvailable) {
  */
 async function getAudioFileDuration(filePath: string): Promise<string | null> {
   // Only proceed if we're in Node.js, fs is available, and fs module loaded successfully
-  if (!isNodeEnv || !fsAvailable || !fs) {
+  if (!fsAvailable || !fs) {
     return null;
   }
 
