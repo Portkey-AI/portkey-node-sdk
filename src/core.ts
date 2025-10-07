@@ -59,3 +59,12 @@ export const isRunningInBrowser = () => {
     typeof navigator !== 'undefined'
   );
 };
+
+export const isFsModuleAvailable = () => {
+  try {
+    require('fs');
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
