@@ -181,9 +181,11 @@ export function initOpenAIClient(client: Portkey) {
           fetchOptions.headers.delete('Content-Type');
         } else if (
           fetchOptions.headers &&
-          'Content-Type' in fetchOptions.headers
+          'Content-Type' in fetchOptions.headers &&
+          typeof fetchOptions.headers === 'object'
         ) {
-          delete (fetchOptions.headers as any)['Content-Type'];
+          const headers = fetchOptions.headers as Record<string, any>;
+          delete headers['Content-Type'];
         }
       }
       let isRetrying = false;
