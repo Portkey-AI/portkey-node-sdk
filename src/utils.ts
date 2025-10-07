@@ -173,6 +173,19 @@ export function initOpenAIClient(client: Portkey) {
           typeof (init.body as any)?.pipe === 'function' && { duplex: 'half' }),
       };
 
+      if (
+        fetchOptions.body &&
+        fetchOptions.body.constructor?.name === 'FormData'
+      ) {
+        if (fetchOptions.headers instanceof Headers) {
+          fetchOptions.headers.delete('Content-Type');
+        } else if (
+          fetchOptions.headers &&
+          'Content-Type' in fetchOptions.headers
+        ) {
+          delete (fetchOptions.headers as any)['Content-Type'];
+        }
+      }
       let isRetrying = false;
       let response: Response | undefined;
       try {
@@ -193,6 +206,43 @@ export function initOpenAIClient(client: Portkey) {
     },
   });
 }
+
+// export function initOpenAIClient(client: Portkey) {
+//   return new OpenAI({
+//     apiKey: client.apiKey || readEnv("OPENAI_API_KEY") || OPEN_AI_API_KEY,
+//     baseURL: client.baseURL,
+//     defaultHeaders: defaultHeadersBuilder(client),
+//     maxRetries: 0,
+//     dangerouslyAllowBrowser: client.dangerouslyAllowBrowser ?? false,
+
+//     fetch: async (url: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+//       // 🧠 If body is FormData, ensure we remove any forced JSON header
+//       if (init?.body && init.body.constructor?.name === "FormData") {
+//         if (init.headers instanceof Headers) {
+//           init.headers.delete("Content-Type");
+//         } else if (init.headers && "Content-Type" in init.headers) {
+//           delete (init.headers as any)["Content-Type"];
+//         }
+//       }
+
+//       let response: Response | undefined;
+//       let shouldRetry = false;
+
+//       try {
+//         response = await fetch(url, init);
+//       } catch {
+//         shouldRetry = true;
+//       }
+
+//       if (shouldRetry || (response && !response.ok && client._shouldRetry(response))) {
+//         return await fetch(url, init);
+//       }
+
+//       if (response) return response;
+//       throw castToError(response);
+//     },
+//   });
+// }
 
 export function toQueryParams(
   params?:
