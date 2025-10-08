@@ -173,6 +173,21 @@ export function initOpenAIClient(client: Portkey) {
           typeof (init.body as any)?.pipe === 'function' && { duplex: 'half' }),
       };
 
+      if (
+        fetchOptions.body &&
+        fetchOptions.body.constructor?.name === 'FormData'
+      ) {
+        if (fetchOptions.headers instanceof Headers) {
+          fetchOptions.headers.delete('Content-Type');
+        } else if (
+          fetchOptions.headers &&
+          'Content-Type' in fetchOptions.headers &&
+          typeof fetchOptions.headers === 'object'
+        ) {
+          const headers = fetchOptions.headers as Record<string, any>;
+          delete headers['Content-Type'];
+        }
+      }
       let isRetrying = false;
       let response: Response | undefined;
       try {
