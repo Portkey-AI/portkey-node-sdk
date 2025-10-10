@@ -1,37 +1,27 @@
-import { ClientSecretCreateParams } from 'openai/resources/realtime/client-secrets';
 import { ApiResource } from '../apiResource';
-import { ApiClientInterface } from '../_types/generalTypes';
-import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
-import { APIPromise, RequestOptions } from '../baseClient';
 import { createHeaders } from './createHeaders';
+import { initOpenAIClient, overrideConfig } from '../utils';
+import { ApiClientInterface } from '../_types/generalTypes';
+import { APIPromise, RequestOptions } from '../baseClient';
 import {
-  CallAcceptParams,
-  CallReferParams,
-  CallRejectParams,
-} from 'openai/resources/realtime/calls';
+  Video,
+  VideoCreateParams,
+  VideoDeleteResponse,
+  VideoDownloadContentParams,
+  VideoListParams,
+  VideoRemixParams,
+} from 'openai/resources/videos';
 
-export class MainRealtime extends ApiResource {
-  clientSecrets: ClientSecrets;
-  calls: Calls;
-
-  constructor(client: any) {
-    super(client);
-    this.clientSecrets = new ClientSecrets(client);
-    this.calls = new Calls(client);
-  }
-}
-
-export class ClientSecrets extends ApiResource {
+export class Videos extends ApiResource {
   constructor(client: any) {
     super(client);
   }
 
-  async create(
-    _body: ClientSecretCreateParams,
+  create(
+    body: VideoCreateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<any> {
-    const body: ClientSecretCreateParams = _body;
+  ): APIPromise<Video> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -39,42 +29,17 @@ export class ClientSecrets extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.realtime.clientSecrets
-      .create(body, opts)
-      .withResponse();
-    return finalResponse(result);
-  }
-}
 
-export class Calls extends ApiResource {
-  constructor(client: any) {
-    super(client);
-  }
-
-  accept(
-    callID: string,
-    body: CallAcceptParams,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): APIPromise<void> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.realtime.calls.accept(callID, body, opts);
+    const result = OAIclient.videos.create(body, opts);
     return result as any;
   }
 
-  hangup(
-    callID: string,
+  retrieve(
+    videoID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<void> {
+  ): APIPromise<Video> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -82,17 +47,17 @@ export class Calls extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
+
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.realtime.calls.hangup(callID, opts);
+    const result = OAIclient.videos.retrieve(videoID, opts);
     return result as any;
   }
 
-  refer(
-    callID: string,
-    body: CallReferParams,
+  list(
+    query: VideoListParams | null | undefined = {},
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<void> {
+  ): APIPromise<any> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -100,17 +65,36 @@ export class Calls extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
+
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.realtime.calls.refer(callID, body, opts);
+    const result = OAIclient.videos.list(query, opts);
     return result as any;
   }
 
-  reject(
-    callID: string,
-    body: CallRejectParams | null | undefined = {},
+  delete(
+    videoID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): APIPromise<void> {
+  ): APIPromise<VideoDeleteResponse> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.videos.delete(videoID, opts);
+    return result as any;
+  }
+
+  downloadContent(
+    videoID: string,
+    query: VideoDownloadContentParams | null | undefined = {},
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<Response> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -119,7 +103,26 @@ export class Calls extends ApiResource {
       };
     }
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.realtime.calls.reject(callID, body, opts);
+    const result = OAIclient.videos.downloadContent(videoID, query, opts);
+
+    return result as any;
+  }
+
+  remix(
+    videoID: string,
+    body: VideoRemixParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<Video> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.videos.remix(videoID, body, opts);
     return result as any;
   }
 }
