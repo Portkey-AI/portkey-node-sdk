@@ -35,3 +35,4 @@ export { Providers } from './providers';
 export { Webhooks } from './webhooks';
 export { MainRealtime } from './mainRealtime';
 export { Conversations } from './conversations';
+export { Videos } from './videos';
