@@ -221,6 +221,7 @@ export class Portkey extends ApiClient {
     assistants: new API.Assistants(this),
     threads: new API.Threads(this),
     realtime: new API.Realtime(this),
+    chatkit: new API.ChatKit(this),
   };
 
   post = (
