@@ -1,6 +1,6 @@
 import { ApiResource } from '../apiResource';
 import { createHeaders } from './createHeaders';
-import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
+import { initOpenAIClient, overrideConfig } from '../utils';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { APIPromise, RequestOptions } from '../baseClient';
 import {
@@ -31,8 +31,8 @@ export class Videos extends ApiResource {
     }
 
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.videos.create(body, opts).withResponse();
-    return finalResponse(result);
+    const result = OAIclient.videos.create(body, opts);
+    return result as any;
   }
 
   retrieve(
@@ -49,8 +49,8 @@ export class Videos extends ApiResource {
     }
 
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.videos.retrieve(videoID, opts).withResponse();
-    return finalResponse(result);
+    const result = OAIclient.videos.retrieve(videoID, opts);
+    return result as any;
   }
 
   list(
@@ -67,8 +67,8 @@ export class Videos extends ApiResource {
     }
 
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.videos.list(query, opts).withResponse();
-    return finalResponse(result);
+    const result = OAIclient.videos.list(query, opts);
+    return result as any;
   }
 
   delete(
@@ -85,8 +85,8 @@ export class Videos extends ApiResource {
     }
 
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.videos.delete(videoID, opts).withResponse();
-    return finalResponse(result);
+    const result = OAIclient.videos.delete(videoID, opts);
+    return result as any;
   }
 
   downloadContent(
@@ -122,7 +122,7 @@ export class Videos extends ApiResource {
       };
     }
     const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.videos.remix(videoID, body, opts).withResponse();
-    return finalResponse(result);
+    const result = OAIclient.videos.remix(videoID, body, opts);
+    return result as any;
   }
 }
