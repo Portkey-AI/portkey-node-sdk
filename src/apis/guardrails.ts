@@ -84,7 +84,7 @@ export interface ListGuardrailsResponse extends APIResponseType {
 
 // Get Guardrail parameters
 export interface GetGuardrailParams {
-  guardrailId: string;
+  guardrail_id: string;
 }
 
 // Guardrail Details interface
@@ -109,13 +109,13 @@ export interface UpdateGuardrailResponse extends APIResponseType {
 
 // Update Guardrail parameters
 export interface UpdateGuardrailParams {
-  guardrailId?: string;
+  guardrail_id?: string;
   workspace_id?: string;
 }
 
 // Delete Guardrail parameters
 export interface DeleteGuardrailParams {
-  guardrailId: string;
+  guardrail_id: string;
 }
 
 export class Guardrails extends ApiResource {
@@ -164,7 +164,7 @@ export class Guardrails extends ApiResource {
     opts?: RequestOptions
   ): APIPromise<GuardrailDetails> {
     const body = _body;
-    const guardrailId = body.guardrailId;
+    const guardrailId = body.guardrail_id;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -184,8 +184,8 @@ export class Guardrails extends ApiResource {
     opts?: RequestOptions
   ): APIPromise<UpdateGuardrailResponse> {
     const body = _body;
-    const guardrailId = body.guardrailId;
-    delete body.guardrailId;
+    const guardrailId = body.guardrail_id;
+    delete body.guardrail_id;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -205,7 +205,7 @@ export class Guardrails extends ApiResource {
     opts?: RequestOptions
   ): APIPromise<any> {
     const body = _body;
-    const guardrailId = body.guardrailId;
+    const guardrailId = body.guardrail_id;
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
