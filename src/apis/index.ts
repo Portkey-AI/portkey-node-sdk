@@ -37,3 +37,4 @@ export { MainRealtime } from './mainRealtime';
 export { Conversations } from './conversations';
 export { Videos } from './videos';
 export { ChatKit } from './chatkit';
+export { Guardrails } from './guardrails';
