@@ -162,7 +162,10 @@ export function initOpenAIClient(client: Portkey) {
     defaultHeaders: defaultHeadersBuilder(client),
     maxRetries: 0,
     dangerouslyAllowBrowser: client.dangerouslyAllowBrowser ?? false,
-    fetch: async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
+    fetch: async (
+      url: RequestInfo | URL,
+      init?: RequestInit
+    ): Promise<Response> => {
       // NOTE: For adding duplex option only when body is a Readable stream
       const fetchOptions: RequestInit = {
         ...init,
@@ -170,6 +173,21 @@ export function initOpenAIClient(client: Portkey) {
           typeof (init.body as any)?.pipe === 'function' && { duplex: 'half' }),
       };
 
+      if (
+        fetchOptions.body &&
+        fetchOptions.body.constructor?.name === 'FormData'
+      ) {
+        if (fetchOptions.headers instanceof Headers) {
+          fetchOptions.headers.delete('Content-Type');
+        } else if (
+          fetchOptions.headers &&
+          'Content-Type' in fetchOptions.headers &&
+          typeof fetchOptions.headers === 'object'
+        ) {
+          const headers = fetchOptions.headers as Record<string, any>;
+          delete headers['Content-Type'];
+        }
+      }
       let isRetrying = false;
       let response: Response | undefined;
       try {

@@ -9,7 +9,7 @@ import { ApiResource } from '../apiResource';
 import { APIPromise, RequestOptions } from '../baseClient';
 import { CHAT_COMPLETE_API } from '../constants';
 import { Stream } from '../streaming';
-import { overrideConfig } from '../utils';
+import { initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
 import { Metadata, CursorPageParams } from '../_types/sharedTypes';
 
@@ -59,7 +59,7 @@ class ChatCompletions extends ApiResource {
   }
 
   retrieve(
-    completionId: string,
+    completionID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<ChatCompletion> {
@@ -71,7 +71,7 @@ class ChatCompletions extends ApiResource {
       };
     }
     return this.getMethod<ChatCompletion>(
-      `${CHAT_COMPLETE_API}/${completionId}`,
+      `${CHAT_COMPLETE_API}/${completionID}`,
       {
         ...opts,
       }
@@ -79,7 +79,7 @@ class ChatCompletions extends ApiResource {
   }
 
   update(
-    completionId: string,
+    completionID: string,
     _body: ChatCompletionUpdateParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -92,7 +92,7 @@ class ChatCompletions extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-    return this.post<ChatCompletion>(`${CHAT_COMPLETE_API}/${completionId}`, {
+    return this.post<ChatCompletion>(`${CHAT_COMPLETE_API}/${completionID}`, {
       body,
       ...opts,
     });
@@ -116,8 +116,8 @@ class ChatCompletions extends ApiResource {
     });
   }
 
-  del(
-    completionId: string,
+  delete(
+    completionID: string,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<ChatCompletion> {
@@ -129,17 +129,65 @@ class ChatCompletions extends ApiResource {
       };
     }
     return this.deleteMethod<ChatCompletion>(
-      `${CHAT_COMPLETE_API}/${completionId}`,
+      `${CHAT_COMPLETE_API}/${completionID}`,
       {
         ...opts,
       }
     );
   }
+
+  async parse(
+    body: any,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.responses.parse(body, opts);
+    return result;
+  }
+
+  async stream(
+    body: any,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = await OAIclient.chat.completions.stream(body, opts);
+    return result;
+  }
+
+  runTools(body: any, params?: ApiClientInterface, opts?: RequestOptions): any {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.chat.completions.runTools(body, opts);
+    return result;
+  }
 }
 
 export class ChatCompletionsMessages extends ApiResource {
   list(
-    completionId: string,
+    completionID: string,
     query?: MessageListParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
@@ -152,7 +200,7 @@ export class ChatCompletionsMessages extends ApiResource {
       };
     }
     return this.getMethod<any>(
-      `${CHAT_COMPLETE_API}/${completionId}/messages`,
+      `${CHAT_COMPLETE_API}/${completionID}/messages`,
       {
         ...opts,
         ...query,

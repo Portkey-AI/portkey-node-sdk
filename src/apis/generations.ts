@@ -58,7 +58,7 @@ export interface Tool {
 }
 
 export interface Messages {
-  content?: string;
+  content?: string | any[];
   role?: string;
 }
 

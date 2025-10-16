@@ -205,17 +205,23 @@ export class Portkey extends ApiClient {
   responses = new API.Responses(this);
   evals = new API.Evals(this);
   containers = new API.Containers(this);
+  webhooks = new API.Webhooks(this);
   admin = new API.Admin(this);
   virtualKeys = new API.VirtualKeys(this);
   apiKeys = new API.ApiKeys(this);
   configs = new API.Configs(this);
   logs = new API.Logs(this);
+  integrations = new API.Integrations(this);
+  providers = new API.Providers(this);
+  realtime = new API.MainRealtime(this);
+  conversations = new API.Conversations(this);
+  videos = new API.Videos(this);
   guardrails = new API.Guardrails(this);
   beta = {
     assistants: new API.Assistants(this),
     threads: new API.Threads(this),
-    chat: new API.BetaChat(this),
     realtime: new API.Realtime(this),
+    chatkit: new API.ChatKit(this),
   };
 
   post = (

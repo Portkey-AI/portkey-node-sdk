@@ -121,8 +121,11 @@ export interface WorkspacesGetResponse extends APIResponseType {
 }
 
 export interface WorkspacesListParams {
+  name?: string;
   page_size?: number;
   current_page?: number;
+  exact_name?: string;
+  [key: string]: any;
 }
 
 export interface WorkspacesListResponse extends APIResponseType {

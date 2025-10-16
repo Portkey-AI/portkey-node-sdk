@@ -1,39 +1,35 @@
-import { ApiClientInterface } from '../_types/generalTypes';
 import { ApiResource } from '../apiResource';
-import { RequestOptions } from '../baseClient';
-import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { createHeaders } from './createHeaders';
+import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
+import { ApiClientInterface } from '../_types/generalTypes';
+import { APIPromise, RequestOptions } from '../baseClient';
+import {
+  ChatKitUploadFileParams,
+  ChatKitUploadFileResponse,
+} from 'openai/resources/beta/chatkit/chatkit';
+import { SessionCreateParams } from 'openai/resources/beta/chatkit/sessions';
+import {
+  ChatKitThread,
+  ChatSession,
+  ThreadDeleteResponse,
+  ThreadListItemsParams,
+  ThreadListParams,
+} from 'openai/resources/beta/chatkit/threads';
 
-export class MainFiles extends ApiResource {
-  async create(
-    _body: FileCreateParams,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<FileObject> {
-    const body: FileCreateParams = _body;
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-
-    const OAIclient = initOpenAIClient(this.client);
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const result = await OAIclient.files.create(body, opts).withResponse();
-
-    return finalResponse(result);
+export class ChatKit extends ApiResource {
+  sessions: ChatKitSessions;
+  threads: ChatKitThreads;
+  constructor(client: any) {
+    super(client);
+    this.sessions = new ChatKitSessions(client);
+    this.threads = new ChatKitThreads(client);
   }
 
-  async list(
-    _query?: FileListParams,
+  uploadFile(
+    body: ChatKitUploadFileParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
-  ): Promise<any> {
-    const query: FileListParams | undefined = _query;
+  ): APIPromise<ChatKitUploadFileResponse> {
     if (params) {
       const config = overrideConfig(this.client.config, params.config);
       this.client.customHeaders = {
@@ -41,146 +37,127 @@ export class MainFiles extends ApiResource {
         ...createHeaders({ ...params, config }),
       };
     }
-
     const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.list(query, opts).withResponse();
-
-    return finalResponse(result);
-  }
-
-  async retrieve(
-    fileID: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<any> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-
-    const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.retrieve(fileID, opts).withResponse();
-
-    return finalResponse(result);
-  }
-
-  async delete(
-    fileID: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<any> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-
-    const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.delete(fileID, opts).withResponse();
-
-    return finalResponse(result);
-  }
-
-  async content(
-    fileID: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<any> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-
-    const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.content(fileID, opts).withResponse();
-
-    return finalResponse(result);
-  }
-
-  async retrieveContent(
-    fileID: string,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): Promise<any> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-
-    const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.content(fileID, opts).withResponse();
-
-    return finalResponse(result);
-  }
-
-  async waitForProcessing(
-    id: string,
-    _body: PollOptions,
-    params?: ApiClientInterface
-  ): Promise<FileObject> {
-    const body: PollOptions = _body;
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-
-    const OAIclient = initOpenAIClient(this.client);
-
-    const result = await OAIclient.files.waitForProcessing(id, {
-      ...(body.pollInterval !== undefined && {
-        pollInterval: body.pollInterval,
-      }),
-      ...(body.maxWait !== undefined && { maxWait: body.maxWait }),
-    });
-
-    return result;
+    const result = OAIclient.beta.chatkit.uploadFile(body, opts);
+    return result as any;
   }
 }
 
-interface PollOptions {
-  pollInterval?: number | undefined;
-  maxWait?: number | undefined;
+export class ChatKitSessions extends ApiResource {
+  create(
+    body: SessionCreateParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<ChatSession> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.beta.chatkit.sessions
+      .create(body, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
+
+  cancel(
+    sessionID: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<void> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.beta.chatkit.sessions
+      .cancel(sessionID, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
 }
 
-export interface FileCreateParams {
-  file: any;
-  purpose?: string;
-  [key: string]: any;
-}
+export class ChatKitThreads extends ApiResource {
+  retrieve(
+    threadID: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<ChatKitThread> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.beta.chatkit.threads
+      .retrieve(threadID, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
 
-export interface FileObject {
-  id: string;
-  bytes?: number;
-  created_at?: number;
-  filename?: string;
-  object?: string;
-  purpose?: string;
-  status?: string;
-  status_details?: string;
-  [key: string]: any;
-}
+  list(
+    query: ThreadListParams | null | undefined = {},
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.beta.chatkit.threads.list(query, opts);
+    return result as any;
+  }
+  delete(
+    threadID: string,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<ThreadDeleteResponse> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.beta.chatkit.threads
+      .delete(threadID, opts)
+      .withResponse();
+    return finalResponse(result);
+  }
 
-export interface FileListParams {
-  purpose?: string;
-  order?: 'asc' | 'desc';
-  [key: string]: any;
+  listItems(
+    threadID: string,
+    query: ThreadListItemsParams | null | undefined = {},
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): APIPromise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+    const OAIclient = initOpenAIClient(this.client);
+    const result = OAIclient.beta.chatkit.threads.listItems(
+      threadID,
+      query,
+      opts
+    );
+    return result as any;
+  }
 }
