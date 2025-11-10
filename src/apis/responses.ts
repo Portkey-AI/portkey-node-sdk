@@ -15,13 +15,16 @@ import { CursorPageParams } from '../_types/sharedTypes';
 import { ResponseCreateParamsWithTools } from 'openai/lib/ResponsesParser';
 import { ResponseStreamParams } from 'openai/lib/responses/ResponseStream';
 import { Stream } from '../streaming';
+import { InputTokenCountParams } from 'openai/resources/responses/input-tokens';
 
 export class Responses extends ApiResource {
   inputItems: InputItems;
+  inputTokens: InputTokens;
 
   constructor(client: any) {
     super(client);
     this.inputItems = new InputItems(client);
+    this.inputTokens = new InputTokens(client);
   }
 
   create(
@@ -189,6 +192,30 @@ export class InputItems extends ApiResource {
 
     const result = await OAIclient.responses.inputItems
       .list(responseId, query, opts)
+      .withResponse();
+
+    return finalResponse(result);
+  }
+}
+
+export class InputTokens extends ApiResource {
+  async count(
+    body: InputTokenCountParams,
+    params?: ApiClientInterface,
+    opts?: RequestOptions
+  ): Promise<any> {
+    if (params) {
+      const config = overrideConfig(this.client.config, params.config);
+      this.client.customHeaders = {
+        ...this.client.customHeaders,
+        ...createHeaders({ ...params, config }),
+      };
+    }
+
+    const OAIclient = initOpenAIClient(this.client);
+
+    const result = await OAIclient.responses.inputTokens
+      .count(body, opts)
       .withResponse();
 
     return finalResponse(result);
