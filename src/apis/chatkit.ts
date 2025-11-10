@@ -3,10 +3,6 @@ import { createHeaders } from './createHeaders';
 import { finalResponse, initOpenAIClient, overrideConfig } from '../utils';
 import { ApiClientInterface } from '../_types/generalTypes';
 import { APIPromise, RequestOptions } from '../baseClient';
-import {
-  ChatKitUploadFileParams,
-  ChatKitUploadFileResponse,
-} from 'openai/resources/beta/chatkit/chatkit';
 import { SessionCreateParams } from 'openai/resources/beta/chatkit/sessions';
 import {
   ChatKitThread,
@@ -23,23 +19,6 @@ export class ChatKit extends ApiResource {
     super(client);
     this.sessions = new ChatKitSessions(client);
     this.threads = new ChatKitThreads(client);
-  }
-
-  uploadFile(
-    body: ChatKitUploadFileParams,
-    params?: ApiClientInterface,
-    opts?: RequestOptions
-  ): APIPromise<ChatKitUploadFileResponse> {
-    if (params) {
-      const config = overrideConfig(this.client.config, params.config);
-      this.client.customHeaders = {
-        ...this.client.customHeaders,
-        ...createHeaders({ ...params, config }),
-      };
-    }
-    const OAIclient = initOpenAIClient(this.client);
-    const result = OAIclient.beta.chatkit.uploadFile(body, opts);
-    return result as any;
   }
 }
 
