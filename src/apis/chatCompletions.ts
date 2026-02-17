@@ -150,7 +150,7 @@ class ChatCompletions extends ApiResource {
     }
 
     const OAIclient = initOpenAIClient(this.client);
-    const result = await OAIclient.responses.parse(body, opts);
+    const result = await OAIclient.chat.completions.parse(body, opts);
     return result;
   }
 
