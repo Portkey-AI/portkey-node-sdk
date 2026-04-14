@@ -85,11 +85,11 @@ export class Analytics extends ApiResource {
 
 export class AnalyticsGraphs extends ApiResource {
   requests(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -104,11 +104,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   cost(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -122,11 +122,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   latency(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -140,11 +140,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   tokens(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -158,11 +158,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   users(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -176,11 +176,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   usersRequests(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -197,11 +197,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   errors(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -215,11 +215,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   errors_rate(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -236,11 +236,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   errors_stack(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -257,11 +257,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   errors_status_code(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -278,11 +278,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   requests_rescued(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -299,11 +299,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   cache_hit_rate(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -320,11 +320,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   cache_latency(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -341,11 +341,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   feedbacks(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -362,11 +362,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   feedbacks_score(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
 
     if (params) {
       this.client.customHeaders = {
@@ -386,11 +386,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   feedbacks_weighted(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
 
     if (params) {
       this.client.customHeaders = {
@@ -409,11 +409,11 @@ export class AnalyticsGraphs extends ApiResource {
   }
 
   feedback_ai_models(
-    body: AnalyticsGraphsGetParams,
+    _query: AnalyticsGraphsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
 
     if (params) {
       this.client.customHeaders = {
@@ -434,11 +434,11 @@ export class AnalyticsGraphs extends ApiResource {
 
 export class AnalyticsGroups extends ApiResource {
   users(
-    body: AnalyticsGroupsGetParams,
+    _query: AnalyticsGroupsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -452,11 +452,11 @@ export class AnalyticsGroups extends ApiResource {
   }
 
   aiModels(
-    body: AnalyticsGroupsGetParams,
+    _query: AnalyticsGroupsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -473,11 +473,11 @@ export class AnalyticsGroups extends ApiResource {
   }
 
   workspaces(
-    body: AnalyticsGroupsGetParams,
+    _query: AnalyticsGroupsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -495,11 +495,11 @@ export class AnalyticsGroups extends ApiResource {
 
   metadata(
     metadataKey: string,
-    body: AnalyticsGroupsGetParams,
+    _query: AnalyticsGroupsGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -517,11 +517,11 @@ export class AnalyticsGroups extends ApiResource {
 
   groupedData(
     groupBy: AnalyticsGroupByValue,
-    body: AnalyticsGroupedDataParams,
+    _query: AnalyticsGroupedDataParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
@@ -540,11 +540,11 @@ export class AnalyticsGroups extends ApiResource {
 
 export class AnalyticsSummary extends ApiResource {
   cache(
-    body: AnalyticsSummaryGetParams,
+    _query: AnalyticsSummaryGetParams,
     params?: ApiClientInterface,
     opts?: RequestOptions
   ): APIPromise<APIResponseType> {
-    const queryParams = toQueryParams(body);
+    const queryParams = toQueryParams(_query);
     if (params) {
       this.client.customHeaders = {
         ...this.client.customHeaders,
