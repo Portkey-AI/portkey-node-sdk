@@ -224,6 +224,8 @@ export class Portkey extends ApiClient {
     chatkit: new API.ChatKit(this),
   };
   analytics = new API.Analytics(this);
+  mcpServers = new API.MCPServers(this);
+  mcpIntegrations = new API.MCPIntegrations(this);
 
   post = (
     url: string,

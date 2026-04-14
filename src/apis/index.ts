@@ -39,3 +39,5 @@ export { Videos } from './videos';
 export { ChatKit } from './chatkit';
 export { Guardrails } from './guardrails';
 export { Analytics } from './analytics';
+export { MCPIntegrations } from './mcpIntegrations';
+export { MCPServers } from './mcpServers';
