@@ -38,3 +38,4 @@ export { Conversations } from './conversations';
 export { Videos } from './videos';
 export { ChatKit } from './chatkit';
 export { Guardrails } from './guardrails';
+export { Analytics } from './analytics';

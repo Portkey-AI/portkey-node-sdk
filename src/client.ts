@@ -223,6 +223,7 @@ export class Portkey extends ApiClient {
     realtime: new API.Realtime(this),
     chatkit: new API.ChatKit(this),
   };
+  analytics = new API.Analytics(this);
 
   post = (
     url: string,
