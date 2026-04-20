@@ -19,6 +19,7 @@ import { ApiKeysListParams } from './apis/apiKeys';
 import { CongfigsListParams } from './apis/configs';
 import { LogsExportListParams } from './apis/logsExport';
 import { getBrowserInfo } from './core';
+import { AnalyticsBaseParams } from './apis/analytics';
 
 type PlatformProperties = {
   'x-portkey-runtime'?: string;
@@ -219,17 +220,18 @@ export function toQueryParams(
     | ApiKeysListParams
     | CongfigsListParams
     | LogsExportListParams
+    | AnalyticsBaseParams
     | any
 ): string {
   if (!params) {
     return '';
   }
-  const queryParams = Object.entries(params)
-    .filter(([, value]) => value !== undefined && value !== null)
-    .map(([key, value]) => `${key}=${value}`)
-    .join('&');
-
-  return queryParams ? `?${queryParams}` : '';
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined && value !== null)
+      search.append(key, String(value));
+  }
+  return search.toString() ? `?${search.toString()}` : '';
 }
 
 export function setBaseURL(baseURL: any, apiKey: any) {
