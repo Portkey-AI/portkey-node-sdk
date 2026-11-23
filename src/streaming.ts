@@ -232,7 +232,22 @@ class LineDecoder {
 
   decodeText(bytes: Bytes): string {
     if (bytes == null) return '';
-    if (typeof bytes === 'string') return bytes;
+    if (typeof bytes === 'string') {
+      return (this.textDecoder ? this.textDecoder.decode() : '') + bytes;
+    }
+
+    if (typeof TextDecoder !== 'undefined') {
+      if (bytes instanceof Uint8Array || bytes instanceof ArrayBuffer) {
+        this.textDecoder ??= new TextDecoder('utf8');
+        return this.textDecoder.decode(bytes, { stream: true });
+      }
+
+      throw new Error(
+        `Unexpected: received non-Uint8Array/ArrayBuffer (${
+          (bytes as any).constructor.name
+        }) stream chunk. Please report this error.`
+      );
+    }
 
     // Node:
     if (typeof Buffer !== 'undefined') {
@@ -248,26 +263,17 @@ class LineDecoder {
       );
     }
 
-    // Browser
-    if (typeof TextDecoder !== 'undefined') {
-      if (bytes instanceof Uint8Array || bytes instanceof ArrayBuffer) {
-        this.textDecoder ??= new TextDecoder('utf8');
-        return this.textDecoder.decode(bytes);
-      }
-
-      throw new Error(
-        `Unexpected: received non-Uint8Array/ArrayBuffer (${
-          (bytes as any).constructor.name
-        }) in a web platform. Please report this error.`
-      );
-    }
-
     throw new Error(
       'Unexpected: neither Buffer nor TextDecoder are available as globals. Please report this error.'
     );
   }
 
   flush(): string[] {
+    const trailing = this.textDecoder ? this.textDecoder.decode() : '';
+    if (trailing) {
+      this.buffer.push(trailing);
+    }
+
     if (!this.buffer.length && !this.trailingCR) {
       return [];
     }
